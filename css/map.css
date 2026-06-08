@@ -46,7 +46,7 @@
 .chip.is-excluded { opacity: 0.4; }
 
 /* the "you" marker — bright bullseye + pill label, always on top */
-.marker { pointer-events: none; }
+.marker { pointer-events: none; transition: transform var(--dur-marker) var(--ease); }
 .marker__glow { fill: var(--brand); opacity: 0.18; transform-box: fill-box; transform-origin: center; }
 .marker__white { fill: #fff; }
 .marker__core { fill: var(--brand); }
