@@ -66,7 +66,42 @@ function computeMarker(race, totals, excluded) {
     y += w * c.pos[1];
   }
   if (wsum === 0) return { x: 0, y: 0, active: false };
-  return { x: x / wsum, y: y / wsum, active: true };
+
+  let cx = x / wsum;
+  let cy = y / wsum;
+
+  // Keep the marker from sitting on top of a candidate's dot. If it lands
+  // within MIN_GAP of the nearest candidate, hold it at that gap, offset along
+  // the direction it approached from (or, when it's right on the candidate,
+  // toward the rest of the field). It still floats to the matching region; it
+  // just doesn't cover the candidate. MIN_GAP is in position units; ~0.40
+  // clears the largest (best-match) dot plus its glow on the map.
+  const MIN_GAP = 0.40;
+  let nearest = null;
+  let nd = Infinity;
+  for (const c of live) {
+    const d = Math.hypot(c.pos[0] - cx, c.pos[1] - cy);
+    if (d < nd) { nd = d; nearest = c; }
+  }
+  if (nearest && nd < MIN_GAP) {
+    let dx = cx - nearest.pos[0];
+    let dy = cy - nearest.pos[1];
+    if (nd <= 0.02) {
+      // Essentially on the candidate: aim toward the average of the others.
+      const others = live.filter((c) => c !== nearest);
+      if (others.length) {
+        dx = others.reduce((s, c) => s + c.pos[0], 0) / others.length - nearest.pos[0];
+        dy = others.reduce((s, c) => s + c.pos[1], 0) / others.length - nearest.pos[1];
+      } else { dx = -nearest.pos[0]; dy = -nearest.pos[1]; }
+    }
+    const len = Math.hypot(dx, dy) || 1;
+    cx = nearest.pos[0] + (dx / len) * MIN_GAP;
+    cy = nearest.pos[1] + (dy / len) * MIN_GAP;
+  }
+
+  cx = Math.max(-0.98, Math.min(0.98, cx));
+  cy = Math.max(-0.98, Math.min(0.98, cy));
+  return { x: cx, y: cy, active: true };
 }
 
 /** Active tradeoffs: every (questionId, optionId) in `when` must be selected. */
