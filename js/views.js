@@ -597,7 +597,8 @@ export function openProfile(race, candId, colorOf, onChange) {
   });
   body.append(el("div", { class: "exclude-row" }, sw, el("label", { text: "Set aside, take this candidate out of my ranking. (Useful if a flag is a dealbreaker for you.)" })));
 
-  body.append(el("p", { class: "profile__source" }, icon("source"), " Source: ", sourceLink(c.source)));
+  const srcs = (c.sources && c.sources.length) ? c.sources : (c.source ? [c.source] : []);
+  if (srcs.length) body.append(el("p", { class: "profile__source" }, icon("source"), srcs.length > 1 ? " Sources: " : " Source: ", srcs.flatMap((s, i) => [i ? " · " : "", sourceLink(s)])));
 
   const sheet = el("div", { class: "sheet", role: "dialog", "aria-modal": "true", "aria-label": `${c.name} profile` },
     el("div", { class: "sheet__head" },

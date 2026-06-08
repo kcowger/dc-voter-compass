@@ -1,11 +1,18 @@
 // DC Council At-Large, Special election (McDuffie's seat).
 // Open to ALL registered DC voters regardless of party. Ranked-choice.
-// Content traces to The 51st's special-election profile (May 21, 2026).
-// Scoring matrices taken verbatim from the guide's recommendation-logic.
+// Base profiles from The 51st's special-election profile (May 21, 2026),
+// deepened June 8, 2026 by reading each candidate's own campaign site. Crawford
+// and Silverman render; Patterson's site (jacque4dc.com) did not render, so his
+// positions stay sourced to The 51st and interviews and are flagged as such.
 
 const SOURCE = {
   label: "The 51st, “Meet the candidates running in the D.C. Council At-Large special election” (May 21, 2026)",
   url: "https://51st.news/dc-council-at-large-special-election-candidates-interview/"
+};
+// Candidates' own materials, read June 8, 2026.
+const SITE = {
+  silverman: { label: "Elissa Silverman issues (elissafordc.com/issues)", url: "https://www.elissafordc.com/issues" },
+  crawford: { label: "Doni Crawford issues (donicrawford.com)", url: "https://www.donicrawford.com/" }
 };
 
 export const atlargeSpecial = {
@@ -49,14 +56,15 @@ export const atlargeSpecial = {
       ],
       positions: [
         "Lead sponsor on passing DC's paid family leave law, over Mayor Bowser's opposition with a veto-proof majority",
+        "Strongest federal-resilience stance in the race: pledges to \"stop collaboration with ICE\" and run a \"Trump analysis\" before the city acts",
         "Helped create a maintenance and repair fund for public housing",
         "Entered the race because residents said the Council wasn't holding agencies accountable; oversight is her signature lane"
       ],
       endorsements: [
-        "Multiple labor unions",
-        "Sierra Club DC",
-        "Bike Walk Bus PAC",
-        "Greater Greater Washington (a strong pro-housing-supply signal)"
+        "Washington/Metro AFL-CIO, UNITE HERE Local 25, Washington Teachers' Union, and many other unions",
+        "Greater Greater Washington",
+        "DC YIMBYs",
+        "Sierra Club DC and Bike Walk Bus PAC"
       ],
       strengths: [
         "Most Council experience of any candidate in this race (8 years)",
@@ -77,7 +85,7 @@ export const atlargeSpecial = {
             "After 2022, she spent months fighting Office of Campaign Finance complaints; one was initially ruled a misuse of public funds, but by April 2023 all complaints were dismissed. She called it a \"smear campaign.\" The episode remains in the public record even though she was cleared."
         }
       ],
-      source: SOURCE
+      sources: [SITE.silverman, SOURCE]
     },
     {
       id: "patterson",
@@ -126,38 +134,39 @@ export const atlargeSpecial = {
       role: "Interim At-Large Councilmember (appointed to fill McDuffie's seat)",
       background:
         "Originally from Pittsburgh; moved to DC in 2019 as a policy analyst at the DC Fiscal Policy Institute, a progressive think tank. Joined McDuffie's Council office in 2022, rising to director of the Committee on Business and Economic Development. Currently sits on the Council.",
-      pos: [0.55, -0.2],
-      tagline: "Moderate · current Council insider",
+      pos: [0.4, -0.2],
+      tagline: "Independent-minded · current Council insider",
       inferredLean:
-        "Moderate. A Realtors + Restaurant Association + Opportunity DC coalition and her close work with McDuffie are the strongest recent signals, though her Fiscal Policy Institute background complicates the label. (Inferred.)",
+        "Hard to label. She declines one (\"a very independent thinker\"), and her coalition (Realtors, Restaurant Association, Opportunity DC) reads moderate while her DC Fiscal Policy Institute roots and an affordability-first housing platform read more redistributive. (Inferred.)",
       priorities: [
         "Youth investment (out-of-school programming, behavioral-health clinicians in schools, extended rec-center hours)",
-        "Housing supply (references this directly as a renter)",
-        "Helping seniors pass homes to the next generation"
+        "Housing: strengthen the Housing Production Trust Fund for the lowest-income families, fix inclusionary zoning, and add gentle density",
+        "Public safety paired with preventing MPD from being used for federal immigration enforcement"
       ],
       positions: [
+        "Housing plan leads with strengthening the Housing Production Trust Fund for the lowest-income families, fixing inclusionary zoning, and adding gentle density (duplexes, small apartment buildings) plus office-to-residential conversions",
+        "Backs \"preventing the police department from being used as a tool of federal immigration enforcement\"",
         "Proposed amendments to the teen-curfew bill (timing of police approach, programming requirements, sunset of zones by end of 2028)",
-        "Worked on the RFK stadium deal as a McDuffie staffer",
-        "Worked on putting funds toward a direct cash-assistance program",
         "Self-describes as a consensus builder willing to find middle ground on stuck issues"
       ],
       endorsements: [
-        "Associations for DC's realtors",
-        "Restaurant Association of Metropolitan Washington",
-        "Opportunity DC (a pro-business group)"
+        "Council Chairman Phil Mendelson and Councilmember Anita Bonds",
+        "DC Association of Realtors / GCAAR and the Restaurant Association of Metropolitan Washington",
+        "Opportunity DC (a pro-business group)",
+        "DC Charter School Action and the Center for Strong Public Schools Action Fund"
       ],
       strengths: [
         "Currently sitting on the Council; has an actual voting record from her interim tenure",
-        "Real consensus-building example via the curfew amendment work",
-        "DC Fiscal Policy Institute background suggests budget literacy"
+        "Affordability-first housing platform plus a consensus-building style (the curfew amendment work)",
+        "Institutional backing from Mendelson and Bonds alongside a business-aligned coalition"
       ],
       weaknesses: [
-        "Clearly aligned with McDuffie's politics; voters seeking a progressive shift will see continuity with the moderate wing",
+        "Aligned with McDuffie's politics; voters seeking a clear progressive shift may read continuity",
         "Newer to DC (arrived 2019); shorter local roots than the others"
       ],
       flags: [],
       crossEndorse: "patterson",
-      source: SOURCE
+      sources: [SITE.crawford, SOURCE]
     }
   ],
   questions: [
@@ -166,7 +175,8 @@ export const atlargeSpecial = {
       text: "Where do you want this seat to land ideologically?",
       type: "single",
       options: [
-        { id: "A", label: "Progressive", scores: { crawford: 0, patterson: 1, silverman: 3 } },
+        // Crawford gets 1 (not 0): she declines a label, but her DCFPI roots and affordability-first housing platform are documented progressive signals, even as her coalition reads moderate.
+        { id: "A", label: "Progressive", scores: { crawford: 1, patterson: 1, silverman: 3 } },
         { id: "B", label: "Centrist / business-aligned", scores: { crawford: 3, patterson: 2, silverman: 0 } },
         { id: "C", label: "Ideology matters less than competence", scores: { crawford: 1, patterson: 1, silverman: 1 } }
       ]
@@ -201,12 +211,24 @@ export const atlargeSpecial = {
       text: "On affordable housing, what do you most want?",
       type: "single",
       options: [
-        // Patterson's signature: raise the Housing Production Trust Fund to $250M/yr — the most ambitious financing target in this race.
+        // Patterson's signature: raise the Housing Production Trust Fund to $250M/yr, the most ambitious financing target in this race.
         { id: "A", label: "A big funding increase (a $250M-a-year housing trust fund)", scores: { crawford: 1, patterson: 3, silverman: 2 } },
         // Silverman wants DC's housing tools (vouchers, HPTF, DCHA, private partnerships) coordinated under one "north star."
         { id: "B", label: "Coordinate DC's existing housing tools under one clear plan", scores: { crawford: 2, patterson: 1, silverman: 3 } },
-        // Crawford is the business/Realtor-aligned, consensus-building candidate.
-        { id: "C", label: "More market-rate building and consensus-driven development", scores: { crawford: 3, patterson: 1, silverman: 2 } }
+        // Relabeled: Crawford's own housing page is affordability-first (strengthen HPTF for the lowest-income, fix IZ, gentle density), not market-rate-first. Her distinct lane is a both/and neighborhood approach.
+        { id: "C", label: "Add gentle neighborhood density and strengthen affordability programs together", scores: { crawford: 3, patterson: 2, silverman: 1 } }
+      ]
+    },
+    {
+      id: "ice",
+      text: "How important is it that this seat actively limits DC's cooperation with federal immigration enforcement (ICE)?",
+      help: "A documented contrast: Silverman pledges to stop ICE collaboration; Crawford would keep MPD out of immigration enforcement; Patterson has no stated position.",
+      type: "single",
+      options: [
+        // Silverman: "stop collaboration with ICE" (her own site). Crawford: prevent MPD "being used as a tool of federal immigration enforcement" (her own site). Patterson: no documented position, so a neutral-low 1.
+        { id: "A", label: "Very important; it's a defining issue for me", scores: { crawford: 2, patterson: 1, silverman: 3 } },
+        { id: "B", label: "Somewhat important", scores: { crawford: 2, patterson: 1, silverman: 2 } },
+        { id: "C", label: "Not a deciding factor for my vote", scores: { crawford: 0, patterson: 0, silverman: 0 } }
       ]
     }
   ],

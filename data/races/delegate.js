@@ -1,14 +1,24 @@
 // DC Delegate to Congress, Democratic primary.
-// All candidate content traces to The 51st's DCision2026 delegate profile
-// ("Meet the candidates running to be D.C.'s delegate to Congress," May 11, 2026)
-// unless otherwise noted. Scoring matrices are taken verbatim from the guide's
-// recommendation-logic. Map positions visualize the guide's documented
-// style/focus dimensions; they are an aid, not a claim by the candidates.
+// Base profiles from The 51st's DCision2026 delegate profile ("Meet the
+// candidates running to be D.C.'s delegate to Congress," May 11, 2026),
+// deepened June 8, 2026 from candidates' own sites and endorsement releases.
+// Notable correction: Robert White's caucus backing is via the Congressional
+// Black Caucus PAC and Congressional Progressive Caucus PAC (not the caucuses
+// as institutions). Jaczko's site (gojaczko4dc.com) is JS-rendered and did not
+// return text, so his positions stay sourced to The 51st and are flagged.
 
 const SOURCE = {
   label: "The 51st, “Meet the candidates running to be D.C.'s delegate to Congress” (May 11, 2026)",
   url: "https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/"
 };
+// Candidates' own materials and primary endorsement releases, read June 8, 2026.
+const SITE = {
+  white: { label: "Robert White endorsements (joinrobertwhite.com/endorsements)", url: "https://www.joinrobertwhite.com/endorsements" },
+  pinto: { label: "Brooke Pinto endorsements (brookepintoforcongress.com/endorsements)", url: "https://brookepintoforcongress.com/endorsements" },
+  holbrook: { label: "Trent Holbrook issues (trentholbrook.com/issues)", url: "https://www.trentholbrook.com/issues" },
+  zalesne: { label: "Kinney Zalesne issues (kinneyfordc.com)", url: "https://www.kinneyfordc.com/issues-1" }
+};
+const CPC_PAC = { label: "Congressional Progressive Caucus PAC endorsement of Robert White (May 5, 2026)", url: "https://weareprogressives.org/congressional-progressive-caucus-pac-endorses-robert-white-for-dc-delegate/" };
 
 export const delegate = {
   id: "delegate",
@@ -54,16 +64,17 @@ export const delegate = {
         "Puerto Rico-style tax model: businesses moving to DC don't pay federal taxes on income earned in DC"
       ],
       endorsements: [
-        "Congressional Black Caucus",
-        "Congressional Progressive Caucus",
-        "Local unions",
-        "Council colleagues including Janeese Lewis George and Charles Allen",
-        "Senator Elizabeth Warren"
+        "Congressional Progressive Caucus PAC (co-chairs Pramila Jayapal, Greg Casar, Maxwell Frost)",
+        "Congressional Black Caucus PAC, plus Reps. Jim Clyburn and Maxwell Frost",
+        "Senator Elizabeth Warren",
+        "Working Families Party, Free DC, Greater Greater Washington, Our Revolution DC, Jews United for Justice",
+        "Unions including Metro Washington AFL-CIO, ATU Local 689, AFSCME DC 20, and the Carpenters",
+        "Councilmembers Charles Allen (Ward 6) and Janeese Lewis George (Ward 4)"
       ],
       strengths: [
         "Only candidate with both substantial Council experience (10 yrs) and Hill experience (5 yrs on Norton's staff)",
         "Appropriations is the highest-leverage committee for a non-voting delegate seeking to move federal money",
-        "Strongest published endorsement list in the field; CBC + CPC is unusual breadth",
+        "Strongest published endorsement list in the field; the CBC and CPC PACs plus Warren is unusual breadth",
         "Native Washingtonian; the only Black candidate in the race"
       ],
       weaknesses: [
@@ -78,7 +89,7 @@ export const delegate = {
             "Posted a social media joke about the shooting at the White House Correspondents' Dinner; later deleted it and apologized, calling it \"inappropriate and insensitive.\""
         }
       ],
-      source: SOURCE
+      sources: [SITE.white, CPC_PAC, SOURCE]
     },
     {
       id: "holbrook",
@@ -99,11 +110,11 @@ export const delegate = {
       ],
       positions: [
         "Argues his time in Norton's office gives him knowledge of \"what moment we're in, what's moving, and what we could attach to it\"",
-        "Argues Council members lack the right kind of experience because \"this position is not like any position in government\"",
-        "Asserts Norton remained \"one of the most effective lawmakers in American history\""
+        "Wants DC to control functions now run federally: create a local prosecutor's office accountable to DC residents and let DC appoint its own local judges",
+        "Supports the DC Tuition Assistance Grant and opposes \"forced school vouchers\"; argues Council members lack the right kind of experience for this seat"
       ],
       endorsements: [
-        "Not specifically documented in the source. Norton has not endorsed a successor."
+        "Not documented on his campaign site or in available coverage. Norton has not endorsed a successor."
       ],
       strengths: [
         "Deepest Hill experience in the field",
@@ -116,7 +127,7 @@ export const delegate = {
         "Limited public profile in DC"
       ],
       flags: [],
-      source: SOURCE
+      sources: [SITE.holbrook, SOURCE]
     },
     {
       id: "pinto",
@@ -136,14 +147,16 @@ export const delegate = {
         "Public safety (her area of focus on the Council)"
       ],
       positions: [
-        "Repeal the federal Height Act to allow taller buildings in DC",
-        "Speed transfer of old federal buildings and land to local control for affordable housing",
-        "Declare more federal enterprise and opportunity zones in DC",
+        "Make rent up to $15,000 a year federally tax-deductible, reframing the federal housing subsidy that today favors homeowners",
+        "Speed transfer of GSA-administered federal buildings and land to local control for affordable housing; supports repealing the Height Act",
+        "Declare more federal enterprise and opportunity zones in DC, especially east of the river",
         "Cites her Council work on gun-crime penalties, expanded pre-trial detention, and teen curfew zones"
       ],
       endorsements: [
-        "Raised over $1.2 million, more than any other delegate candidate",
-        "Specific endorsement list not detailed in the source"
+        "U.S. Senators Angela Alsobrooks (MD) and Richard Blumenthal (CT)",
+        "Former Mayor Tony Williams; Councilmembers/former CMs Anita Bonds, Mary Cheh, Charlene Drew Jarvis, Bill Lightfoot",
+        "DC Firefighters IAFF Local 36, DC YIMBYs, Opportunity DC, DMV New Liberals",
+        "Top fundraiser in the field (raised over $1.2 million)"
       ],
       strengths: [
         "Active legislative record on the Council",
@@ -163,7 +176,7 @@ export const delegate = {
             "Pinto's campaign published unredacted opposition research on Robert White and his family. She apologized but refused to drop out when he asked. The source flags this as a real concern for a job that runs on relationships and trust."
         }
       ],
-      source: SOURCE
+      sources: [SITE.pinto, SOURCE]
     },
     {
       id: "zalesne",
@@ -202,7 +215,7 @@ export const delegate = {
         "Limited public profile in DC before this race"
       ],
       flags: [],
-      source: SOURCE
+      sources: [SITE.zalesne, SOURCE]
     },
     {
       id: "jaczko",
@@ -281,11 +294,11 @@ export const delegate = {
       text: "What's the best way to rebuild DC's economy and use federal leverage?",
       type: "single",
       options: [
-        // Jaczko's signature idea: exempt DC from federal taxes ("no taxation until representation"). White floats a similar Puerto Rico-style model.
+        // Both invoke a Puerto Rico-style model, so both score: Jaczko's is the signature broad version (exempt DC residents, "no taxation until representation"); White's is narrower (a tax incentive for businesses that relocate to DC), paired with his Appropriations push.
         { id: "A", label: "Exempt DC from federal taxes as leverage (“no taxation until representation”)", scores: { holbrook: 1, jaczko: 3, pinto: 1, white: 2, zalesne: 1 } },
         // White explicitly targets a House Appropriations seat to direct federal money to DC.
         { id: "B", label: "Win a House Appropriations seat to direct federal money to DC", scores: { holbrook: 1, jaczko: 1, pinto: 1, white: 3, zalesne: 1 } },
-        // Pinto's lane: repeal the Height Act, transfer federal buildings/land for housing, declare opportunity zones.
+        // A shared lever: Pinto wants GSA land transferred for housing (her central plank); White wants L'Enfant Plaza land transferred (one piece of his D.C. Forward plan), so both score.
         { id: "C", label: "Transfer federal land and buildings to DC for housing and growth", scores: { holbrook: 1, jaczko: 1, pinto: 3, white: 2, zalesne: 1 } },
         // Zalesne's pitch: a national messaging campaign, a "statehood summit," and a regional Capitol Caucus.
         { id: "D", label: "Run a national messaging and coalition campaign", scores: { holbrook: 1, jaczko: 1, pinto: 1, white: 1, zalesne: 3 } }
