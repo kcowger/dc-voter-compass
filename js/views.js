@@ -265,7 +265,20 @@ export function renderRace(raceId) {
     clear(qhost);
     const q = race.questions[current];
     const card = el("div", { class: "qcard" });
+
+    // Back / Next live at the TOP of the card, so they're reachable without
+    // scrolling down past all the options.
+    const nav = el("div", { class: "qnav qnav--top" });
+    const back = el("button", { class: "btn btn--ghost", onClick: () => { if (current > 0) { current--; renderQuestion(); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
+    const right = el("div", { style: { display: "flex", gap: "0.75rem", alignItems: "center" } });
+    if (q.optional) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
+    const isLast = current === race.questions.length - 1;
+    if (isLast) right.append(el("button", { class: "btn btn--primary", onClick: () => navigate("result/" + race.id) }, "See your result ", icon("arrowRight", "btn__arrow")));
+    else right.append(el("button", { class: "btn btn--ink", onClick: () => advance() }, "Next ", icon("arrowRight", "btn__arrow")));
+    nav.append(back, right);
+
     mount(card,
+      nav,
       el("p", { class: "qcard__kicker", text: q.optional ? "Optional question" : `Question ${current + 1}` }),
       el("h2", { class: "qcard__q", id: "qtext", text: q.text }),
       q.help ? el("p", { class: "qcard__help", text: q.help }) : null
@@ -289,17 +302,6 @@ export function renderRace(raceId) {
 
     const calloutHost = el("div", {});
     card.append(calloutHost);
-
-    // nav
-    const nav = el("div", { class: "qnav" });
-    const back = el("button", { class: "btn btn--ghost", onClick: () => { if (current > 0) { current--; renderQuestion(); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
-    const right = el("div", { style: { display: "flex", gap: "0.75rem", alignItems: "center" } });
-    if (q.optional) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
-    const isLast = current === race.questions.length - 1;
-    if (isLast) right.append(el("button", { class: "btn btn--primary", onClick: () => navigate("result/" + race.id) }, "See your result ", icon("arrowRight", "btn__arrow")));
-    else right.append(el("button", { class: "btn btn--ink", onClick: () => advance() }, "Next ", icon("arrowRight", "btn__arrow")));
-    nav.append(back, right);
-    card.append(nav);
 
     qhost.append(card);
 
