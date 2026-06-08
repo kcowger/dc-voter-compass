@@ -270,12 +270,27 @@ export function renderRace(raceId) {
     // scrolling down past all the options.
     const nav = el("div", { class: "qnav qnav--top" });
     const back = el("button", { class: "btn btn--ghost", onClick: () => { if (current > 0) { current--; renderQuestion(); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
-    const right = el("div", { style: { display: "flex", gap: "0.75rem", alignItems: "center" } });
+    const right = el("div", { style: { display: "flex", gap: "0.6rem", alignItems: "center" } });
+    const navHint = el("span", { class: "qnav__hint" });
+    right.append(navHint);
     if (q.optional) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
     const isLast = current === race.questions.length - 1;
-    if (isLast) right.append(el("button", { class: "btn btn--primary", onClick: () => navigate("result/" + race.id) }, "See your result ", icon("arrowRight", "btn__arrow")));
-    else right.append(el("button", { class: "btn btn--ink", onClick: () => advance() }, "Next ", icon("arrowRight", "btn__arrow")));
+    const currentAnswered = () => { const a = store.getAnswers(race.id)[q.id]; return Array.isArray(a) ? a.length > 0 : a != null; };
+    const allRequiredAnswered = () => race.questions.every((qq) => {
+      if (qq.optional) return true;
+      const a = store.getAnswers(race.id)[qq.id];
+      return Array.isArray(a) ? a.length > 0 : a != null;
+    });
+    const fwd = isLast
+      ? el("button", { class: "btn btn--primary", onClick: () => { if (allRequiredAnswered()) navigate("result/" + race.id); } }, "See your result ", icon("arrowRight", "btn__arrow"))
+      : el("button", { class: "btn btn--ink", onClick: () => { if (currentAnswered() || q.optional) advance(); } }, "Next ", icon("arrowRight", "btn__arrow"));
+    right.append(fwd);
     nav.append(back, right);
+    const updateNav = () => {
+      const blocked = isLast ? !allRequiredAnswered() : !(currentAnswered() || q.optional);
+      fwd.disabled = blocked;
+      navHint.textContent = blocked ? (isLast ? "Answer all questions first" : "Pick an answer") : "";
+    };
 
     mount(card,
       nav,
@@ -325,7 +340,7 @@ export function renderRace(raceId) {
     function onAnswer(optId) {
       if (q.type === "single") {
         store.setAnswer(race.id, q.id, optId);
-        refresh(); announceTop(); renderCallouts();
+        refresh(); announceTop(); renderCallouts(); updateNav();
         if (current < race.questions.length - 1) {
           const from = current;
           const delay = prefersReducedMotion() ? 0 : 600;
@@ -336,12 +351,13 @@ export function renderRace(raceId) {
         set.has(optId) ? set.delete(optId) : set.add(optId);
         if (q.max && set.size > q.max) { syncStates(); return; }
         store.setAnswer(race.id, q.id, [...set]);
-        refresh(); announceTop(); syncStates(); renderCallouts();
+        refresh(); announceTop(); syncStates(); renderCallouts(); updateNav();
       }
     }
 
     syncStates();
     renderCallouts();
+    updateNav();
   }
 
   function advance() { if (current < race.questions.length - 1) { current++; renderQuestion(); } }
@@ -397,14 +413,18 @@ export function renderResult(raceId) {
     el("p", { class: "result__confidence", text: confidence })
   ));
 
-  // ranked-choice ballot
+  // Suggested match(es). We only show a ranked list when the top choices are
+  // genuinely close (the engine clusters them); otherwise it's a single pick.
   if (result.suggestedRanking.length) {
+    const multi = result.suggestedRanking.length > 1;
     const ballot = el("section", { class: "ballot" });
-    ballot.append(el("h2", { class: "ballot__title" }, race.rcv ? "Your suggested ranked ballot" : "Your match", race.rcv ? el("span", { class: "pill pill--rcv", text: "Rank up to 5" }) : null));
+    ballot.append(el("h2", { class: "ballot__title" },
+      multi ? "Your top choices are close" : "Your match",
+      (race.rcv && multi) ? el("span", { class: "pill pill--rcv", text: "Rank in this order" }) : null));
     const list = el("div", { class: "ballot__list" });
     result.suggestedRanking.forEach((r, i) => {
       list.append(el("div", { class: "ballot-card", style: { "--cand-color": colorOf[r.id] } },
-        el("div", { class: "ballot-card__rank", text: String(i + 1) }),
+        el("div", { class: "ballot-card__rank", text: multi ? String(i + 1) : "✓" }),
         el("div", {},
           el("div", { class: "ballot-card__name", text: r.candidate.name }),
           el("div", { class: "ballot-card__role", text: r.candidate.role }),
@@ -414,7 +434,11 @@ export function renderResult(raceId) {
       ));
     });
     ballot.append(list);
-    if (race.rcv) ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: race.rcvNote }));
+    if (race.rcv && multi) {
+      ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: race.rcvNote }));
+    } else if (race.rcv) {
+      ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: `This race uses ranked-choice voting, so you can rank up to five. We're suggesting just ${top.candidate.name} because they're a clear match for your answers — rank others only if you'd genuinely be glad to see them win.` }));
+    }
     view.append(ballot);
   }
 
@@ -493,13 +517,11 @@ export function renderResult(raceId) {
 }
 
 function confidenceCopy(race, result) {
-  if (!result.suggestedRanking.length) return "Your answers don't point to any candidate in this race. That's a real result, it may be worth reading the profiles directly before you decide.";
+  const n = result.suggestedRanking.length;
+  if (!n) return "Your answers don't point to any candidate in this race. That's a real result; it may be worth reading the profiles directly before you decide.";
   const top = result.suggestedRanking[0];
-  if (result.differentiation === "tossup") return `It's close. ${top.candidate.name} edges ahead, but several candidates fit your answers similarly, the profiles below will help you break the tie.`;
-  if (result.differentiation === "lean") return `${top.candidate.name} is your strongest match, with a close runner-up. Your ranking reflects that.`;
-  return race.rcv
-    ? `${top.candidate.name} is a clear match. Below is a full ranked ballot built from your answers, strongest first.`
-    : `${top.candidate.name} is a clear match for what you said you want.`;
+  if (n === 1) return `${top.candidate.name} is a clear match for what you said you want.`;
+  return `It's close at the top. ${top.candidate.name} edges ahead, but ${n - 1} other${n > 2 ? "s" : ""} fit your answers almost as well — here's a suggested order.`;
 }
 
 function whyRanked(race, ranked, answers) {

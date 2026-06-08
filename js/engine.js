@@ -143,8 +143,15 @@ export function evaluate(race, answers = {}, excludedIds = []) {
   else if (gap >= 1) differentiation = "lean";
   else differentiation = "tossup";
 
-  // Suggested ranked-choice ballot: score order, positive scores only, max 5.
-  const suggestedRanking = ranked.filter((r) => r.score > 0).slice(0, 5);
+  // Suggested ranking. We don't pad: only suggest ranking extra candidates when
+  // your top choices are genuinely close (within ~1 point of the top). With a
+  // clear leader, we suggest just your one match. (Strategic reasons to rank
+  // more — like the special-election cross-endorsement — are surfaced separately
+  // as a note, so the user can choose.)
+  const positive = ranked.filter((r) => r.score > 0);
+  const suggestedRanking = positive.length
+    ? positive.filter((r) => r.score >= positive[0].score - 1).slice(0, 5)
+    : [];
 
   return {
     totals,
