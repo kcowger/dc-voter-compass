@@ -161,14 +161,16 @@ export function evaluate(race, answers = {}, excludedIds = []) {
   else if (gap >= 1) differentiation = "lean";
   else differentiation = "tossup";
 
-  // Suggested ranking. We don't pad: only suggest ranking extra candidates when
-  // your top choices are genuinely close (within ~1 point of the top). With a
-  // clear leader, we suggest just your one match. (Strategic reasons to rank
-  // more (like the special-election cross-endorsement) are surfaced separately
-  // as a note, so the user can choose.)
+  // Suggested ranking, the competitive set worth ranking in this ranked-choice
+  // race. We surface candidates within ~20% of the top match (an 80%+ match, the
+  // same percentage shown on each card), capped at the five a DC ballot allows.
+  // This is looser than a fixed 1-point gap, which was too strict once a race has
+  // many questions (a 2-point lead is common yet still close in relative terms),
+  // but the relative cutoff still leaves a genuinely clear winner standing alone.
   const positive = ranked.filter((r) => r.score > 0);
+  const topScore = positive.length ? positive[0].score : 0;
   const suggestedRanking = positive.length
-    ? positive.filter((r) => r.score >= positive[0].score - 1).slice(0, 5)
+    ? positive.filter((r) => r.score >= topScore * 0.8).slice(0, 5)
     : [];
 
   return {
