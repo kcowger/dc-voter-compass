@@ -291,11 +291,13 @@ export function renderRace(raceId) {
     progress.append(el("span", { class: "progress__label", text: `Question ${current + 1} of ${race.questions.length}` }));
   }
 
+  let advanceTimer = null;
+
   function renderQuestion() {
     renderProgress();
+    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
     clear(qhost);
     const q = race.questions[current];
-    const ans = store.getAnswers(race.id);
     const card = el("div", { class: "qcard" });
     mount(card,
       el("p", { class: "qcard__kicker", text: q.optional ? "Optional question" : `Question ${current + 1}` }),
@@ -304,38 +306,29 @@ export function renderRace(raceId) {
     );
 
     const opts = el("div", { class: "options", role: q.type === "single" ? "radiogroup" : "group", "aria-labelledby": "qtext" });
-    const selected = ans[q.id];
-    const selSet = new Set(Array.isArray(selected) ? selected : selected != null ? [selected] : []);
-    const atMax = q.type === "multi" && q.max && selSet.size >= q.max;
-
+    const inputs = [];
     q.options.forEach((o) => {
-      const checked = selSet.has(o.id);
-      const input = el("input", {
-        type: q.type === "single" ? "radio" : "checkbox",
-        name: `${race.id}-${q.id}`, value: o.id, checked: checked
-      });
-      if (q.type === "multi" && !checked && atMax) input.disabled = true;
-      input.addEventListener("change", () => onAnswer(q, o.id));
-      const label = el("label", { class: "option" + (q.type === "multi" ? " option--multi" : "") },
+      const input = el("input", { type: q.type === "single" ? "radio" : "checkbox", name: `${race.id}-${q.id}`, value: o.id });
+      inputs.push(input);
+      input.addEventListener("change", () => onAnswer(o.id));
+      opts.append(el("label", { class: "option" + (q.type === "multi" ? " option--multi" : "") },
         input,
         el("span", { class: "option__face" },
           el("span", { class: "option__marker" }, icon("check")),
           el("span", { class: "option__label", text: o.label })
         )
-      );
-      opts.append(label);
+      ));
     });
     card.append(opts);
 
-    // tradeoffs
-    const result = evaluate(race, ans, store.getExcluded(race.id));
-    result.tradeoffs.forEach((t) => card.append(el("div", { class: "callout" }, el("span", { class: "callout__icon", text: "⚖️" }), el("p", {}, el("strong", { text: "Heads up, a real tradeoff. " }), t.text))));
+    const calloutHost = el("div", {});
+    card.append(calloutHost);
 
     // nav
     const nav = el("div", { class: "qnav" });
     const back = el("button", { class: "btn btn--ghost", onClick: () => { if (current > 0) { current--; renderQuestion(); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
     const right = el("div", { style: { display: "flex", gap: "0.75rem", alignItems: "center" } });
-    if (q.optional && ans[q.id] == null) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
+    if (q.optional) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
     const isLast = current === race.questions.length - 1;
     if (isLast) right.append(el("button", { class: "btn btn--primary", onClick: () => navigate("result/" + race.id) }, "See your result ", icon("arrowRight", "btn__arrow")));
     else right.append(el("button", { class: "btn btn--ink", onClick: () => advance() }, "Next ", icon("arrowRight", "btn__arrow")));
@@ -343,28 +336,46 @@ export function renderRace(raceId) {
     card.append(nav);
 
     qhost.append(card);
+
+    // In-place updates so the card's entrance animation never replays on a click.
+    function syncStates() {
+      const sel = store.getAnswers(race.id)[q.id];
+      const selSet = new Set(Array.isArray(sel) ? sel : sel != null ? [sel] : []);
+      const atMax = q.type === "multi" && q.max && selSet.size >= q.max;
+      inputs.forEach((inp) => {
+        inp.checked = selSet.has(inp.value);
+        inp.disabled = q.type === "multi" && !inp.checked && atMax;
+      });
+    }
+    function renderCallouts() {
+      clear(calloutHost);
+      const res = evaluate(race, store.getAnswers(race.id), store.getExcluded(race.id));
+      res.tradeoffs.forEach((t) => calloutHost.append(
+        el("div", { class: "callout" }, el("span", { class: "callout__icon", text: "⚖️" }),
+          el("p", {}, el("strong", { text: "Heads up, a real tradeoff. " }), t.text))));
+    }
+    function onAnswer(optId) {
+      if (q.type === "single") {
+        store.setAnswer(race.id, q.id, optId);
+        refresh(); announceTop(); renderCallouts();
+        if (current < race.questions.length - 1) {
+          const from = current;
+          const delay = prefersReducedMotion() ? 0 : 600;
+          advanceTimer = setTimeout(() => { advanceTimer = null; if (current === from) advance(); }, delay);
+        }
+      } else {
+        const set = new Set(store.getAnswers(race.id)[q.id] || []);
+        set.has(optId) ? set.delete(optId) : set.add(optId);
+        if (q.max && set.size > q.max) { syncStates(); return; }
+        store.setAnswer(race.id, q.id, [...set]);
+        refresh(); announceTop(); syncStates(); renderCallouts();
+      }
+    }
+
+    syncStates();
+    renderCallouts();
   }
 
-  function onAnswer(q, optId) {
-    const ans = store.getAnswers(race.id);
-    if (q.type === "single") {
-      store.setAnswer(race.id, q.id, optId);
-      refresh();
-      announceTop();
-      // let the marker glide, then advance
-      const delay = prefersReducedMotion() ? 0 : 620;
-      setTimeout(() => { if (current < race.questions.length - 1) advance(); else renderQuestion(); }, delay);
-      renderQuestion(); // reflect selection immediately
-    } else {
-      const cur = new Set(Array.isArray(ans[q.id]) ? ans[q.id] : []);
-      cur.has(optId) ? cur.delete(optId) : cur.add(optId);
-      if (q.max && cur.size > q.max) return;
-      store.setAnswer(race.id, q.id, [...cur]);
-      refresh();
-      announceTop();
-      renderQuestion();
-    }
-  }
   function advance() { if (current < race.questions.length - 1) { current++; renderQuestion(); } }
 
   function announceTop() {
