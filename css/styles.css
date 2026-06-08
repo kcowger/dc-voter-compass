@@ -133,15 +133,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
   background: var(--surface-2); color: var(--ink-soft); border: 1px solid var(--line);
 }
 .pill--rcv { background: var(--brand-soft); color: var(--brand-ink); border-color: transparent; }
-.pill--all { background: color-mix(in srgb, var(--teal) 16%, transparent); color: var(--teal); border-color: transparent; }
+/* "All voters": teal-tinted, but text is ink-soft for AA contrast (teal-on-tint was 2.6:1); teal identity carried by the border. */
+.pill--all { background: color-mix(in srgb, var(--teal) 16%, transparent); color: var(--ink-soft); border-color: color-mix(in srgb, var(--teal) 42%, transparent); }
 .pill--warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+/* Match pill: tint of the candidate color with ink text, so contrast holds in both light and dark themes (white-on-color failed AA for several candidates). --cand-color is set on the parent card. */
+.pill--match { background: color-mix(in srgb, var(--cand-color) 16%, var(--surface)); color: var(--ink); border-color: color-mix(in srgb, var(--cand-color) 40%, var(--line)); }
 .pill--dot::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; }
-
-.tag-inferred {
-  font-size: var(--step--2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--gold); background: color-mix(in srgb, var(--gold) 16%, transparent);
-  padding: 0.1rem 0.5rem; border-radius: var(--r-sm);
-}
 
 .section { padding-block: var(--sp-8); }
 .eyebrow {

@@ -6,6 +6,7 @@ node_modules/
 *.log
 
 _selftest.mjs
+_qa.mjs
 
 .claude/launch.json
 

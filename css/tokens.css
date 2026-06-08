@@ -1,5 +1,5 @@
 /* ============================================================
-   Design tokens — colors, type, spacing, motion.
+   Design tokens: colors, type, spacing, motion.
    Self-hosted fonts (SIL OFL): Space Grotesk, Public Sans, Fraunces.
    ============================================================ */
 
@@ -38,7 +38,7 @@
   --surface-2: #f7f1e4;
   --ink: #191a2c;
   --ink-soft: #474a63;
-  --ink-faint: #74778f;
+  --ink-faint: #6b6e86;
   --line: #e6dcc6;
   --line-strong: #d8ccb0;
 
@@ -48,10 +48,10 @@
   --brand-soft: #ece9fd;
   --teal: #0f9e90;
   --gold: #d99a2b;
-  --warn: #c0543b;         /* cautions / flags — terracotta, not partisan red */
+  --warn: #c0543b;         /* cautions / flags: terracotta, not partisan red */
   --warn-soft: #f7e3dc;
 
-  /* Candidate categorical palette — distinct, AA-legible on paper */
+  /* Candidate categorical palette: distinct, AA-legible on paper */
   --c1: #5b4be8;  /* indigo */
   --c2: #0f9e90;  /* teal */
   --c3: #d97706;  /* amber */

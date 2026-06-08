@@ -45,10 +45,13 @@
 
 /* ---------- Question pane ---------- */
 .qpane { min-height: 60vh; display: flex; flex-direction: column; }
-.progress { display: flex; gap: 0.6rem; align-items: center; margin-bottom: var(--sp-4); }
-.progress__dot { flex: none; width: 0.6rem; height: 0.6rem; padding: 0; border: 0; appearance: none; -webkit-appearance: none; border-radius: 50%; background: var(--line-strong); transition: transform var(--dur-2) var(--ease-spring), background var(--dur-2); }
-.progress__dot--done { background: var(--brand); }
-.progress__dot--current { background: var(--brand); transform: scale(1.5); box-shadow: 0 0 0 4px var(--brand-soft); }
+.progress { display: flex; gap: 0.2rem; align-items: center; margin-bottom: var(--sp-4); }
+/* The button is a >=24px hit target (WCAG 2.2 target size); the visible dot is
+   drawn via ::before, so the tap area is large without growing the dot or ring. */
+.progress__dot { flex: none; width: 1.5rem; height: 1.5rem; padding: 0; border: 0; appearance: none; -webkit-appearance: none; background: transparent; display: grid; place-items: center; }
+.progress__dot::before { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--line-strong); transition: transform var(--dur-2) var(--ease-spring), background var(--dur-2); }
+.progress__dot--done::before { background: var(--brand); }
+.progress__dot--current::before { background: var(--brand); transform: scale(1.5); box-shadow: 0 0 0 4px var(--brand-soft); }
 .progress__label { margin-left: auto; font-size: var(--step--1); color: var(--ink-faint); font-weight: 600; }
 
 .qcard { animation: qIn var(--dur-2) var(--ease); }

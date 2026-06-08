@@ -144,7 +144,7 @@ export function renderChooser() {
     el("p", { class: "chooser__blurb", text: "These races effectively have one candidate, so there's nothing to decide, but here's who wins, for the full picture." }),
     el("div", { class: "uncontested__list" },
       UNCONTESTED.map((u) => el("div", { class: "uncontested__item" },
-        el("h4", { text: u.office }),
+        el("h3", { text: u.office }),
         el("p", {}, el("span", { class: "win", text: u.winner }), ", ", u.note, " ", sourceLink(u.source))
       ))
     )
@@ -212,7 +212,7 @@ export function renderRace(raceId) {
   // question pane
   const qpane = el("div", { class: "qpane" });
   const progress = el("div", { class: "progress", role: "group", "aria-label": "Question progress" });
-  const qhost = el("div", { "aria-live": "polite" });
+  const qhost = el("div", {});
   qpane.append(progress, qhost);
 
   const layout = el("div", { class: "race__layout" }, mappane, qpane);
@@ -262,7 +262,7 @@ export function renderRace(raceId) {
       const dot = el("button", {
         class: "progress__dot" + (i === current ? " progress__dot--current" : answered ? " progress__dot--done" : ""),
         type: "button", "aria-label": `Question ${i + 1}${answered ? ", answered" : ""}${i === current ? ", current" : ""}`,
-        onClick: () => { current = i; renderQuestion(); }
+        onClick: () => { current = i; renderQuestion(true); }
       });
       progress.append(dot);
     });
@@ -271,7 +271,7 @@ export function renderRace(raceId) {
 
   let advanceTimer = null;
 
-  function renderQuestion() {
+  function renderQuestion(focusQ = false) {
     renderProgress();
     if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
     clear(qhost);
@@ -281,11 +281,11 @@ export function renderRace(raceId) {
     // Back / Next live at the TOP of the card, so they're reachable without
     // scrolling down past all the options.
     const nav = el("div", { class: "qnav qnav--top" });
-    const back = el("button", { class: "btn btn--ghost", onClick: () => { if (current > 0) { current--; renderQuestion(); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
+    const back = el("button", { class: "btn btn--ghost", type: "button", onClick: () => { if (current > 0) { current--; renderQuestion(true); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
     const right = el("div", { style: { display: "flex", gap: "0.6rem", alignItems: "center" } });
     const navHint = el("span", { class: "qnav__hint" });
     right.append(navHint);
-    if (q.optional) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
+    if (q.optional) right.append(el("button", { class: "qnav__skip", type: "button", onClick: () => advance() }, "Skip"));
     const isLast = current === race.questions.length - 1;
     const currentAnswered = () => { const a = store.getAnswers(race.id)[q.id]; return Array.isArray(a) ? a.length > 0 : a != null; };
     const allRequiredAnswered = () => race.questions.every((qq) => {
@@ -294,8 +294,8 @@ export function renderRace(raceId) {
       return Array.isArray(a) ? a.length > 0 : a != null;
     });
     const fwd = isLast
-      ? el("button", { class: "btn btn--primary", onClick: () => { if (allRequiredAnswered()) navigate("result/" + race.id); } }, "See your result ", icon("arrowRight", "btn__arrow"))
-      : el("button", { class: "btn btn--ink", onClick: () => { if (currentAnswered() || q.optional) advance(); } }, "Next ", icon("arrowRight", "btn__arrow"));
+      ? el("button", { class: "btn btn--primary", type: "button", onClick: () => { if (allRequiredAnswered()) navigate("result/" + race.id); } }, "See your result ", icon("arrowRight", "btn__arrow"))
+      : el("button", { class: "btn btn--ink", type: "button", onClick: () => { if (currentAnswered() || q.optional) advance(); } }, "Next ", icon("arrowRight", "btn__arrow"));
     right.append(fwd);
     nav.append(back, right);
     const updateNav = () => {
@@ -307,11 +307,11 @@ export function renderRace(raceId) {
     mount(card,
       nav,
       el("p", { class: "qcard__kicker", text: q.optional ? "Optional question" : `Question ${current + 1}` }),
-      el("h2", { class: "qcard__q", id: "qtext", text: q.text }),
-      q.help ? el("p", { class: "qcard__help", text: q.help }) : null
+      el("h2", { class: "qcard__q", id: "qtext", tabindex: "-1", text: q.text }),
+      q.help ? el("p", { class: "qcard__help", id: "qhelp", text: q.help }) : null
     );
 
-    const opts = el("div", { class: "options", role: q.type === "single" ? "radiogroup" : "group", "aria-labelledby": "qtext" });
+    const opts = el("div", { class: "options", role: q.type === "single" ? "radiogroup" : "group", aria: { labelledby: "qtext", describedby: q.help ? "qhelp" : null } });
     const inputs = [];
     q.options.forEach((o) => {
       const input = el("input", { type: q.type === "single" ? "radio" : "checkbox", name: `${race.id}-${q.id}`, value: o.id });
@@ -363,16 +363,22 @@ export function renderRace(raceId) {
         set.has(optId) ? set.delete(optId) : set.add(optId);
         if (q.max && set.size > q.max) { syncStates(); return; }
         store.setAnswer(race.id, q.id, [...set]);
-        refresh(); announceTop(); syncStates(); renderCallouts(); updateNav();
+        refresh(); syncStates(); renderCallouts(); updateNav();
+        if (q.max && set.size >= q.max) announce(`That's ${q.max}, the maximum. Deselect one to change your choices.`);
+        else announceTop();
       }
     }
 
     syncStates();
     renderCallouts();
     updateNav();
+    // Move focus to the new question heading so screen readers announce it once
+    // (replaces the old verbose aria-live on the whole card). Only on question
+    // changes, not the initial render, where the page h1 already takes focus.
+    if (focusQ) card.querySelector("#qtext")?.focus({ preventScroll: true });
   }
 
-  function advance() { if (current < race.questions.length - 1) { current++; renderQuestion(); } }
+  function advance() { if (current < race.questions.length - 1) { current++; renderQuestion(true); } }
 
   function announceTop() {
     const result = evaluate(race, store.getAnswers(race.id), store.getExcluded(race.id));
@@ -492,7 +498,7 @@ export function renderResult(raceId) {
       el("span", { class: "race-card__title", text: r.candidate.name }),
       el("span", { class: "race-card__seat", text: r.candidate.tagline }),
       el("div", { class: "race-card__meta" },
-        el("span", { class: "pill", style: { background: colorOf[r.id], color: "#fff", borderColor: "transparent" }, text: r.score > 0 ? `Match ${Math.round(r.normalized * 100)}%` : "Low match" }),
+        el("span", { class: "pill pill--match", text: r.score > 0 ? `Match ${Math.round(r.normalized * 100)}%` : "Low match" }),
         r.candidate.flags && r.candidate.flags.length ? el("span", { class: "pill pill--warn", text: "Flag to weigh" }) : null
       )
     ));
@@ -555,7 +561,17 @@ export function openProfile(race, candId, colorOf, onChange) {
     backdrop.remove();
     if (lastFocused && lastFocused.focus) lastFocused.focus();
   };
-  const onKey = (e) => { if (e.key === "Escape") close(); };
+  const onKey = (e) => {
+    if (e.key === "Escape") { close(); return; }
+    if (e.key === "Tab") {
+      // Trap Tab within the open dialog (the aria-modal contract).
+      const f = sheet.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  };
   document.addEventListener("keydown", onKey);
 
   const body = el("div", { class: "sheet__body", style: { "--cand-color": colorOf[candId] } });
@@ -646,7 +662,7 @@ export function renderSummary() {
     const result = evaluate(race, store.getAnswers(race.id), store.getExcluded(race.id));
     const colorOf = colorMapFor(race);
     const card = el("div", { class: "card summary__race", style: { "--cand-color": "var(--brand)" } });
-    card.append(el("h3", {}, race.title, race.rcv ? el("span", { class: "pill pill--rcv", text: "Ranked" }) : null, race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null));
+    card.append(el("h2", {}, race.title, race.rcv ? el("span", { class: "pill pill--rcv", text: "Ranked" }) : null, race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null));
     if (result.suggestedRanking.length) {
       const ranks = el("div", { class: "summary__ranks" });
       result.suggestedRanking.forEach((r, i) => ranks.append(el("span", { class: "summary__rank", style: { "--cand-color": colorOf[r.id] } }, el("b", { text: `${i + 1}` }), r.candidate.name)));

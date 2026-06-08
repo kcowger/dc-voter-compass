@@ -42,10 +42,12 @@
 .chip__text { fill: var(--ink); font-size: 3px; font-weight: 700; transition: fill var(--dur-2); }
 .chip:hover .chip__bg { stroke: var(--ink-faint); }
 .chip.is-leader .chip__bg { stroke: var(--cand-color); stroke-width: 0.6; }
-.chip.is-leader .chip__text { fill: var(--cand-color); font-weight: 800; }
+/* Leader text stays high-contrast ink (candidate-color text on the surface chip
+   failed AA for teal/amber); the colored border + bold weight mark the leader. */
+.chip.is-leader .chip__text { fill: var(--ink); font-weight: 800; }
 .chip.is-excluded { opacity: 0.4; }
 
-/* the "you" marker — bright bullseye + pill label, always on top */
+/* the "you" marker: bright bullseye + pill label, always on top */
 .marker { pointer-events: none; transition: transform var(--dur-marker) var(--ease); }
 .marker__glow { fill: var(--brand); opacity: 0.18; transform-box: fill-box; transform-origin: center; }
 .marker__white { fill: #fff; }
