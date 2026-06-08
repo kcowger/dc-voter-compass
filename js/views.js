@@ -191,7 +191,7 @@ export function renderRace(raceId) {
   const setAside = el("div", { class: "muted", style: { marginTop: "0.5rem", fontSize: "var(--step--2)" } });
   const mappane = el("div", { class: "mappane" },
     el("div", { class: "card mappane__card" }, map.svg),
-    el("p", { class: "mappane__hint", text: "The glowing dot is you. It drifts toward your matches as you answer." }),
+    el("p", { class: "mappane__hint", text: "The bright marker is you. It drifts toward your matches as you answer." }),
     el("div", { class: "ranking__title", text: "Live ranking" }),
     rankingList,
     setAside
