@@ -193,7 +193,7 @@ export function renderRace(raceId) {
       el("p", { class: "race__seat", text: race.seat })
     )
   );
-  if (race.coverage === "partial" && race.coverageNote) {
+  if (race.coverageNote) {
     view.append(el("div", { class: "callout", style: { marginTop: "1rem" } }, el("span", { class: "callout__icon", text: "ℹ️" }), el("p", { text: race.coverageNote })));
   }
 
