@@ -78,6 +78,7 @@ export const ward1 = {
     {
       id: "deramo",
       name: "Miguel Trindade Deramo",
+      chipName: "Trindade Deramo",
       age: 39,
       neighborhood: "U Street area (ANC 1B)",
       role: "Chair of ANC 1B; co-founder of Grow Democracy DC",

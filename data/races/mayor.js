@@ -52,6 +52,7 @@ export const mayor = {
     {
       id: "lewisgeorge",
       name: "Janeese Lewis George",
+      chipName: "Lewis George",
       age: 38,
       neighborhood: "Ward 4 (third-generation Washingtonian)",
       role: "Ward 4 Councilmember since 2021",

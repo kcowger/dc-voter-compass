@@ -83,7 +83,9 @@ export function createMap(race, { onNodeClick } = {}) {
   const labelsLayer = svgEl("g", {});
   svg.append(labelsLayer);
   const boxes = cands.map((c) => {
-    const name = lastName(c.name);
+    // chipName lets a candidate override the short map label, for compound
+    // surnames where the last word alone is wrong (e.g. "Lewis George").
+    const name = c.chipName || lastName(c.name);
     const w = name.length * CHIP_FS * 0.6 + 3.4;
     const h = CHIP_FS + 2.6;
     const dotx = nodeRefs[c.id].x, doty = nodeRefs[c.id].y;
