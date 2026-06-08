@@ -252,10 +252,9 @@ export const ward1 = {
     },
     {
       id: "issue",
-      text: "What should your councilmember prioritize?",
-      help: "Choose up to two.",
-      type: "multi",
-      max: 2,
+      text: "What should your councilmember prioritize? Rank these in order of importance.",
+      help: "Tap in order of importance, your top priority first. Tap again to remove. Your #1 counts most.",
+      type: "rank",
       options: [
         { id: "A", label: "Building more housing", scores: { raj: 2, brown: 2, deramo: 3, reyesyanes: 1, lynch: 2 } },
         { id: "B", label: "Tenant protections and preventing displacement", scores: { raj: 2, brown: 2, deramo: 2, reyesyanes: 3, lynch: 1 } },

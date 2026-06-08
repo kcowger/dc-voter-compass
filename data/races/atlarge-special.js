@@ -183,10 +183,9 @@ export const atlargeSpecial = {
     },
     {
       id: "issue",
-      text: "Most important issue area for this seat?",
-      help: "Choose up to two.",
-      type: "multi",
-      max: 2,
+      text: "Which issues matter most for this seat? Rank them in order of importance.",
+      help: "Tap in order of importance, your top priority first. Tap again to remove. Your #1 counts most.",
+      type: "rank",
       options: [
         { id: "A", label: "Housing supply", scores: { crawford: 2, patterson: 2, silverman: 3 } },
         { id: "B", label: "Education", scores: { crawford: 1, patterson: 3, silverman: 1 } },

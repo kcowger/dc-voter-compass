@@ -17,6 +17,24 @@ export function tallyScores(race, answers) {
   for (const q of race.questions) {
     const a = answers[q.id];
     if (a == null) continue;
+    // Ranked answers: the user ordered options by importance (a[0] = most). Weight
+    // each by its rank with a normalized descending scheme (rank weights N..1 over
+    // their sum, so they total 1). That keeps a rank question on the same 0-3 scale
+    // as a single-choice question while making the top pick count most.
+    if (q.type === "rank" && Array.isArray(a)) {
+      const k = a.length;
+      if (!k) continue;
+      const denom = (k * (k + 1)) / 2;
+      a.forEach((optId, idx) => {
+        const opt = q.options.find((o) => o.id === optId);
+        if (!opt) return;
+        const w = (k - idx) / denom;
+        for (const candId of Object.keys(opt.scores)) {
+          if (candId in totals) totals[candId] += w * opt.scores[candId];
+        }
+      });
+      continue;
+    }
     const chosen = Array.isArray(a) ? a : [a];
     for (const optId of chosen) {
       const opt = q.options.find((o) => o.id === optId);

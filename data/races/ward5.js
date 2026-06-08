@@ -159,10 +159,9 @@ export const ward5 = {
     },
     {
       id: "issue",
-      text: "What should they prioritize?",
-      help: "Choose up to two.",
-      type: "multi",
-      max: 2,
+      text: "What should they prioritize? Rank these in order of importance.",
+      help: "Tap in order of importance, your top priority first. Tap again to remove. Your #1 counts most.",
+      type: "rank",
       options: [
         { id: "A", label: "Building more housing, especially near transit", scores: { parker: 3, carmichael: 1, french: 1 } },
         { id: "B", label: "Tenant protections and community benefits", scores: { parker: 2, carmichael: 3, french: 1 } },

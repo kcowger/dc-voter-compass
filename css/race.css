@@ -87,6 +87,24 @@
 .option input:disabled + .option__face { opacity: 0.5; cursor: not-allowed; }
 .option input:disabled + .option__face:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
 
+/* Rank questions: each option is a button that shows a numbered badge once ranked.
+   Same visual language as the radio/checkbox options (border box + brand fill). */
+.option--rankable {
+  display: flex; align-items: center; gap: var(--sp-3); width: 100%; text-align: left;
+  padding: var(--sp-4) var(--sp-5); border: 1.5px solid var(--line-strong); border-radius: var(--r-lg);
+  background: var(--surface);
+  transition: transform var(--dur-1) var(--ease), border-color var(--dur-1), background var(--dur-1), box-shadow var(--dur-1);
+}
+.option--rankable:hover { border-color: var(--ink-faint); transform: translateY(-2px); box-shadow: var(--shadow-1); }
+.option--rankable:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.option__rank {
+  width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2px solid var(--line-strong); flex: none;
+  display: grid; place-items: center; font-family: var(--font-display); font-weight: 800;
+  font-size: var(--step--1); color: var(--ink-faint); transition: all var(--dur-1) var(--ease);
+}
+.option--rankable.is-ranked { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 0 0 2px var(--brand); }
+.option--rankable.is-ranked .option__rank { background: var(--brand); border-color: var(--brand); color: #fff; }
+
 .qnav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-6); }
 .qnav--top { margin-top: 0; margin-bottom: var(--sp-5); padding-bottom: var(--sp-4); border-bottom: 1px solid var(--line); }
 .qnav__hint { color: var(--ink-faint); font-size: var(--step--2); font-weight: 600; }

@@ -311,19 +311,33 @@ export function renderRace(raceId) {
       q.help ? el("p", { class: "qcard__help", id: "qhelp", text: q.help }) : null
     );
 
-    const opts = el("div", { class: "options", role: q.type === "single" ? "radiogroup" : "group", aria: { labelledby: "qtext", describedby: q.help ? "qhelp" : null } });
+    const isRank = q.type === "rank";
+    const opts = el("div", { class: "options" + (isRank ? " options--rank" : ""), role: q.type === "single" ? "radiogroup" : "group", aria: { labelledby: "qtext", describedby: q.help ? "qhelp" : null } });
     const inputs = [];
+    const rankBtns = {};
     q.options.forEach((o) => {
-      const input = el("input", { type: q.type === "single" ? "radio" : "checkbox", name: `${race.id}-${q.id}`, value: o.id });
-      inputs.push(input);
-      input.addEventListener("change", () => onAnswer(o.id));
-      opts.append(el("label", { class: "option" + (q.type === "multi" ? " option--multi" : "") },
-        input,
-        el("span", { class: "option__face" },
-          el("span", { class: "option__marker" }, icon("check")),
+      if (isRank) {
+        // Click-to-rank: clicking assigns the next rank number; clicking a ranked
+        // option removes it and renumbers the rest. The answer is the click order.
+        const btn = el("button", { class: "option option--rankable", type: "button" },
+          el("span", { class: "option__rank", "aria-hidden": "true" }),
           el("span", { class: "option__label", text: o.label })
-        )
-      ));
+        );
+        btn.addEventListener("click", () => toggleRank(o.id));
+        rankBtns[o.id] = btn;
+        opts.append(btn);
+      } else {
+        const input = el("input", { type: q.type === "single" ? "radio" : "checkbox", name: `${race.id}-${q.id}`, value: o.id });
+        inputs.push(input);
+        input.addEventListener("change", () => onAnswer(o.id));
+        opts.append(el("label", { class: "option" + (q.type === "multi" ? " option--multi" : "") },
+          input,
+          el("span", { class: "option__face" },
+            el("span", { class: "option__marker" }, icon("check")),
+            el("span", { class: "option__label", text: o.label })
+          )
+        ));
+      }
     });
     card.append(opts);
 
@@ -332,8 +346,23 @@ export function renderRace(raceId) {
 
     qhost.append(card);
 
+    const rankOrder = () => { const a = store.getAnswers(race.id)[q.id]; return Array.isArray(a) ? a.slice() : []; };
+
     // In-place updates so the card's entrance animation never replays on a click.
     function syncStates() {
+      if (isRank) {
+        const order = rankOrder();
+        q.options.forEach((o) => {
+          const rank = order.indexOf(o.id);
+          const ranked = rank !== -1;
+          const btn = rankBtns[o.id];
+          btn.classList.toggle("is-ranked", ranked);
+          btn.setAttribute("aria-pressed", String(ranked));
+          btn.querySelector(".option__rank").textContent = ranked ? String(rank + 1) : "";
+          btn.setAttribute("aria-label", `${o.label}. ` + (ranked ? `Ranked number ${rank + 1} of ${order.length}. Activate to remove.` : "Not ranked. Activate to add it to your ranking by importance."));
+        });
+        return;
+      }
       const sel = store.getAnswers(race.id)[q.id];
       const selSet = new Set(Array.isArray(sel) ? sel : sel != null ? [sel] : []);
       const atMax = q.type === "multi" && q.max && selSet.size >= q.max;
@@ -341,6 +370,16 @@ export function renderRace(raceId) {
         inp.checked = selSet.has(inp.value);
         inp.disabled = q.type === "multi" && !inp.checked && atMax;
       });
+    }
+    function toggleRank(optId) {
+      const order = rankOrder();
+      const i = order.indexOf(optId);
+      if (i === -1) order.push(optId); else order.splice(i, 1);
+      store.setAnswer(race.id, q.id, order);
+      syncStates(); refresh(); renderCallouts(); updateNav();
+      const o = q.options.find((x) => x.id === optId);
+      const r = order.indexOf(optId);
+      announce(r === -1 ? `Removed ${o.label} from your ranking.` : `Ranked ${o.label} number ${r + 1}.`);
     }
     function renderCallouts() {
       clear(calloutHost);
@@ -695,13 +734,13 @@ export function renderMethodology() {
 
     el("h2", { text: "How the matching works" }),
     el("p", {}, "Each race asks a few questions about your priorities. Every answer carries points for the candidates it fits, drawn from their records and stated positions. We add up the points and rank candidates by total, nothing is hidden, and you can open any candidate to see why they sit where they do."),
+    el("p", {}, "Some questions let you rank the options in order of importance instead of just picking one. When you rank, your top choice counts most and each lower choice counts a little less, on a sliding weight. That lets a nuanced topic reflect your real priorities rather than forcing a single answer."),
     el("p", {}, "The map is a picture of that math. Candidates are placed by documented dimensions (for example, progressive to moderate). Your marker sits at the score-weighted center of the candidates you match, so it drifts toward a clear favorite or settles between close ones."),
 
-    el("h2", { text: "Three levels of coverage" }),
+    el("h2", { text: "Two levels of coverage" }),
     el("ul", {},
-      el("li", {}, el("strong", { text: "From the source guide: " }), "Mayor, Delegate, and both At-Large races draw their core questions and scoring directly from a curated guide built on The 51st's DCision2026 candidate profiles. We've added further questions for these races, built from the same candidates' documented, sourced positions, to give a fuller read."),
-      el("li", {}, el("strong", { text: "Partial: " }), "The mayoral module focuses on the two front-runners, who have the most documented records. Other candidates are named with links, not scored."),
-      el("li", {}, el("strong", { text: "Independently researched: " }), "Attorney General and the Ward 1, 5, and 6 races aren't in the source guide. We researched them from local reporting and the candidates' own materials, and built the questions and scoring from those documented positions. Every claim links to its source.")
+      el("li", {}, el("strong", { text: "From the source guide: " }), "Delegate and both At-Large races draw their core questions and scoring from a curated guide built on The 51st's DCision2026 candidate profiles. We've added further questions for these races, built from the same candidates' documented, sourced positions, to give a fuller read."),
+      el("li", {}, el("strong", { text: "Independently researched: " }), "Mayor, Attorney General, and the Ward 1, 5, and 6 races were researched from local reporting and the candidates' own campaign materials, with the questions and scoring built from those documented positions. The mayoral race scores every candidate on the printed ballot; where a candidate's platform is thin, they're scored only on what they have actually stated. Every claim links to its source.")
     ),
 
     el("h2", { text: "What counts as evidence" }),

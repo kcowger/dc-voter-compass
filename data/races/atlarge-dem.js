@@ -387,10 +387,9 @@ export const atlargeDem = {
     },
     {
       id: "issue",
-      text: "What issue do you most want an at-large councilmember focused on?",
-      help: "Choose up to two.",
-      type: "multi",
-      max: 2,
+      text: "Which issues matter most to you? Rank them in order of importance.",
+      help: "Tap in order of importance, your top priority first. Tap again to remove. Your #1 counts most.",
+      type: "rank",
       options: [
         { id: "A", label: "Housing supply and affordability", scores: { chavous: 2, davis: 1, forester: 2, hill: 2, jackson: 1, jenkins: 1, nelson: 2, owolewa: 1, raymond: 3 } },
         { id: "B", label: "Public safety and crime", scores: { chavous: 1, davis: 1, forester: 1, hill: 2, jackson: 3, jenkins: 1, nelson: 1, owolewa: 1, raymond: 1 } },
