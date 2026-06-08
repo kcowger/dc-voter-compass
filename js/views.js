@@ -6,6 +6,7 @@ import { evaluate, topReason } from "./engine.js";
 import { createMap } from "./map.js";
 import { store } from "./store.js";
 import { RACES, RACE_MAP, GROUPS, UNCONTESTED } from "../data/races/index.js";
+import { locateWard } from "./geo.js";
 import { ELECTION, EVIDENCE_HIERARCHY, NEVER_INCLUDED, SOURCES, DISCLAIMER } from "../data/meta.js";
 
 /* ---------------- shared bits ---------------- */
@@ -89,19 +90,52 @@ export function renderChooser() {
         }
         races.forEach((r) => grid.append(raceCard(r, updateBar)));
       };
+      const setChips = (w) => chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(Number(c.dataset.ward) === w)));
+      const applyWard = (w) => { store.setWard(w); setChips(w); renderWardCards(); };
       [1, 5, 6].forEach((w) => {
-        const chip = el("button", { class: "chip", type: "button", "aria-pressed": String(store.ward === w) },
-          `Ward ${w}`);
-        chip.addEventListener("click", () => {
-          store.setWard(store.ward === w ? null : w);
-          chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", "false"));
-          if (store.ward === w) chip.setAttribute("aria-pressed", "true");
-          renderWardCards();
-        });
+        const chip = el("button", { class: "chip", type: "button", "aria-pressed": String(store.ward === w), dataset: { ward: String(w) } }, `Ward ${w}`);
+        chip.addEventListener("click", () => applyWard(store.ward === w ? null : w));
         chips.append(chip);
       });
       picker.append(chips);
-      section.append(picker, grid);
+
+      // "Find my ward" — on-device only: the browser shares coordinates, we
+      // check them against the bundled official ward boundaries locally, and
+      // nothing is sent anywhere.
+      const officialLink = () => el("a", { href: "https://planning.dc.gov/whatsmyward", target: "_blank", rel: "noopener noreferrer" }, "DC's official lookup", " ", icon("external"));
+      const locStatus = el("p", { class: "ward-locate__status", "aria-live": "polite" });
+      const setStatus = (...kids) => { clear(locStatus); mount(locStatus, ...kids); };
+      const locBtn = el("button", { class: "btn btn--ghost ward-locate__btn", type: "button" }, icon("pin"), " Find my ward");
+      locBtn.addEventListener("click", () => {
+        if (!navigator.geolocation) { setStatus("This browser can't share location. Try ", officialLink(), "."); return; }
+        locBtn.disabled = true;
+        setStatus("Locating…");
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            locBtn.disabled = false;
+            const r = locateWard(pos.coords.longitude, pos.coords.latitude, pos.coords.accuracy);
+            if (!r.inDC) { setStatus("That location doesn't look like it's in DC. Pick your ward above, or check ", officialLink(), "."); return; }
+            const contested = [1, 5, 6].includes(r.ward);
+            if (contested) applyWard(r.ward); else { store.setWard(r.ward); setChips(null); renderWardCards(); }
+            const msg = contested ? `You're in Ward ${r.ward} — selected below.` : `You're in Ward ${r.ward}, which doesn't have a contested Council primary this year.`;
+            if (r.confident) setStatus(el("strong", { text: msg }));
+            else setStatus(el("strong", { text: msg }), " That's approximate (your location wasn't precise) — confirm at ", officialLink(), ".");
+          },
+          (err) => {
+            locBtn.disabled = false;
+            const m = err && err.code === 1 ? "Location permission was denied." : "Couldn't get your location.";
+            setStatus(m + " Pick your ward above, or use ", officialLink(), ".");
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      });
+      const locate = el("div", { class: "ward-locate" },
+        el("div", { class: "ward-locate__row" }, locBtn, el("span", { class: "ward-locate__or", text: "or tap your ward above" })),
+        locStatus,
+        el("p", { class: "ward-locate__priv", text: "Your location is checked on your device and never sent anywhere." })
+      );
+
+      section.append(picker, locate, grid);
       renderWardCards();
     } else {
       const grid = el("div", { class: "race-grid" });
