@@ -202,6 +202,11 @@ main { display: block; min-height: calc(100vh - var(--header-h) - 200px); }
 .race-card__title { font-family: var(--font-display); font-weight: 700; font-size: var(--step-1); padding-right: 2rem; letter-spacing: -0.02em; }
 .race-card__seat { color: var(--ink-soft); font-size: var(--step--1); }
 .race-card__meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: auto; padding-top: var(--sp-2); }
+.race-card__title { padding-right: 0; }
+.race-card__go { margin-top: var(--sp-3); display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-display); font-weight: 700; font-size: var(--step--1); color: var(--brand-ink); }
+.race-card--go:hover .race-card__go .btn__arrow { transform: translateX(3px); }
+.race-card--done { border-color: color-mix(in srgb, var(--teal) 30%, var(--line)); }
+.pill--done { background: color-mix(in srgb, var(--teal) 16%, transparent); color: var(--teal); border-color: transparent; }
 
 .ward-picker { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; margin-top: var(--sp-3); }
 .ward-picker label { font-weight: 600; color: var(--ink-soft); font-size: var(--step--1); }

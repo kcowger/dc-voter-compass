@@ -107,7 +107,7 @@ export function createMap(race, { onNodeClick } = {}) {
     nodeRefs[b.c.id].chip = grp;
   }
 
-  // "you" marker — a bright bullseye with a pill label, on top
+  // "you" marker: a bright bullseye with a pill label, on top
   const marker = svgEl("g", { class: "marker is-idle", transform: `translate(${CENTER} ${CENTER})` });
   const pillW = 9.5, pillH = 5.4, pillY = -8.8;
   marker.append(

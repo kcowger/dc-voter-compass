@@ -61,15 +61,9 @@ export function renderChooser() {
     el("section", { class: "section", style: { paddingBottom: "0" } },
       el("p", { class: "eyebrow", text: "Step 1" }),
       el("h1", { text: "Which races are you voting on?" }),
-      el("p", { class: "lead", style: { marginTop: "0.5rem" }, text: "Pick any that are on your ballot. You can do them in any order and come back anytime." })
+      el("p", { class: "lead", style: { marginTop: "0.5rem" }, text: "Tap a race to start it. Do them in any order, and come back anytime. Your answers are saved on your device." })
     )
   );
-
-  const updateBar = () => {
-    const n = store.state.selectedRaceIds.length;
-    countLabel.textContent = n === 0 ? "No races selected" : `${n} race${n > 1 ? "s" : ""} selected`;
-    startBtn.disabled = n === 0;
-  };
 
   for (const group of GROUPS) {
     const section = el("section", { class: "chooser__group" });
@@ -87,7 +81,7 @@ export function renderChooser() {
         if (w != null && races.length === 0) {
           grid.append(el("p", { class: "muted", text: `Ward ${w} doesn't have a contested Council primary this cycle.` }));
         }
-        races.forEach((r) => grid.append(raceCard(r, updateBar)));
+        races.forEach((r) => grid.append(raceCard(r)));
       };
       const setChips = (w) => chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(Number(c.dataset.ward) === w)));
       const applyWard = (w) => { store.setWard(w); setChips(w); renderWardCards(); };
@@ -98,7 +92,7 @@ export function renderChooser() {
       });
       picker.append(chips);
 
-      // "Find my ward" — on-device only: the browser shares coordinates, we
+      // "Find my ward": on-device only. The browser shares coordinates, we
       // check them against the bundled official ward boundaries locally, and
       // nothing is sent anywhere.
       const officialLink = () => el("a", { href: "https://planning.dc.gov/whatsmyward", target: "_blank", rel: "noopener noreferrer" }, "DC's official lookup", " ", icon("external"));
@@ -116,9 +110,9 @@ export function renderChooser() {
             if (!r.inDC) { setStatus("That location doesn't look like it's in DC. Pick your ward above, or check ", officialLink(), "."); return; }
             const contested = [1, 5, 6].includes(r.ward);
             if (contested) applyWard(r.ward); else { store.setWard(r.ward); setChips(null); renderWardCards(); }
-            const msg = contested ? `You're in Ward ${r.ward} — selected below.` : `You're in Ward ${r.ward}, which doesn't have a contested Council primary this year.`;
+            const msg = contested ? `You're in Ward ${r.ward}. Start it below.` : `You're in Ward ${r.ward}, which doesn't have a contested Council primary this year.`;
             if (r.confident) setStatus(el("strong", { text: msg }));
-            else setStatus(el("strong", { text: msg }), " That's approximate (your location wasn't precise) — confirm at ", officialLink(), ".");
+            else setStatus(el("strong", { text: msg }), " That's approximate (your location wasn't precise). Confirm at ", officialLink(), ".");
           },
           (err) => {
             locBtn.disabled = false;
@@ -138,7 +132,7 @@ export function renderChooser() {
       renderWardCards();
     } else {
       const grid = el("div", { class: "race-grid" });
-      group.raceIds.forEach((id) => grid.append(raceCard(RACE_MAP[id], updateBar)));
+      group.raceIds.forEach((id) => grid.append(raceCard(RACE_MAP[id])));
       section.append(grid);
     }
     view.append(section);
@@ -157,44 +151,29 @@ export function renderChooser() {
   );
   view.append(unc);
 
-  // sticky start bar
-  const countLabel = el("span", { class: "muted", "aria-live": "polite" });
-  const startBtn = el("button", { class: "btn btn--primary" }, "Start ", icon("arrowRight", "btn__arrow"));
-  startBtn.addEventListener("click", () => {
-    const first = orderedSelected()[0];
-    if (first) navigate("race/" + first);
-  });
-  const bar = el("div", { class: "chooser__bar" }, el("div", { class: "container chooser__bar-inner" }, countLabel, startBtn));
-  view.append(bar);
-  updateBar();
-
   return view;
 }
 
-function raceCard(race, onToggle) {
+function raceCard(race) {
+  const done = store.hasAnswers(race.id);
+  const liveCount = race.candidates.filter((c) => !c.hidden).length;
   const card = el("button", {
-    class: "race-card", type: "button", "aria-pressed": String(store.isSelected(race.id))
+    class: "race-card race-card--go" + (done ? " race-card--done" : ""), type: "button",
+    "aria-label": `${race.title}. ${done ? "Review your answers." : "Start this race."}`
   },
-    el("span", { class: "race-card__check" }, icon("check")),
     el("span", { class: "race-card__title", text: race.title }),
     el("span", { class: "race-card__seat", text: race.seat }),
     el("div", { class: "race-card__meta" },
       race.rcv ? el("span", { class: "pill pill--rcv", text: "Ranked choice" }) : null,
       race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null,
       coverageChip(race),
-      el("span", { class: "pill", text: `${race.candidates.filter((c) => !c.hidden).length} candidates` })
-    )
+      el("span", { class: "pill", text: `${liveCount} candidates` }),
+      done ? el("span", { class: "pill pill--done", text: "✓ answered" }) : null
+    ),
+    el("span", { class: "race-card__go" }, done ? "Review" : "Start", " ", icon("arrowRight", "btn__arrow"))
   );
-  card.addEventListener("click", () => {
-    const on = store.toggleSelected(race.id);
-    card.setAttribute("aria-pressed", String(on));
-    onToggle && onToggle();
-  });
+  card.addEventListener("click", () => navigate("race/" + race.id));
   return card;
-}
-
-function orderedSelected() {
-  return RACES.map((r) => r.id).filter((id) => store.isSelected(id));
 }
 
 /* ---------------- Race screen (live) ---------------- */
@@ -470,7 +449,7 @@ export function renderResult(raceId) {
     if (race.rcv && multi) {
       ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: race.rcvNote }));
     } else if (race.rcv) {
-      ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: `This race uses ranked-choice voting, so you can rank up to five. We're suggesting just ${top.candidate.name} because they're a clear match for your answers — rank others only if you'd genuinely be glad to see them win.` }));
+      ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: `This race uses ranked-choice voting, so you can rank up to five. We're suggesting just ${top.candidate.name} because they're a clear match for your answers. Rank others only if you'd genuinely be glad to see them win.` }));
     }
     view.append(ballot);
   }
@@ -539,10 +518,8 @@ export function renderResult(raceId) {
 
   // next actions
   const actions = el("div", { class: "hero__cta", style: { marginTop: "2.5rem" } });
-  const nextUndone = orderedSelected().find((id) => id !== race.id && !store.hasAnswers(id));
-  if (nextUndone) actions.append(el("button", { class: "btn btn--primary", onClick: () => navigate("race/" + nextUndone) }, "Next race ", icon("arrowRight", "btn__arrow")));
+  actions.append(el("a", { class: "btn btn--primary", href: "#/choose" }, "Choose another race ", icon("arrowRight", "btn__arrow")));
   actions.append(el("a", { class: "btn btn--ghost", href: "#/summary" }, "See my full ballot"));
-  actions.append(el("a", { class: "btn btn--ghost", href: "#/choose" }, "Pick more races"));
   view.append(actions);
 
   view.append(disclaimerStrip());
@@ -554,7 +531,7 @@ function confidenceCopy(race, result) {
   if (!n) return "Your answers don't point to any candidate in this race. That's a real result; it may be worth reading the profiles directly before you decide.";
   const top = result.suggestedRanking[0];
   if (n === 1) return `${top.candidate.name} is a clear match for what you said you want.`;
-  return `It's close at the top. ${top.candidate.name} edges ahead, but ${n - 1} other${n > 2 ? "s" : ""} fit your answers almost as well — here's a suggested order.`;
+  return `It's close at the top. ${top.candidate.name} edges ahead, but ${n - 1} other${n > 2 ? "s" : ""} fit your answers almost as well. Here's a suggested order.`;
 }
 
 function whyRanked(race, ranked, answers) {

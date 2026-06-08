@@ -146,7 +146,7 @@ export function evaluate(race, answers = {}, excludedIds = []) {
   // Suggested ranking. We don't pad: only suggest ranking extra candidates when
   // your top choices are genuinely close (within ~1 point of the top). With a
   // clear leader, we suggest just your one match. (Strategic reasons to rank
-  // more — like the special-election cross-endorsement — are surfaced separately
+  // more (like the special-election cross-endorsement) are surfaced separately
   // as a note, so the user can choose.)
   const positive = ranked.filter((r) => r.score > 0);
   const suggestedRanking = positive.length
