@@ -403,6 +403,21 @@ export const mayor = {
       ]
     },
     {
+      id: "education",
+      text: "What should the mayor prioritize on schools and kids?",
+      type: "single",
+      options: [
+        // Lewis George: universal childcare subsidy. McDuffie: Local Child Tax Credit + employer incentives. Sampath: childcare subsidies via cost-based reimbursement (opposes a new universal program).
+        { id: "A", label: "Expand early childhood and make childcare affordable", scores: { lewisgeorge: 3, mcduffie: 2, orange: 1, goodweather: 1, johnson: 1, sampath: 2, solomon: 1 } },
+        // Lewis George would reduce mayoral control (empower the State Board); McDuffie would keep it (a documented opposite). Others have no stated governance position.
+        { id: "B", label: "Give schools more independence from City Hall (rethink mayoral control)", scores: { lewisgeorge: 3, mcduffie: 0, orange: 1, goodweather: 1, johnson: 1, sampath: 1, solomon: 1 } },
+        // Orange: four post-secondary paths (tuition-free UDC, TAG, apprenticeship, entrepreneurship). Johnson: workforce pipelines + vocational training. Goodweather: "world-class education," read by third grade.
+        { id: "C", label: "Strengthen academics and career and vocational pathways", scores: { lewisgeorge: 1, mcduffie: 1, orange: 3, goodweather: 2, johnson: 3, sampath: 1, solomon: 1 } },
+        // Solomon's signature education critique is changing the DCPS lottery.
+        { id: "D", label: "Fix school choice and the lottery", scores: { lewisgeorge: 1, mcduffie: 1, orange: 1, goodweather: 1, johnson: 1, sampath: 1, solomon: 3 } }
+      ]
+    },
+    {
       id: "housing",
       text: "What's the right housing strategy?",
       type: "single",
@@ -426,6 +441,23 @@ export const mayor = {
         { id: "B", label: "No new taxes; grow the economy and the tax base instead", scores: { lewisgeorge: 0, mcduffie: 3, orange: 3, goodweather: 2, johnson: 2, sampath: 1, solomon: 2 } },
         // Sampath (cut fees, sunset reviews) and Solomon (audit spending) lead the cut-waste-first lane; Orange's fiscal-discipline frame fits too.
         { id: "C", label: "Cut wasteful fees and audit spending before anything else", scores: { lewisgeorge: 0, mcduffie: 1, orange: 2, goodweather: 1, johnson: 1, sampath: 3, solomon: 3 } }
+      ]
+    },
+    {
+      id: "jobs",
+      text: "How should the mayor grow jobs and help small businesses?",
+      type: "single",
+      options: [
+        // Sampath ("One Business, One Portal," cut fees) and Solomon (cut red tape, oppose Initiative 82) lead the cut-burdens-for-small-business lane.
+        { id: "A", label: "Cut red tape, fees, and taxes that burden small businesses", scores: { lewisgeorge: 1, mcduffie: 1, orange: 1, goodweather: 1, johnson: 1, sampath: 3, solomon: 3 } },
+        // Orange's signature: keep "DC dollars within the District" by expanding Certified Business Enterprise contracting toward $2 billion.
+        { id: "B", label: "Keep city dollars local: steer contracts to DC-based and small businesses", scores: { lewisgeorge: 1, mcduffie: 1, orange: 3, goodweather: 1, johnson: 1, sampath: 1, solomon: 1 } },
+        // McDuffie chaired the business/economy committee and secured the Capital One Arena and RFK deals; runs on "opportunity in every ward."
+        { id: "C", label: "Recruit big employers and land development deals that bring jobs", scores: { lewisgeorge: 1, mcduffie: 3, orange: 1, goodweather: 1, johnson: 1, sampath: 1, solomon: 1 } },
+        // Lewis George: worker-focused economic populism with deep labor backing. Johnson: jobs without new taxes plus a 3,000-youth jobs corps.
+        { id: "D", label: "Raise wages and strengthen workers and unions", scores: { lewisgeorge: 3, mcduffie: 1, orange: 1, goodweather: 1, johnson: 2, sampath: 1, solomon: 1 } },
+        // Goodweather's economic lane is lowering everyday costs: a "Power DC" utility-savings plan and Fare-Free DC transit. Sampath also targets fees.
+        { id: "E", label: "Lower everyday costs of living (utilities, transit, fees)", scores: { lewisgeorge: 1, mcduffie: 1, orange: 1, goodweather: 3, johnson: 1, sampath: 2, solomon: 1 } }
       ]
     },
     {
