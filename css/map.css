@@ -1,0 +1,58 @@
+/* ============================================================
+   The spatial map (SVG). Candidate nodes + the "you" marker that
+   glides to the score-weighted center of your matches.
+   ============================================================ */
+
+.map { width: 100%; aspect-ratio: 1 / 1; display: block; touch-action: manipulation; }
+.map text { font-family: var(--font-display); fill: var(--ink); }
+
+/* grid + frame */
+.map__frame { fill: var(--surface-2); stroke: var(--line); stroke-width: 0.4; rx: 3; }
+.map__grid { stroke: var(--line); stroke-width: 0.25; }
+.map__axis { stroke: var(--line-strong); stroke-width: 0.4; stroke-dasharray: 1.2 1.4; }
+.map__quad { fill: var(--brand); opacity: 0.03; }
+
+/* axis labels */
+.map__axislabel { fill: var(--ink-faint); font-size: 3.1px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.map__axisend { fill: var(--ink-soft); font-size: 3.2px; font-weight: 700; }
+
+/* cross-endorsement / alliance link */
+.map__link { stroke: var(--gold); stroke-width: 0.7; stroke-dasharray: 1.5 1.5; opacity: 0.8; }
+.map__linklabel { fill: var(--gold); font-size: 2.6px; font-weight: 700; }
+
+/* candidate node */
+.node { transition: transform var(--dur-marker) var(--ease); cursor: pointer; }
+.node__halo { fill: var(--cand-color); opacity: 0.14; transition: r var(--dur-marker) var(--ease), opacity var(--dur-2); }
+.node__dot {
+  fill: var(--cand-color); stroke: var(--surface); stroke-width: 0.6;
+  transition: transform var(--dur-marker) var(--ease-spring);
+  transform-box: fill-box; transform-origin: center;
+}
+.node__label {
+  fill: var(--ink); font-size: 3px; font-weight: 700; text-anchor: middle;
+  paint-order: stroke; stroke: var(--surface-2); stroke-width: 1.1px; stroke-linejoin: round;
+}
+.node__score { fill: #fff; font-size: 2.5px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.node:hover .node__halo, .node:focus-visible .node__halo { opacity: 0.3; }
+.node:focus-visible { outline: none; }
+.node:focus-visible .node__dot { stroke: var(--brand); stroke-width: 1.2; }
+.node.is-leader .node__label { fill: var(--cand-color); }
+.node.is-excluded { opacity: 0.32; }
+.node.is-excluded .node__dot { fill: var(--ink-faint); }
+
+/* the "you" marker */
+.marker { transition: transform var(--dur-marker) var(--ease); pointer-events: none; }
+.marker__pulse { fill: var(--brand); opacity: 0.25; }
+.marker__ring { fill: none; stroke: var(--brand); stroke-width: 0.6; opacity: 0.6; }
+.marker__core { fill: var(--brand); stroke: #fff; stroke-width: 0.7; }
+.marker__label { fill: var(--brand-ink); font-size: 2.9px; font-weight: 700; text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 1px; }
+.marker.is-idle .marker__core { fill: var(--ink-faint); }
+.marker.is-idle .marker__pulse, .marker.is-idle .marker__ring { stroke: var(--ink-faint); fill: var(--ink-faint); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .marker.is-active .marker__pulse { animation: markerPulse 2.4s var(--ease) infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes markerPulse { 0% { transform: scale(0.8); opacity: 0.35; } 70% { transform: scale(2.2); opacity: 0; } 100% { opacity: 0; } }
+}
+
+/* connecting line from marker to current leader */
+.map__lead-line { stroke: var(--brand); stroke-width: 0.4; stroke-dasharray: 0.8 1; opacity: 0.45; transition: all var(--dur-marker) var(--ease); }

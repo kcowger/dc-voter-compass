@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <title>DC Voter Compass · June 16, 2026 Primary & Special Election</title>
+  <meta name="description" content="An independent, evidence-based tool for the DC June 16, 2026 primary and special election. Answer a few questions and see which candidates match your priorities, with the source for every claim. Private by design." />
+
+  <!-- Strict Content Security Policy: everything is same-origin; no inline scripts, no eval, no third parties. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; manifest-src 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#faf6ec" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#14151f" media="(prefers-color-scheme: dark)" />
+
+  <!-- Open Graph (text only; no external assets) -->
+  <meta property="og:title" content="DC Voter Compass · June 16, 2026" />
+  <meta property="og:description" content="Find the DC candidates who actually match you. Evidence-based, private, open source." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='32%25' cy='30%25'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='0.62' stop-color='%235b4be8'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%23faf6ec'/%3E%3Ccircle cx='16' cy='16' r='9' fill='url(%23g)'/%3E%3C/svg%3E" />
+
+  <link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/public-sans.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/race.css" />
+  <link rel="stylesheet" href="css/map.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="wordmark" href="#/" data-nav="home" aria-label="DC Voter Compass, home">
+        <span class="wordmark__dot" aria-hidden="true"></span>
+        <span>DC Voter Compass</span>
+      </a>
+      <span class="site-header__spacer"></span>
+      <nav aria-label="Primary">
+        <a class="navlink" href="#/choose" data-nav="choose">Races</a>
+        <a class="navlink" href="#/methodology" data-nav="methodology">How it works</a>
+        <a class="navlink" href="#/summary" data-nav="summary">My ballot</a>
+        <a class="navlink navlink--cta" href="#/choose" data-nav="choose">Start</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <h4>DC Voter Compass</h4>
+        <p class="muted footer-about">
+          An independent, open-source guide to the June 16, 2026 DC primary and special election.
+          Evidence over opinion. Private by design.
+        </p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#/choose">Choose your races</a>
+        <a href="#/summary">Your ballot plan</a>
+        <a href="#/methodology">Methodology &amp; sources</a>
+      </div>
+      <div>
+        <h4>Official resources</h4>
+        <a href="https://www.dcboe.org/" target="_blank" rel="noopener noreferrer">DC Board of Elections</a>
+        <a href="https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/" target="_blank" rel="noopener noreferrer">The 51st voter guide</a>
+        <a href="https://www.acludc.org/2026-d-c-primary-election-voter-hub/" target="_blank" rel="noopener noreferrer">ACLU of DC voter hub</a>
+      </div>
+      <p class="site-footer__legal">
+        Not affiliated with, authorized by, or funded by any candidate, campaign, party, or government body.
+        Candidate positions change; verify anything important against the candidate's own materials and the DC Board of Elections before you vote.
+        Typefaces: Space Grotesk, Public Sans, and Fraunces (SIL Open Font License). Open source, corrections welcome.
+      </p>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="container section">
+      <h1>JavaScript required</h1>
+      <p>This interactive guide needs JavaScript to run. Your privacy is still respected, it runs entirely in your browser and sends nothing anywhere.
+      For candidate information without JavaScript, see <a href="https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/">The 51st's voter guide</a>.</p>
+    </div>
+  </noscript>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+/* ============================================================
+   Design tokens — colors, type, spacing, motion.
+   Self-hosted fonts (SIL OFL): Space Grotesk, Public Sans, Fraunces.
+   ============================================================ */
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("../assets/fonts/space-grotesk.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("../assets/fonts/public-sans.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("../assets/fonts/fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+:root {
+  /* Fonts */
+  --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Light "paper" palette */
+  --paper: #faf6ec;
+  --paper-2: #f3ecdb;
+  --surface: #fffdf8;
+  --surface-2: #f7f1e4;
+  --ink: #191a2c;
+  --ink-soft: #474a63;
+  --ink-faint: #74778f;
+  --line: #e6dcc6;
+  --line-strong: #d8ccb0;
+
+  /* Brand + accents (deliberately non-partisan) */
+  --brand: #5b4be8;        /* "you" marker / primary action */
+  --brand-ink: #4536c9;
+  --brand-soft: #ece9fd;
+  --teal: #0f9e90;
+  --gold: #d99a2b;
+  --warn: #c0543b;         /* cautions / flags — terracotta, not partisan red */
+  --warn-soft: #f7e3dc;
+
+  /* Candidate categorical palette — distinct, AA-legible on paper */
+  --c1: #5b4be8;  /* indigo */
+  --c2: #0f9e90;  /* teal */
+  --c3: #d97706;  /* amber */
+  --c4: #c0398a;  /* magenta */
+  --c5: #2f8f4e;  /* green */
+  --c6: #2b74c9;  /* blue */
+  --c7: #b5462f;  /* rust */
+  --c8: #7a4bd0;  /* violet */
+  --c9: #8a7415;  /* olive */
+
+  /* Type scale (fluid) */
+  --step--2: clamp(0.69rem, 0.66rem + 0.13vw, 0.76rem);
+  --step--1: clamp(0.83rem, 0.79rem + 0.18vw, 0.94rem);
+  --step-0: clamp(1rem, 0.95rem + 0.24vw, 1.13rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.39vw, 1.5rem);
+  --step-2: clamp(1.44rem, 1.32rem + 0.62vw, 2rem);
+  --step-3: clamp(1.73rem, 1.55rem + 0.93vw, 2.66rem);
+  --step-4: clamp(2.07rem, 1.8rem + 1.36vw, 3.55rem);
+  --step-5: clamp(2.49rem, 2.1rem + 1.96vw, 4.74rem);
+
+  /* Spacing (4px base) */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  /* Radii */
+  --r-sm: 8px;
+  --r: 14px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-pill: 999px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgba(25, 26, 44, 0.06), 0 2px 6px rgba(25, 26, 44, 0.05);
+  --shadow-2: 0 4px 12px rgba(25, 26, 44, 0.08), 0 10px 30px rgba(25, 26, 44, 0.07);
+  --shadow-3: 0 12px 28px rgba(25, 26, 44, 0.12), 0 24px 60px rgba(25, 26, 44, 0.12);
+  --shadow-brand: 0 6px 22px rgba(91, 75, 232, 0.35);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.5, 1);
+  --dur-1: 0.14s;
+  --dur-2: 0.26s;
+  --dur-3: 0.5s;
+  --dur-marker: 0.8s;
+
+  --container: 1120px;
+  --header-h: 60px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14151f;
+    --paper-2: #1b1d2b;
+    --surface: #1e2030;
+    --surface-2: #262839;
+    --ink: #f1eee6;
+    --ink-soft: #c0c2d4;
+    --ink-faint: #8f93ab;
+    --line: #33364a;
+    --line-strong: #424560;
+    --brand: #8a7bff;
+    --brand-ink: #a99dff;
+    --brand-soft: #2a2747;
+    --teal: #3fc8b8;
+    --gold: #e6b552;
+    --warn: #e8836a;
+    --warn-soft: #3a2722;
+    --c1: #8a7bff; --c2: #3fc8b8; --c3: #f0a23c; --c4: #e776bd;
+    --c5: #5fc77f; --c6: #6aa8f0; --c7: #e98a6f; --c8: #b399f5; --c9: #d8c45a;
+    --shadow-1: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.25);
+    --shadow-2: 0 4px 12px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.3);
+    --shadow-3: 0 12px 28px rgba(0,0,0,0.45), 0 24px 60px rgba(0,0,0,0.4);
+    --shadow-brand: 0 6px 22px rgba(138, 123, 255, 0.4);
+  }
+}

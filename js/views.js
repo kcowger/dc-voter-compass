@@ -1,0 +1,719 @@
+// Screen renderers. Each returns a DOM node mounted by app.js. The race screen
+// is a small live controller: answering a question re-evaluates and animates the
+// map + ranking in place rather than re-rendering.
+import { el, svgEl, icon, clear, mount, candColor, initials, navigate, announce, prefersReducedMotion } from "./util.js";
+import { evaluate, topReason } from "./engine.js";
+import { createMap } from "./map.js";
+import { store } from "./store.js";
+import { RACES, RACE_MAP, GROUPS, UNCONTESTED } from "../data/races/index.js";
+import { ELECTION, EVIDENCE_HIERARCHY, NEVER_INCLUDED, SOURCES, DISCLAIMER } from "../data/meta.js";
+
+/* ---------------- shared bits ---------------- */
+
+function coverageChip(race) {
+  if (race.coverage === "partial") return el("span", { class: "pill pill--warn", text: "Partial coverage" });
+  if (race.coverage === "researched") return el("span", { class: "pill", title: "Questions and scoring built by this guide from sourced positions", text: "Independently researched" });
+  return null;
+}
+function racePills(race) {
+  return el("div", { class: "race__meta" },
+    race.rcv ? el("span", { class: "pill pill--rcv pill--dot", text: "Ranked choice" }) : null,
+    race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : el("span", { class: "pill", text: race.ballot }),
+    coverageChip(race)
+  );
+}
+
+function sourceLink(source) {
+  return el("a", { href: source.url, target: "_blank", rel: "noopener noreferrer" }, source.label, " ", icon("external"));
+}
+
+function colorMapFor(race) {
+  const m = {};
+  race.candidates.forEach((c, i) => { m[c.id] = candColor(i); });
+  return m;
+}
+
+function shortLabel(text, words = 7) {
+  const parts = text.split(/\s+/);
+  return parts.length <= words ? text : parts.slice(0, words).join(" ") + "…";
+}
+
+/* ---------------- Landing ---------------- */
+
+export function renderLanding() {
+  const view = el("div", { class: "view" });
+
+  const hero = el("section", { class: "hero container" },
+    el("p", { class: "eyebrow", text: "DC Primary & Special Election · June 16, 2026" }),
+    el("h1", { class: "hero__title" }, "Find the candidates who ", el("em", {}, "actually"), " match you."),
+    el("p", { class: "hero__sub", text: "Answer a few questions about what you want. Watch yourself drift across the map toward the candidates who fit, and see the evidence behind every match. No spin, no signups, nothing leaves your device." }),
+    el("div", { class: "hero__cta" },
+      el("button", { class: "btn btn--primary btn--lg", onClick: () => navigate("choose") }, "Start with your races ", icon("arrowRight", "btn__arrow")),
+      el("a", { class: "btn btn--ghost btn--lg", href: "#/methodology" }, "How it works")
+    ),
+    el("div", { class: "hero__meta" },
+      el("span", {}, el("strong", { text: "8" }), " contested races"),
+      el("span", {}, el("strong", { text: "30+" }), " candidates"),
+      el("span", {}, el("strong", { text: "Every claim" }), " sourced")
+    )
+  );
+
+  const steps = el("section", { class: "container" },
+    el("div", { class: "howto" },
+      stepCard("1", "Pick your races", "Mayor, Council, Attorney General, your ward seat. Choose what's on your ballot."),
+      stepCard("2", "Answer honestly", "A few value questions per race. As you answer, candidates rise, fall, and pull your marker toward them."),
+      stepCard("3", "See your match", "A ranked-choice ballot you can actually use, with strengths, weaknesses, and sources for everyone.")
+    )
+  );
+
+  const principles = el("section", { class: "section container" },
+    el("p", { class: "eyebrow", text: "Built to be trustworthy" }),
+    el("h2", { text: "Evidence over opinion" }),
+    el("div", { class: "principles" },
+      principle("📑", "Sourced, not invented", "Every position, endorsement, and quote links to its source. Inferred labels are flagged as inferred, never dressed up as fact."),
+      principle("⚖️", "Strengths and weaknesses", "We show what's concerning about a candidate next to what's strong. The goal is your judgment, not ours."),
+      principle("🔒", "Private by design", "No accounts, no tracking, no analytics. Your answers live only in this browser, on your device."),
+      principle("🧭", "Honest about limits", "When your answers don't clearly point anywhere, we say so instead of forcing a pick.")
+    )
+  );
+
+  view.append(hero, steps, principles);
+  return view;
+}
+function stepCard(n, title, body) {
+  return el("div", { class: "card howto__step" }, el("div", { class: "howto__num", text: n }), el("h3", { text: title }), el("p", { text: body }));
+}
+function principle(emoji, title, body) {
+  return el("div", { class: "card principle" }, el("div", { class: "principle__icon", text: emoji, "aria-hidden": "true" }), el("div", {}, el("h3", { text: title }), el("p", { text: body })));
+}
+
+/* ---------------- Chooser ---------------- */
+
+export function renderChooser() {
+  const view = el("div", { class: "view container" });
+  view.append(
+    el("section", { class: "section", style: { paddingBottom: "0" } },
+      el("p", { class: "eyebrow", text: "Step 1" }),
+      el("h1", { text: "Which races are you voting on?" }),
+      el("p", { class: "lead", style: { marginTop: "0.5rem" }, text: "Pick any that are on your ballot. You can do them in any order and come back anytime." })
+    )
+  );
+
+  const updateBar = () => {
+    const n = store.state.selectedRaceIds.length;
+    countLabel.textContent = n === 0 ? "No races selected" : `${n} race${n > 1 ? "s" : ""} selected`;
+    startBtn.disabled = n === 0;
+  };
+
+  for (const group of GROUPS) {
+    const section = el("section", { class: "chooser__group" });
+    const heading = el("h2", {}, group.title);
+    section.append(heading, el("p", { class: "chooser__blurb", text: group.blurb }));
+
+    if (group.wardPicker) {
+      const picker = el("div", { class: "ward-picker" }, el("label", { id: "wardlbl", text: "Your ward:" }));
+      const chips = el("div", { class: "chip-select", role: "group", "aria-labelledby": "wardlbl" });
+      const grid = el("div", { class: "race-grid" });
+      const renderWardCards = () => {
+        clear(grid);
+        const w = store.ward;
+        const races = group.raceIds.map((id) => RACE_MAP[id]).filter((r) => w == null || r.ward === w);
+        if (w != null && races.length === 0) {
+          grid.append(el("p", { class: "muted", text: `Ward ${w} doesn't have a contested Council primary this cycle.` }));
+        }
+        races.forEach((r) => grid.append(raceCard(r, updateBar)));
+      };
+      [1, 5, 6].forEach((w) => {
+        const chip = el("button", { class: "chip", type: "button", "aria-pressed": String(store.ward === w) },
+          `Ward ${w}`);
+        chip.addEventListener("click", () => {
+          store.setWard(store.ward === w ? null : w);
+          chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", "false"));
+          if (store.ward === w) chip.setAttribute("aria-pressed", "true");
+          renderWardCards();
+        });
+        chips.append(chip);
+      });
+      picker.append(chips);
+      section.append(picker, grid);
+      renderWardCards();
+    } else {
+      const grid = el("div", { class: "race-grid" });
+      group.raceIds.forEach((id) => grid.append(raceCard(RACE_MAP[id], updateBar)));
+      section.append(grid);
+    }
+    view.append(section);
+  }
+
+  // uncontested
+  const unc = el("section", { class: "uncontested" },
+    el("h2", { text: "Also on the ballot (uncontested)" }),
+    el("p", { class: "chooser__blurb", text: "These races effectively have one candidate, so there's nothing to decide, but here's who wins, for the full picture." }),
+    el("div", { class: "uncontested__list" },
+      UNCONTESTED.map((u) => el("div", { class: "uncontested__item" },
+        el("h4", { text: u.office }),
+        el("p", {}, el("span", { class: "win", text: u.winner }), ", ", u.note, " ", sourceLink(u.source))
+      ))
+    )
+  );
+  view.append(unc);
+
+  // sticky start bar
+  const countLabel = el("span", { class: "muted", "aria-live": "polite" });
+  const startBtn = el("button", { class: "btn btn--primary" }, "Start ", icon("arrowRight", "btn__arrow"));
+  startBtn.addEventListener("click", () => {
+    const first = orderedSelected()[0];
+    if (first) navigate("race/" + first);
+  });
+  const bar = el("div", { class: "chooser__bar" }, el("div", { class: "container chooser__bar-inner" }, countLabel, startBtn));
+  view.append(bar);
+  updateBar();
+
+  return view;
+}
+
+function raceCard(race, onToggle) {
+  const card = el("button", {
+    class: "race-card", type: "button", "aria-pressed": String(store.isSelected(race.id))
+  },
+    el("span", { class: "race-card__check" }, icon("check")),
+    el("span", { class: "race-card__title", text: race.title }),
+    el("span", { class: "race-card__seat", text: race.seat }),
+    el("div", { class: "race-card__meta" },
+      race.rcv ? el("span", { class: "pill pill--rcv", text: "Ranked choice" }) : null,
+      race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null,
+      coverageChip(race),
+      el("span", { class: "pill", text: `${race.candidates.filter((c) => !c.hidden).length} candidates` })
+    )
+  );
+  card.addEventListener("click", () => {
+    const on = store.toggleSelected(race.id);
+    card.setAttribute("aria-pressed", String(on));
+    onToggle && onToggle();
+  });
+  return card;
+}
+
+function orderedSelected() {
+  return RACES.map((r) => r.id).filter((id) => store.isSelected(id));
+}
+
+/* ---------------- Race screen (live) ---------------- */
+
+export function renderRace(raceId) {
+  const race = RACE_MAP[raceId];
+  if (!race) return notFound();
+  const colorOf = colorMapFor(race);
+  const view = el("div", { class: "view container race" });
+
+  // header
+  view.append(
+    el("button", { class: "crumb", onClick: () => navigate("choose") }, icon("arrowLeft"), "All races"),
+    el("div", { class: "race__head" },
+      el("h1", { text: race.title }),
+      racePills(race),
+      el("p", { class: "race__seat", text: race.seat })
+    )
+  );
+  if (race.coverage === "partial" && race.coverageNote) {
+    view.append(el("div", { class: "callout", style: { marginTop: "1rem" } }, el("span", { class: "callout__icon", text: "ℹ️" }), el("p", { text: race.coverageNote })));
+  }
+
+  // map + ranking pane
+  const map = createMap(race, { onNodeClick: (cid) => openProfile(race, cid, colorOf, refresh) });
+  const rankingList = el("div", { class: "ranking", role: "list", "aria-label": "Live candidate ranking" });
+  const setAside = el("div", { class: "muted", style: { marginTop: "0.5rem", fontSize: "var(--step--2)" } });
+  const mappane = el("div", { class: "mappane" },
+    el("div", { class: "card mappane__card" }, map.svg),
+    el("p", { class: "mappane__hint", text: "The glowing dot is you. It drifts toward your matches as you answer." }),
+    el("div", { class: "ranking__title", text: "Live ranking" }),
+    rankingList,
+    setAside
+  );
+
+  // question pane
+  const qpane = el("div", { class: "qpane" });
+  const progress = el("div", { class: "progress", role: "group", "aria-label": "Question progress" });
+  const qhost = el("div", { "aria-live": "polite" });
+  qpane.append(progress, qhost);
+
+  const layout = el("div", { class: "race__layout" }, mappane, qpane);
+  view.append(layout);
+
+  // ----- live state -----
+  let current = firstUnanswered();
+  function firstUnanswered() {
+    const ans = store.getAnswers(race.id);
+    const idx = race.questions.findIndex((q) => ans[q.id] == null && !q.optional);
+    return idx === -1 ? 0 : idx;
+  }
+
+  function refresh() {
+    const result = evaluate(race, store.getAnswers(race.id), store.getExcluded(race.id));
+    map.update(result, { excluded: store.getExcluded(race.id) });
+    renderRanking(result);
+  }
+
+  function renderRanking(result) {
+    clear(rankingList);
+    const ans = store.getAnswers(race.id);
+    result.ranked.forEach((r, i) => {
+      const reason = reasonText(race, r.id, ans);
+      const row = el("button", {
+        class: "rank-row", role: "listitem", type: "button",
+        onClick: () => openProfile(race, r.id, colorOf, refresh),
+        "aria-label": `${i + 1}. ${r.candidate.name}. ${reason}. Open profile.`
+      },
+        el("span", { class: "rank-row__pos", text: String(i + 1) }),
+        el("div", { class: "rank-row__body" },
+          el("div", { class: "rank-row__name" }, el("span", { class: "rank-row__swatch", style: { background: colorOf[r.id] } }), r.candidate.name),
+          el("div", { class: "rank-row__reason", text: reason })
+        ),
+        el("span", { class: "rank-row__bar" }, el("span", { class: "rank-row__fill", style: { width: Math.round(r.normalized * 100) + "%", background: colorOf[r.id] } }))
+      );
+      rankingList.append(row);
+    });
+    const ex = store.getExcluded(race.id);
+    setAside.textContent = ex.length ? `Set aside: ${ex.map((id) => RACE_MAP[race.id].candidates.find((c) => c.id === id)?.name).filter(Boolean).join(", ")}` : "";
+  }
+
+  function renderProgress() {
+    clear(progress);
+    race.questions.forEach((q, i) => {
+      const answered = store.getAnswers(race.id)[q.id] != null;
+      const dot = el("button", {
+        class: "progress__dot" + (i === current ? " progress__dot--current" : answered ? " progress__dot--done" : ""),
+        type: "button", "aria-label": `Question ${i + 1}${answered ? ", answered" : ""}${i === current ? ", current" : ""}`,
+        onClick: () => { current = i; renderQuestion(); }
+      });
+      progress.append(dot);
+    });
+    progress.append(el("span", { class: "progress__label", text: `Question ${current + 1} of ${race.questions.length}` }));
+  }
+
+  function renderQuestion() {
+    renderProgress();
+    clear(qhost);
+    const q = race.questions[current];
+    const ans = store.getAnswers(race.id);
+    const card = el("div", { class: "qcard" });
+    mount(card,
+      el("p", { class: "qcard__kicker", text: q.optional ? "Optional question" : `Question ${current + 1}` }),
+      el("h2", { class: "qcard__q", id: "qtext", text: q.text }),
+      q.help ? el("p", { class: "qcard__help", text: q.help }) : null
+    );
+
+    const opts = el("div", { class: "options", role: q.type === "single" ? "radiogroup" : "group", "aria-labelledby": "qtext" });
+    const selected = ans[q.id];
+    const selSet = new Set(Array.isArray(selected) ? selected : selected != null ? [selected] : []);
+    const atMax = q.type === "multi" && q.max && selSet.size >= q.max;
+
+    q.options.forEach((o) => {
+      const checked = selSet.has(o.id);
+      const input = el("input", {
+        type: q.type === "single" ? "radio" : "checkbox",
+        name: `${race.id}-${q.id}`, value: o.id, checked: checked
+      });
+      if (q.type === "multi" && !checked && atMax) input.disabled = true;
+      input.addEventListener("change", () => onAnswer(q, o.id));
+      const label = el("label", { class: "option" + (q.type === "multi" ? " option--multi" : "") },
+        input,
+        el("span", { class: "option__face" },
+          el("span", { class: "option__marker" }, icon("check")),
+          el("span", { class: "option__label", text: o.label })
+        )
+      );
+      opts.append(label);
+    });
+    card.append(opts);
+
+    // tradeoffs
+    const result = evaluate(race, ans, store.getExcluded(race.id));
+    result.tradeoffs.forEach((t) => card.append(el("div", { class: "callout" }, el("span", { class: "callout__icon", text: "⚖️" }), el("p", {}, el("strong", { text: "Heads up, a real tradeoff. " }), t.text))));
+
+    // nav
+    const nav = el("div", { class: "qnav" });
+    const back = el("button", { class: "btn btn--ghost", onClick: () => { if (current > 0) { current--; renderQuestion(); } }, disabled: current === 0 }, icon("arrowLeft"), " Back");
+    const right = el("div", { style: { display: "flex", gap: "0.75rem", alignItems: "center" } });
+    if (q.optional && ans[q.id] == null) right.append(el("button", { class: "qnav__skip", onClick: () => advance() }, "Skip"));
+    const isLast = current === race.questions.length - 1;
+    if (isLast) right.append(el("button", { class: "btn btn--primary", onClick: () => navigate("result/" + race.id) }, "See your result ", icon("arrowRight", "btn__arrow")));
+    else right.append(el("button", { class: "btn btn--ink", onClick: () => advance() }, "Next ", icon("arrowRight", "btn__arrow")));
+    nav.append(back, right);
+    card.append(nav);
+
+    qhost.append(card);
+  }
+
+  function onAnswer(q, optId) {
+    const ans = store.getAnswers(race.id);
+    if (q.type === "single") {
+      store.setAnswer(race.id, q.id, optId);
+      refresh();
+      announceTop();
+      // let the marker glide, then advance
+      const delay = prefersReducedMotion() ? 0 : 620;
+      setTimeout(() => { if (current < race.questions.length - 1) advance(); else renderQuestion(); }, delay);
+      renderQuestion(); // reflect selection immediately
+    } else {
+      const cur = new Set(Array.isArray(ans[q.id]) ? ans[q.id] : []);
+      cur.has(optId) ? cur.delete(optId) : cur.add(optId);
+      if (q.max && cur.size > q.max) return;
+      store.setAnswer(race.id, q.id, [...cur]);
+      refresh();
+      announceTop();
+      renderQuestion();
+    }
+  }
+  function advance() { if (current < race.questions.length - 1) { current++; renderQuestion(); } }
+
+  function announceTop() {
+    const result = evaluate(race, store.getAnswers(race.id), store.getExcluded(race.id));
+    if (result.ranked[0] && result.marker.active) announce(`Leading: ${result.ranked[0].candidate.name}`);
+  }
+
+  renderQuestion();
+  refresh();
+  return view;
+}
+
+function reasonText(race, candId, answers) {
+  const best = topReason(race, candId, answers);
+  if (!best) return "Awaiting your answers";
+  if (best.score >= 3) return "Top fit: " + shortLabel(best.option.label, 6);
+  if (best.score === 2) return "Fits: " + shortLabel(best.option.label, 6);
+  if (best.score === 1) return "Some fit: " + shortLabel(best.option.label, 6);
+  return "Not aligned with your answers so far";
+}
+
+/* ---------------- Result ---------------- */
+
+export function renderResult(raceId) {
+  const race = RACE_MAP[raceId];
+  if (!race) return notFound();
+  const colorOf = colorMapFor(race);
+  const answers = store.getAnswers(race.id);
+  const excluded = store.getExcluded(race.id);
+  const result = evaluate(race, answers, excluded);
+  const view = el("div", { class: "view container" });
+
+  view.append(el("button", { class: "crumb", style: { marginTop: "1.5rem" }, onClick: () => navigate("race/" + race.id) }, icon("arrowLeft"), "Change my answers"));
+
+  if (result.answered === 0) {
+    view.append(el("section", { class: "section" },
+      el("h1", { text: race.title }),
+      el("p", { class: "lead", text: "You haven't answered anything yet for this race." }),
+      el("button", { class: "btn btn--primary", style: { marginTop: "1rem" }, onClick: () => navigate("race/" + race.id) }, "Answer the questions ", icon("arrowRight"))));
+    return view;
+  }
+
+  const top = result.suggestedRanking[0];
+  const confidence = confidenceCopy(race, result);
+
+  view.append(el("section", { class: "result__hero" },
+    el("p", { class: "eyebrow result__eyebrow", text: `Your result · ${race.title}` }),
+    top
+      ? el("p", { class: "result__pick", text: top.candidate.name })
+      : el("p", { class: "result__pick", text: "No clear match" }),
+    el("p", { class: "result__confidence", text: confidence })
+  ));
+
+  // ranked-choice ballot
+  if (result.suggestedRanking.length) {
+    const ballot = el("section", { class: "ballot" });
+    ballot.append(el("h2", { class: "ballot__title" }, race.rcv ? "Your suggested ranked ballot" : "Your match", race.rcv ? el("span", { class: "pill pill--rcv", text: "Rank up to 5" }) : null));
+    const list = el("div", { class: "ballot__list" });
+    result.suggestedRanking.forEach((r, i) => {
+      list.append(el("div", { class: "ballot-card", style: { "--cand-color": colorOf[r.id] } },
+        el("div", { class: "ballot-card__rank", text: String(i + 1) }),
+        el("div", {},
+          el("div", { class: "ballot-card__name", text: r.candidate.name }),
+          el("div", { class: "ballot-card__role", text: r.candidate.role }),
+          el("div", { class: "ballot-card__why", text: whyRanked(race, r, answers) })
+        ),
+        el("button", { class: "btn btn--ghost ballot-card__link", onClick: () => openProfile(race, r.id, colorOf) }, "Profile")
+      ));
+    });
+    ballot.append(list);
+    if (race.rcv) ballot.append(el("p", { class: "muted", style: { marginTop: "1rem", fontSize: "var(--step--1)" }, text: race.rcvNote }));
+    view.append(ballot);
+  }
+
+  // tradeoffs
+  result.tradeoffs.forEach((t) => view.append(el("div", { class: "callout", style: { marginTop: "1.5rem" } }, el("span", { class: "callout__icon", text: "⚖️" }), el("p", {}, el("strong", { text: "A real tradeoff in your answers. " }), t.text))));
+
+  // cross-endorsement explainer
+  if (race.crossEndorsement) {
+    view.append(el("div", { class: "callout callout--info", style: { marginTop: "1rem" } }, el("span", { class: "callout__icon", text: "🔗" }), el("p", {}, el("strong", { text: "Ranked-choice strategy. " }), race.crossEndorsement.text)));
+  }
+
+  // race context (ag, ward6)
+  if (race.raceContext) {
+    const rc = el("section", { class: "result__section" }, el("h2", { text: race.raceContext.title }), el("p", { class: "lead", style: { fontSize: "var(--step-0)" }, text: race.raceContext.text }));
+    if (race.raceContext.sources) rc.append(el("p", { class: "muted", style: { fontSize: "var(--step--2)", marginTop: "0.5rem" } }, "Sources: ", race.raceContext.sources.flatMap((s, i) => [i ? " · " : "", sourceLink(s)])));
+    view.append(rc);
+  }
+
+  // comparison table (mayor)
+  if (race.comparison) {
+    const wrap = el("div", { class: "compare__wrap" });
+    const table = el("table", { class: "compare" });
+    const liveCands = race.candidates.filter((c) => !c.hidden);
+    table.append(el("thead", {}, el("tr", {}, el("th", { text: "Where they differ" }), ...liveCands.map((c) => el("th", { text: c.name })))));
+    const tb = el("tbody", {});
+    race.comparison.forEach((row) => {
+      tb.append(el("tr", {}, el("th", { scope: "row", text: row.dimension }), ...liveCands.map((c) => el("td", { text: row[c.id] || "n/a" }))));
+    });
+    table.append(tb);
+    wrap.append(table);
+    view.append(el("section", { class: "result__section" }, el("h2", { text: "Side by side" }), wrap));
+  }
+
+  // all candidates
+  const candSec = el("section", { class: "result__section" }, el("h2", { text: "Everyone in this race" }), el("p", { class: "muted", text: "Tap any candidate for their full sourced profile, strengths, weaknesses, and any flags." }));
+  const grid = el("div", { class: "race-grid", style: { marginTop: "1rem" } });
+  result.ranked.forEach((r) => {
+    grid.append(el("button", { class: "race-card", type: "button", onClick: () => openProfile(race, r.id, colorOf), style: { "--cand-color": colorOf[r.id] } },
+      el("span", { class: "race-card__title", text: r.candidate.name }),
+      el("span", { class: "race-card__seat", text: r.candidate.tagline }),
+      el("div", { class: "race-card__meta" },
+        el("span", { class: "pill", style: { background: colorOf[r.id], color: "#fff", borderColor: "transparent" }, text: r.score > 0 ? `Match ${Math.round(r.normalized * 100)}%` : "Low match" }),
+        r.candidate.flags && r.candidate.flags.length ? el("span", { class: "pill pill--warn", text: "Flag to weigh" }) : null
+      )
+    ));
+  });
+  // excluded candidates
+  excluded.forEach((cid) => {
+    const c = race.candidates.find((x) => x.id === cid);
+    if (c) grid.append(el("button", { class: "race-card", type: "button", style: { opacity: 0.55 }, onClick: () => openProfile(race, cid, colorOf) },
+      el("span", { class: "race-card__title", text: c.name }),
+      el("span", { class: "race-card__seat", text: "You set this candidate aside" })));
+  });
+  candSec.append(grid);
+  view.append(candSec);
+
+  // mayor not-covered note
+  if (race.notCovered) {
+    view.append(el("section", { class: "result__section" },
+      el("h2", { style: { fontSize: "var(--step-1)" }, text: "Not scored here" }),
+      el("p", { class: "muted", text: race.notCovered.note + " " + race.notCovered.others.join(", ") + "." }),
+      el("p", { style: { marginTop: "0.5rem" } }, race.notCovered.links.flatMap((l, i) => [i ? " · " : "", el("a", { href: l.url, target: "_blank", rel: "noopener noreferrer" }, l.label, " ", icon("external"))]))
+    ));
+  }
+
+  // next actions
+  const actions = el("div", { class: "hero__cta", style: { marginTop: "2.5rem" } });
+  const nextUndone = orderedSelected().find((id) => id !== race.id && !store.hasAnswers(id));
+  if (nextUndone) actions.append(el("button", { class: "btn btn--primary", onClick: () => navigate("race/" + nextUndone) }, "Next race ", icon("arrowRight", "btn__arrow")));
+  actions.append(el("a", { class: "btn btn--ghost", href: "#/summary" }, "See my full ballot"));
+  actions.append(el("a", { class: "btn btn--ghost", href: "#/choose" }, "Pick more races"));
+  view.append(actions);
+
+  view.append(disclaimerStrip());
+  return view;
+}
+
+function confidenceCopy(race, result) {
+  if (!result.suggestedRanking.length) return "Your answers don't point to any candidate in this race. That's a real result, it may be worth reading the profiles directly before you decide.";
+  const top = result.suggestedRanking[0];
+  if (result.differentiation === "tossup") return `It's close. ${top.candidate.name} edges ahead, but several candidates fit your answers similarly, the profiles below will help you break the tie.`;
+  if (result.differentiation === "lean") return `${top.candidate.name} is your strongest match, with a close runner-up. Your ranking reflects that.`;
+  return race.rcv
+    ? `${top.candidate.name} is a clear match. Below is a full ranked ballot built from your answers, strongest first.`
+    : `${top.candidate.name} is a clear match for what you said you want.`;
+}
+
+function whyRanked(race, ranked, answers) {
+  const best = topReason(race, ranked.id, answers);
+  if (best && best.score >= 2) return "Matches your priority: " + shortLabel(best.option.label, 9);
+  if (ranked.candidate.strengths && ranked.candidate.strengths.length) return ranked.candidate.strengths[0];
+  return ranked.candidate.tagline;
+}
+
+/* ---------------- Candidate profile (overlay) ---------------- */
+
+let lastFocused = null;
+export function openProfile(race, candId, colorOf, onChange) {
+  const c = race.candidates.find((x) => x.id === candId);
+  if (!c) return;
+  colorOf = colorOf || colorMapFor(race);
+  lastFocused = document.activeElement;
+
+  const close = () => {
+    document.removeEventListener("keydown", onKey);
+    backdrop.remove();
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  };
+  const onKey = (e) => { if (e.key === "Escape") close(); };
+  document.addEventListener("keydown", onKey);
+
+  const body = el("div", { class: "sheet__body", style: { "--cand-color": colorOf[candId] } });
+  mount(body,
+    el("div", { class: "profile__top" },
+      el("div", { class: "avatar", style: { background: colorOf[candId] }, "aria-hidden": "true", text: initials(c.name) }),
+      el("div", {},
+        el("div", { class: "profile__name", text: c.name }),
+        el("div", { class: "profile__role", text: [c.age ? `Age ${c.age}` : null, c.neighborhood, c.role].filter(Boolean).join(" · ") })
+      )
+    ),
+    c.background ? el("p", { class: "profile__role", style: { marginTop: "0.75rem" }, text: c.background }) : null,
+    el("p", { class: "profile__tagline", text: c.tagline }),
+    el("div", { class: "profile__lean", style: { marginTop: "1rem" } }, el("strong", { text: "Inferred lean: " }), c.inferredLean)
+  );
+
+  mount(body,
+    block("Stated priorities", c.priorities, colorOf[candId]),
+    block("Where they stand", c.positions, colorOf[candId]),
+    c.endorsements && c.endorsements.length ? block("Endorsements", c.endorsements, colorOf[candId]) : null,
+    block("Strengths", c.strengths, colorOf[candId]),
+    minusBlock("Weaknesses & concerns", c.weaknesses)
+  );
+
+  if (c.flags && c.flags.length) {
+    const fb = el("div", { class: "profile__block" }, el("h4", {}, "Flags to weigh"));
+    c.flags.forEach((f) => fb.append(el("div", { class: "flagbox" }, el("h5", { text: f.label }), el("p", { text: f.detail }))));
+    body.append(fb);
+  }
+
+  // exclude toggle
+  const excluded = store.isExcluded(race.id, candId);
+  const sw = el("label", { class: "switch" },
+    el("input", { type: "checkbox", checked: excluded, "aria-label": `Set ${c.name} aside and remove from my ranking` }),
+    el("span", { class: "switch__track" }), el("span", { class: "switch__thumb" }));
+  sw.querySelector("input").addEventListener("change", () => {
+    store.toggleExcluded(race.id, candId);
+    onChange && onChange();
+  });
+  body.append(el("div", { class: "exclude-row" }, sw, el("label", { text: "Set aside, take this candidate out of my ranking. (Useful if a flag is a dealbreaker for you.)" })));
+
+  body.append(el("p", { class: "profile__source" }, icon("source"), " Source: ", sourceLink(c.source)));
+
+  const sheet = el("div", { class: "sheet", role: "dialog", "aria-modal": "true", "aria-label": `${c.name} profile` },
+    el("div", { class: "sheet__head" },
+      el("strong", { style: { fontFamily: "var(--font-display)" }, text: c.name }),
+      el("button", { class: "sheet__close", "aria-label": "Close profile", onClick: close }, icon("close"))
+    ),
+    body
+  );
+  const backdrop = el("div", { class: "sheet-backdrop" }, sheet);
+  backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
+  document.body.append(backdrop);
+  sheet.querySelector(".sheet__close").focus();
+}
+
+function block(title, items, color) {
+  if (!items || !items.length) return null;
+  return el("div", { class: "profile__block" },
+    el("h4", { text: title }),
+    el("ul", { class: "profile__list" }, items.map((t) => el("li", { text: t }))));
+}
+function minusBlock(title, items) {
+  if (!items || !items.length) return null;
+  return el("div", { class: "profile__block" },
+    el("h4", { text: title }),
+    el("ul", { class: "profile__list profile__list--minus" }, items.map((t) => el("li", { text: t }))));
+}
+
+/* ---------------- Summary ---------------- */
+
+export function renderSummary() {
+  const view = el("div", { class: "view container" });
+  const done = RACES.filter((r) => store.hasAnswers(r.id));
+  view.append(el("section", { class: "section", style: { paddingBottom: "0.5rem" } },
+    el("p", { class: "eyebrow", text: "Your ballot plan" }),
+    el("h1", { text: "Take this to the polls" }),
+    el("p", { class: "lead", style: { marginTop: "0.5rem" }, text: `Election day is ${ELECTION.dateLabel}. Polls open ${ELECTION.pollHours} This plan is stored only on your device.` })
+  ));
+
+  if (!done.length) {
+    view.append(el("p", { class: "lead", style: { marginTop: "1rem" } }, "You haven't completed any races yet. ", el("a", { href: "#/choose" }, "Pick your races to start.")));
+    return view;
+  }
+
+  done.forEach((race) => {
+    const result = evaluate(race, store.getAnswers(race.id), store.getExcluded(race.id));
+    const colorOf = colorMapFor(race);
+    const card = el("div", { class: "card summary__race", style: { "--cand-color": "var(--brand)" } });
+    card.append(el("h3", {}, race.title, race.rcv ? el("span", { class: "pill pill--rcv", text: "Ranked" }) : null, race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null));
+    if (result.suggestedRanking.length) {
+      const ranks = el("div", { class: "summary__ranks" });
+      result.suggestedRanking.forEach((r, i) => ranks.append(el("span", { class: "summary__rank", style: { "--cand-color": colorOf[r.id] } }, el("b", { text: `${i + 1}` }), r.candidate.name)));
+      card.append(ranks);
+    } else {
+      card.append(el("p", { class: "summary__empty", text: "No clear match, worth reading the profiles before deciding." }));
+    }
+    card.append(el("a", { class: "crumb", style: { marginTop: "0.75rem", display: "inline-flex" }, href: "#/result/" + race.id }, "See full result ", icon("arrowRight")));
+    view.append(card);
+  });
+
+  view.append(el("div", { class: "hero__cta no-print", style: { marginTop: "2rem" } },
+    el("button", { class: "btn btn--ink", onClick: () => window.print() }, icon("print"), " Print / save as PDF"),
+    el("a", { class: "btn btn--ghost", href: "#/choose" }, "Pick more races")
+  ));
+  view.append(el("p", { class: "muted no-print", style: { marginTop: "1.5rem", fontSize: "var(--step--2)" }, text: "Reminder: the special election (At-Large) is open to all voters but sits separately on the ballot, don't miss it." }));
+  view.append(disclaimerStrip());
+  return view;
+}
+
+/* ---------------- Methodology ---------------- */
+
+export function renderMethodology() {
+  const view = el("div", { class: "view container" });
+  const p = el("div", { class: "prose section" });
+  p.append(
+    el("p", { class: "eyebrow", text: "Methodology & sources" }),
+    el("h1", { text: "How this guide works" }),
+    el("p", { text: DISCLAIMER.purpose }),
+
+    el("h2", { text: "How the matching works" }),
+    el("p", {}, "Each race asks a few questions about your priorities. Every answer carries points for the candidates it fits, drawn from their records and stated positions. We add up the points and rank candidates by total, nothing is hidden, and you can open any candidate to see why they sit where they do."),
+    el("p", {}, "The map is a picture of that math. Candidates are placed by documented dimensions (for example, progressive to moderate). Your marker sits at the score-weighted center of the candidates you match, so it drifts toward a clear favorite or settles between close ones."),
+
+    el("h2", { text: "Three levels of coverage" }),
+    el("ul", {},
+      el("li", {}, el("strong", { text: "From the source guide: " }), "Mayor, Delegate, and both At-Large races use questions and scoring taken directly from a curated guide built on The 51st's DCision2026 candidate profiles."),
+      el("li", {}, el("strong", { text: "Partial: " }), "The mayoral module focuses on the two front-runners, who have the most documented records. Other candidates are named with links, not scored."),
+      el("li", {}, el("strong", { text: "Independently researched: " }), "Attorney General and the Ward 1, 5, and 6 races aren't in the source guide. We researched them from local reporting and the candidates' own materials, and built the questions and scoring from those documented positions. Every claim links to its source.")
+    ),
+
+    el("h2", { text: "What counts as evidence" }),
+    el("p", { text: "In descending order of strength:" }),
+    el("ol", {}, EVIDENCE_HIERARCHY.map((e) => el("li", { text: e }))),
+    el("h3", { text: "What never appears" }),
+    el("ul", {}, NEVER_INCLUDED.map((e) => el("li", { text: e }))),
+
+    el("h2", { text: "Voting logistics" }),
+    el("ul", {}, ELECTION.facts.map((f) => el("li", {}, f.text, " ", sourceLink(f.source)))),
+
+    el("h2", { text: "Primary sources" }),
+    el("ul", { class: "source-list" }, SOURCES.map((s) => el("li", {}, sourceLink(s)))),
+    el("p", { class: "muted", style: { marginTop: "0.5rem" }, text: "Researched races additionally cite WTOP candidate Q&As, HillRag, Greater Greater Washington, DC YIMBYs, candidate campaign sites, and the DC Board of Elections. Each citation appears on the relevant candidate's profile." }),
+
+    el("h2", { text: "Privacy" }),
+    el("p", {}, "There is no account, no login, no analytics, and no tracking of any kind. Your selections and answers are stored only in your own browser (via localStorage) so you can leave and return. Nothing is ever transmitted to a server. Clearing your browser data, or the button below, erases it."),
+    el("button", { class: "btn btn--ghost", style: { marginTop: "0.5rem" }, onClick: () => { if (confirm("Clear all your saved answers and selections on this device?")) { store.resetAll(); announce("Cleared."); navigate(""); } } }, icon("restart"), " Clear my saved answers"),
+
+    el("h2", { text: "Independence & corrections" }),
+    el("p", { text: DISCLAIMER.independence }),
+    el("p", { text: DISCLAIMER.accuracy }),
+    el("p", { text: DISCLAIMER.contact })
+  );
+  view.append(p);
+  return view;
+}
+
+/* ---------------- shared footer/disclaimer ---------------- */
+
+function disclaimerStrip() {
+  return el("p", { class: "muted", style: { marginTop: "2.5rem", fontSize: "var(--step--2)", maxWidth: "70ch" } },
+    "Independent and open source, not affiliated with any candidate, campaign, or party. Verify anything important against the candidate's own materials and the ",
+    el("a", { href: "https://www.dcboe.org/", target: "_blank", rel: "noopener noreferrer" }, "DC Board of Elections"),
+    " before you vote. ",
+    el("a", { href: "#/methodology" }, "Methodology & sources."));
+}
+
+function notFound() {
+  return el("div", { class: "view container section" }, el("h1", { text: "Race not found" }), el("a", { class: "btn btn--primary", href: "#/choose" }, "Back to races"));
+}
+
+export { disclaimerStrip };

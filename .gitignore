@@ -1,0 +1,12 @@
+files.zip
+extracted/
+extracted_v2/
+.DS_Store
+node_modules/
+*.log
+
+_selftest.mjs
+
+.claude/launch.json
+
+static_server.cjs
