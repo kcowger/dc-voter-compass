@@ -48,8 +48,7 @@ export function renderLanding() {
       el("h1", { class: "home__headline" }, "See where you ", el("em", {}, "actually"), " stand on the ballot."),
       el("div", { class: "home__cta" },
         el("button", { class: "btn btn--primary btn--lg", onClick: () => navigate("choose") }, "Begin ", icon("arrowRight", "btn__arrow"))
-      ),
-      el("p", { class: "home__trust", text: "Evidence-based · Private · Independent" })
+      )
     )
   );
 }
