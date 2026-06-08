@@ -1,6 +1,7 @@
 // Controller: maps the hash route to a view, mounts it, manages focus, title,
 // and active nav state. Header and footer are static markup in index.html.
-import { onRoute, startRouter, clear, focusHeading } from "./util.js";
+import { onRoute, startRouter, clear, focusHeading, parseHash, announce } from "./util.js";
+import { store } from "./store.js";
 import { RACE_MAP } from "../data/races/index.js";
 import {
   renderLanding, renderChooser, renderRace, renderResult,
@@ -60,3 +61,15 @@ function route(seg) {
 
 onRoute(route);
 startRouter();
+
+// Always-visible "Reset my choices" control in the header.
+const resetBtn = document.querySelector('[data-action="reset"]');
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
+    if (confirm("Clear all your saved races and answers on this device? This can't be undone.")) {
+      store.resetAll();
+      route(parseHash()); // re-render the current view with the cleared state
+      announce("Your choices were cleared.");
+    }
+  });
+}

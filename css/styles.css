@@ -88,6 +88,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .navlink--cta { background: var(--ink); color: var(--paper); }
 .navlink--cta:hover { background: var(--brand); color: #fff; }
 
+/* always-visible Reset control in the header */
+.header-reset {
+  display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;
+  padding: 0.4rem 0.7rem; border-radius: var(--r-pill);
+  border: 1.5px solid var(--line-strong); background: transparent;
+  color: var(--ink-soft); font-family: var(--font-display); font-weight: 600; font-size: var(--step--1);
+  transition: color var(--dur-1), border-color var(--dur-1), background var(--dur-1);
+}
+.header-reset:hover { color: var(--warn); border-color: var(--warn); background: var(--warn-soft); }
+.header-reset svg { width: 1em; height: 1em; flex: none; }
+@media (max-width: 760px) { .header-reset__txt { display: none; } }
+
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
