@@ -40,6 +40,9 @@ a:hover { text-decoration-thickness: 2px; }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+/* Headings/regions get programmatic focus on route change (for screen readers);
+   don't show a visible ring on them since the user didn't navigate there by keyboard. */
+[tabindex="-1"]:focus { outline: none; }
 
 .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--sp-5); }
 .container-narrow { max-width: 760px; }
@@ -142,32 +145,25 @@ main { display: block; min-height: calc(100vh - var(--header-h) - 200px); }
 @keyframes viewIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
 /* ============================================================
-   Landing
+   Landing (minimal "door")
    ============================================================ */
-.hero { padding-block: clamp(2.5rem, 8vh, 6rem) var(--sp-7); position: relative; }
-.hero__title {
-  font-size: var(--step-5); max-width: 16ch; letter-spacing: -0.035em; line-height: 1;
+.home {
+  min-height: calc(100vh - var(--header-h) - 1px);
+  display: grid; place-items: center;
+  padding: var(--sp-6) var(--sp-5) var(--sp-8); text-align: center;
 }
-.hero__title em { font-family: var(--font-serif); font-style: italic; font-weight: 500; color: var(--brand-ink); letter-spacing: -0.01em; }
-.hero__sub { margin-top: var(--sp-5); max-width: 52ch; font-size: var(--step-1); color: var(--ink-soft); }
+.home__inner { max-width: 40rem; display: flex; flex-direction: column; align-items: center; gap: var(--sp-5); }
+.home__eyebrow {
+  font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.16em;
+  font-size: var(--step--2); font-weight: 700; color: var(--ink-faint);
+}
+.home__headline { font-size: var(--step-5); max-width: 15ch; letter-spacing: -0.035em; line-height: 1.02; }
+.home__headline em { font-family: var(--font-serif); font-style: italic; font-weight: 500; color: var(--brand-ink); letter-spacing: -0.01em; }
+.home__cta { margin-top: var(--sp-1); }
+.home__trust { font-size: var(--step--1); color: var(--ink-faint); }
+
+/* shared action row, reused on result/summary screens */
 .hero__cta { margin-top: var(--sp-6); display: flex; gap: var(--sp-3); flex-wrap: wrap; align-items: center; }
-.hero__meta { margin-top: var(--sp-6); display: flex; gap: var(--sp-5); flex-wrap: wrap; color: var(--ink-faint); font-size: var(--step--1); }
-.hero__meta strong { color: var(--ink); font-family: var(--font-display); }
-
-.howto { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin-top: var(--sp-7); }
-.howto__step { padding: var(--sp-5); }
-.howto__num {
-  font-family: var(--font-display); font-weight: 700; font-size: var(--step-2);
-  color: var(--brand); line-height: 1;
-}
-.howto__step h3 { margin-top: var(--sp-2); }
-.howto__step p { margin-top: var(--sp-2); color: var(--ink-soft); font-size: var(--step--1); }
-
-.principles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); margin-top: var(--sp-5); }
-.principle { display: flex; gap: var(--sp-3); padding: var(--sp-5); }
-.principle__icon { font-size: 1.5rem; flex: none; }
-.principle h3 { font-size: var(--step-0); font-family: var(--font-display); }
-.principle p { color: var(--ink-soft); font-size: var(--step--1); margin-top: 0.2rem; }
 
 /* ============================================================
    Race chooser
@@ -236,7 +232,6 @@ main { display: block; min-height: calc(100vh - var(--header-h) - 200px); }
 .site-footer__legal { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: var(--sp-4); color: var(--ink-faint); font-size: var(--step--2); }
 
 @media (max-width: 760px) {
-  .howto, .principles { grid-template-columns: 1fr; }
   .site-footer__inner { grid-template-columns: 1fr; gap: var(--sp-5); }
   .site-header nav .navlink:not(.navlink--cta) { display: none; }
 }

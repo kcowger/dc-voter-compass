@@ -41,50 +41,16 @@ function shortLabel(text, words = 7) {
 /* ---------------- Landing ---------------- */
 
 export function renderLanding() {
-  const view = el("div", { class: "view" });
-
-  const hero = el("section", { class: "hero container" },
-    el("p", { class: "eyebrow", text: "DC Primary & Special Election · June 16, 2026" }),
-    el("h1", { class: "hero__title" }, "Find the candidates who ", el("em", {}, "actually"), " match you."),
-    el("p", { class: "hero__sub", text: "Answer a few questions about what you want. Watch yourself drift across the map toward the candidates who fit, and see the evidence behind every match. No spin, no signups, nothing leaves your device." }),
-    el("div", { class: "hero__cta" },
-      el("button", { class: "btn btn--primary btn--lg", onClick: () => navigate("choose") }, "Start with your races ", icon("arrowRight", "btn__arrow")),
-      el("a", { class: "btn btn--ghost btn--lg", href: "#/methodology" }, "How it works")
-    ),
-    el("div", { class: "hero__meta" },
-      el("span", {}, el("strong", { text: "8" }), " contested races"),
-      el("span", {}, el("strong", { text: "30+" }), " candidates"),
-      el("span", {}, el("strong", { text: "Every claim" }), " sourced")
+  return el("div", { class: "view home" },
+    el("div", { class: "home__inner" },
+      el("p", { class: "home__eyebrow", text: "DC primary & special election · June 16, 2026" }),
+      el("h1", { class: "home__headline" }, "See where you ", el("em", {}, "actually"), " stand on the ballot."),
+      el("div", { class: "home__cta" },
+        el("button", { class: "btn btn--primary btn--lg", onClick: () => navigate("choose") }, "Begin ", icon("arrowRight", "btn__arrow"))
+      ),
+      el("p", { class: "home__trust", text: "Evidence-based · Private · Independent" })
     )
   );
-
-  const steps = el("section", { class: "container" },
-    el("div", { class: "howto" },
-      stepCard("1", "Pick your races", "Mayor, Council, Attorney General, your ward seat. Choose what's on your ballot."),
-      stepCard("2", "Answer honestly", "A few value questions per race. As you answer, candidates rise, fall, and pull your marker toward them."),
-      stepCard("3", "See your match", "A ranked-choice ballot you can actually use, with strengths, weaknesses, and sources for everyone.")
-    )
-  );
-
-  const principles = el("section", { class: "section container" },
-    el("p", { class: "eyebrow", text: "Built to be trustworthy" }),
-    el("h2", { text: "Evidence over opinion" }),
-    el("div", { class: "principles" },
-      principle("📑", "Sourced, not invented", "Every position, endorsement, and quote links to its source. Inferred labels are flagged as inferred, never dressed up as fact."),
-      principle("⚖️", "Strengths and weaknesses", "We show what's concerning about a candidate next to what's strong. The goal is your judgment, not ours."),
-      principle("🔒", "Private by design", "No accounts, no tracking, no analytics. Your answers live only in this browser, on your device."),
-      principle("🧭", "Honest about limits", "When your answers don't clearly point anywhere, we say so instead of forcing a pick.")
-    )
-  );
-
-  view.append(hero, steps, principles);
-  return view;
-}
-function stepCard(n, title, body) {
-  return el("div", { class: "card howto__step" }, el("div", { class: "howto__num", text: n }), el("h3", { text: title }), el("p", { text: body }));
-}
-function principle(emoji, title, body) {
-  return el("div", { class: "card principle" }, el("div", { class: "principle__icon", text: emoji, "aria-hidden": "true" }), el("div", {}, el("h3", { text: title }), el("p", { text: body })));
 }
 
 /* ---------------- Chooser ---------------- */
