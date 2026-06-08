@@ -183,7 +183,7 @@ main { display: block; min-height: calc(100vh - var(--header-h) - 200px); }
 .chooser__group { margin-top: var(--sp-6); }
 .chooser__group h2 { font-size: var(--step-2); display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .chooser__blurb { color: var(--ink-soft); margin-top: var(--sp-2); max-width: 62ch; }
-.race-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: var(--sp-4); margin-top: var(--sp-4); }
+.race-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-4); margin-top: var(--sp-4); }
 
 .race-card {
   position: relative; display: flex; flex-direction: column; gap: var(--sp-2);

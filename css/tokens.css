@@ -104,9 +104,18 @@
   --dur-3: 0.5s;
   --dur-marker: 0.8s;
 
-  --container: 1120px;
+  --container: 1180px;
   --header-h: 60px;
 }
+
+/* Larger screens: use more of the width, and scale the whole layout up a notch
+   on big monitors so it doesn't feel marooned in a narrow column. Everything is
+   rem/clamp-based, so bumping the root font size scales type and spacing
+   together. Reading widths stay capped in ch, so line length is unaffected. */
+@media (min-width: 1500px) { :root { --container: 1320px; } }
+@media (min-width: 1800px) { :root { --container: 1440px; } html { font-size: 17px; } }
+@media (min-width: 2200px) { :root { --container: 1560px; } html { font-size: 18.5px; } }
+@media (min-width: 2800px) { :root { --container: 1680px; } html { font-size: 20px; } }
 
 @media (prefers-color-scheme: dark) {
   :root {
