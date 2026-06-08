@@ -195,6 +195,19 @@ export const atlargeSpecial = {
         { id: "C", label: "Current Council insider with a consensus-building style", scores: { crawford: 3, patterson: 1, silverman: 1 } },
         { id: "D", label: "Ward 8 community-rooted voice", scores: { crawford: 0, patterson: 3, silverman: 0 } }
       ]
+    },
+    {
+      id: "housing",
+      text: "On affordable housing, what do you most want?",
+      type: "single",
+      options: [
+        // Patterson's signature: raise the Housing Production Trust Fund to $250M/yr — the most ambitious financing target in this race.
+        { id: "A", label: "A big funding increase (a $250M-a-year housing trust fund)", scores: { crawford: 1, patterson: 3, silverman: 2 } },
+        // Silverman wants DC's housing tools (vouchers, HPTF, DCHA, private partnerships) coordinated under one "north star."
+        { id: "B", label: "Coordinate DC's existing housing tools under one clear plan", scores: { crawford: 2, patterson: 1, silverman: 3 } },
+        // Crawford is the business/Realtor-aligned, consensus-building candidate.
+        { id: "C", label: "More market-rate building and consensus-driven development", scores: { crawford: 3, patterson: 1, silverman: 2 } }
+      ]
     }
   ],
   tradeoffs: [],

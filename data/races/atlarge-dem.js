@@ -386,6 +386,36 @@ export const atlargeDem = {
         { id: "C", label: "A community-rooted advocate from an underrepresented part of the city", scores: { chavous: 3, davis: 2, forester: 3, hill: 1, jackson: 3, jenkins: 3, nelson: 1, owolewa: 3, raymond: 0 } },
         { id: "D", label: "A private-sector or outsider perspective", scores: { chavous: 1, davis: 1, forester: 1, hill: 3, jackson: 1, jenkins: 2, nelson: 0, owolewa: 1, raymond: 1 } }
       ]
+    },
+    {
+      id: "housing",
+      text: "On housing specifically, which approach fits you best?",
+      type: "single",
+      options: [
+        // Raymond is the clearest pro-supply candidate (YIMBY/GGW/Realtors); Hill wants to fast-track financed projects. Forester publicly questioned "build faster."
+        { id: "A", label: "Build a lot more housing, and build it faster", scores: { chavous: 1, davis: 1, forester: 0, hill: 3, jackson: 1, jenkins: 1, nelson: 1, owolewa: 1, raymond: 3 } },
+        // Chavous wants to raise inclusionary zoning to ~15% and worked on TOPA; Forester centers affordability for families.
+        { id: "B", label: "Stronger affordability requirements and tenant protections", scores: { chavous: 3, davis: 1, forester: 2, hill: 0, jackson: 1, jenkins: 1, nelson: 1, owolewa: 1, raymond: 1 } },
+        // Davis and Forester both explicitly call for workforce housing (teachers, nurses, first responders).
+        { id: "C", label: "Workforce housing for teachers, nurses, and first responders", scores: { chavous: 1, davis: 3, forester: 3, hill: 1, jackson: 1, jenkins: 1, nelson: 1, owolewa: 1, raymond: 1 } },
+        // Nelson's signature is oversight of existing housing dollars; Owolewa pushes audits for savings.
+        { id: "D", label: "Get more out of the housing money DC already spends", scores: { chavous: 1, davis: 2, forester: 1, hill: 1, jackson: 1, jenkins: 1, nelson: 3, owolewa: 2, raymond: 1 } }
+      ]
+    },
+    {
+      id: "approach",
+      text: "How should this councilmember actually operate?",
+      type: "single",
+      options: [
+        // Nelson built her campaign on aggressive oversight; Davis frames oversight as a skill.
+        { id: "A", label: "An aggressive watchdog who holds agencies accountable", scores: { chavous: 1, davis: 3, forester: 1, hill: 1, jackson: 1, jenkins: 1, nelson: 3, owolewa: 2, raymond: 1 } },
+        // Chavous describes the role as a "conduit from the community"; Jenkins runs on multi-issue community representation.
+        { id: "B", label: "A community conduit who listens and channels residents' needs", scores: { chavous: 3, davis: 2, forester: 2, hill: 1, jackson: 2, jenkins: 3, nelson: 1, owolewa: 1, raymond: 1 } },
+        // Owolewa has a real activist record (ICE protests, criticizing Council moderation); Hill explicitly calls himself "not an activist."
+        { id: "C", label: "An activist who isn't afraid to confront power", scores: { chavous: 1, davis: 1, forester: 2, hill: 0, jackson: 1, jenkins: 1, nelson: 1, owolewa: 3, raymond: 1 } },
+        // Hill pitches a businessperson who "works the system"; Nelson, Jackson, and Raymond bring insider know-how.
+        { id: "D", label: "A pragmatic operator who knows how to work the system", scores: { chavous: 2, davis: 1, forester: 1, hill: 3, jackson: 2, jenkins: 1, nelson: 2, owolewa: 1, raymond: 2 } }
+      ]
     }
   ],
   tradeoffs: [

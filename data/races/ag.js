@@ -139,6 +139,17 @@ export const ag = {
         { id: "A", label: "Keep the experienced incumbent with a track record", scores: { schwalb: 3, szymkowicz: 0 } },
         { id: "B", label: "Bring in a new, crime-focused approach", scores: { schwalb: 0, szymkowicz: 3 } }
       ]
+    },
+    {
+      id: "federal",
+      text: "How should the AG push back on federal overreach in DC?",
+      type: "single",
+      options: [
+        // Schwalb has an active litigation record (suing over the MPD takeover and National Guard deployment).
+        { id: "A", label: "Aggressive litigation against the administration", scores: { schwalb: 3, szymkowicz: 1 } },
+        // Szymkowicz wants to amend the Home Rule Act to expand the locally elected AG's prosecution authority.
+        { id: "B", label: "Reform the law to expand the elected AG's local authority", scores: { schwalb: 1, szymkowicz: 3 } }
+      ]
     }
   ],
   tradeoffs: [],

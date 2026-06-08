@@ -275,6 +275,21 @@ export const delegate = {
         { id: "C", label: "Outside-politics expertise, federal agency, business, nonprofit", scores: { holbrook: 0, jaczko: 3, pinto: 0, white: 0, zalesne: 2 } },
         { id: "D", label: "National political and fundraising networks", scores: { holbrook: 0, jaczko: 0, pinto: 1, white: 1, zalesne: 3 } }
       ]
+    },
+    {
+      id: "economy",
+      text: "What's the best way to rebuild DC's economy and use federal leverage?",
+      type: "single",
+      options: [
+        // Jaczko's signature idea: exempt DC from federal taxes ("no taxation until representation"). White floats a similar Puerto Rico-style model.
+        { id: "A", label: "Exempt DC from federal taxes as leverage (“no taxation until representation”)", scores: { holbrook: 1, jaczko: 3, pinto: 1, white: 2, zalesne: 1 } },
+        // White explicitly targets a House Appropriations seat to direct federal money to DC.
+        { id: "B", label: "Win a House Appropriations seat to direct federal money to DC", scores: { holbrook: 1, jaczko: 1, pinto: 1, white: 3, zalesne: 1 } },
+        // Pinto's lane: repeal the Height Act, transfer federal buildings/land for housing, declare opportunity zones.
+        { id: "C", label: "Transfer federal land and buildings to DC for housing and growth", scores: { holbrook: 1, jaczko: 1, pinto: 3, white: 2, zalesne: 1 } },
+        // Zalesne's pitch: a national messaging campaign, a "statehood summit," and a regional Capitol Caucus.
+        { id: "D", label: "Run a national messaging and coalition campaign", scores: { holbrook: 1, jaczko: 1, pinto: 1, white: 1, zalesne: 3 } }
+      ]
     }
   ],
   tradeoffs: [

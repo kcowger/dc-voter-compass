@@ -650,7 +650,7 @@ export function renderMethodology() {
 
     el("h2", { text: "Three levels of coverage" }),
     el("ul", {},
-      el("li", {}, el("strong", { text: "From the source guide: " }), "Mayor, Delegate, and both At-Large races use questions and scoring taken directly from a curated guide built on The 51st's DCision2026 candidate profiles."),
+      el("li", {}, el("strong", { text: "From the source guide: " }), "Mayor, Delegate, and both At-Large races draw their core questions and scoring directly from a curated guide built on The 51st's DCision2026 candidate profiles. We've added further questions for these races, built from the same candidates' documented, sourced positions, to give a fuller read."),
       el("li", {}, el("strong", { text: "Partial: " }), "The mayoral module focuses on the two front-runners, who have the most documented records. Other candidates are named with links, not scored."),
       el("li", {}, el("strong", { text: "Independently researched: " }), "Attorney General and the Ward 1, 5, and 6 races aren't in the source guide. We researched them from local reporting and the candidates' own materials, and built the questions and scoring from those documented positions. Every claim links to its source.")
     ),

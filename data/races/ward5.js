@@ -180,6 +180,31 @@ export const ward5 = {
         { id: "B", label: "A community advocate and longtime resident", scores: { parker: 0, carmichael: 3, french: 1 } },
         { id: "C", label: "An outsider who isn't a career politician", scores: { parker: 0, carmichael: 1, french: 3 } }
       ]
+    },
+    {
+      id: "housing",
+      text: "What's the right housing strategy for Ward 5?",
+      type: "single",
+      options: [
+        // Parker backs transit-oriented and "gentle" density (ADUs, small multifamily).
+        { id: "A", label: "More housing near transit, with gentle density", scores: { parker: 3, carmichael: 1, french: 1 } },
+        // Carmichael leads with TOPA, inclusionary-zoning enforcement, and community benefits agreements.
+        { id: "B", label: "Tenant protections and community benefits agreements", scores: { parker: 2, carmichael: 3, french: 1 } },
+        // French's lane is lowering everyday costs and making existing services work, not new programs.
+        { id: "C", label: "Lower everyday costs and make existing services work first", scores: { parker: 1, carmichael: 1, french: 3 } }
+      ]
+    },
+    {
+      id: "safety",
+      text: "On public safety, what's the right approach for Ward 5?",
+      type: "single",
+      options: [
+        // Parker frames safety as prevention over enforcement and calls the youth curfew non-durable.
+        { id: "A", label: "Prevention-first, with less aggressive enforcement", scores: { parker: 3, carmichael: 1, french: 1 } },
+        // Carmichael pairs community violence intervention with accountability and supports targeted, time-limited curfews.
+        { id: "B", label: "Community intervention plus accountability and targeted curfews", scores: { parker: 1, carmichael: 3, french: 1 } },
+        { id: "C", label: "A balance of both", scores: { parker: 2, carmichael: 2, french: 2 } }
+      ]
     }
   ],
   tradeoffs: [],

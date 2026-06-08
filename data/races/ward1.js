@@ -282,6 +282,21 @@ export const ward1 = {
         { id: "B", label: "An experienced insider who knows DC government", scores: { raj: 0, brown: 2, deramo: 1, reyesyanes: 3, lynch: 2 } },
         { id: "C", label: "A local civic fixer focused on the basics", scores: { raj: 1, brown: 2, deramo: 2, reyesyanes: 2, lynch: 3 } }
       ]
+    },
+    {
+      id: "housing",
+      text: "What's the right housing strategy for Ward 1?",
+      type: "single",
+      options: [
+        // Deramo is DC YIMBYs' first choice (by-right development, parking reform); Raj and Brown also back legalizing more density.
+        { id: "A", label: "Legalize more density and let more get built", scores: { raj: 2, brown: 2, deramo: 3, reyesyanes: 1, lynch: 1 } },
+        // Raj's first bill would restore TOPA and expand rent stabilization; Brown, Deramo, and Reyes-Yanes back tenant protections too.
+        { id: "B", label: "Expand rent stabilization and tenant protections", scores: { raj: 3, brown: 2, deramo: 2, reyesyanes: 2, lynch: 1 } },
+        // Lynch's signature "use it or lose it": the city buys vacant/blighted property and redevelops it.
+        { id: "C", label: "Force vacant and blighted buildings back into use", scores: { raj: 1, brown: 1, deramo: 1, reyesyanes: 1, lynch: 3 } },
+        // Reyes-Yanes leads with anti-displacement and building affordable housing on public land.
+        { id: "D", label: "Build affordable on public land and prevent displacement", scores: { raj: 2, brown: 2, deramo: 1, reyesyanes: 3, lynch: 1 } }
+      ]
     }
   ],
   tradeoffs: [],

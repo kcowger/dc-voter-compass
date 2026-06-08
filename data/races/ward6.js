@@ -188,6 +188,19 @@ export const ward6 = {
         { id: "B", label: "A watchdog on crime-data integrity who wants tougher enforcement", scores: { allen: 0, murphy: 3, nauden: 1 } },
         { id: "C", label: "Fresh leadership focused on delivery and community trust", scores: { allen: 1, murphy: 1, nauden: 3 } }
       ]
+    },
+    {
+      id: "housing",
+      text: "What's the right housing strategy for Ward 6?",
+      type: "single",
+      options: [
+        // Murphy is the most aggressively pro-supply (revisit the Height Act, density bonuses, a permitting "shot clock"); Allen backs "Build First" and authored the RENTAL Act.
+        { id: "A", label: "Cut red tape and build a lot more", scores: { allen: 2, murphy: 3, nauden: 1 } },
+        // Nauden leads with mandatory affordability, tenant protections, and "who gets to stay."
+        { id: "B", label: "Require affordability and prevent displacement", scores: { allen: 2, murphy: 1, nauden: 3 } },
+        // Allen chairs Transportation & Environment and is Sierra Club-endorsed; climate-smart, transit-oriented growth is his lane.
+        { id: "C", label: "Climate-smart, transit-oriented growth", scores: { allen: 3, murphy: 1, nauden: 1 } }
+      ]
     }
   ],
   tradeoffs: [],
