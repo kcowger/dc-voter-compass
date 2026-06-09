@@ -2,7 +2,7 @@
 // is a small live controller: answering a question re-evaluates and animates the
 // map + ranking in place rather than re-rendering.
 import { el, svgEl, icon, clear, mount, candColor, initials, navigate, announce } from "./util.js";
-import { evaluate, topReason } from "./engine.js";
+import { evaluate, topReason, isComplete } from "./engine.js";
 import { createMap } from "./map.js";
 import { store } from "./store.js";
 import { RACES, RACE_MAP, GROUPS, UNCONTESTED } from "../data/races/index.js";
@@ -155,12 +155,17 @@ export function renderChooser() {
 }
 
 function raceCard(race) {
-  const done = store.hasAnswers(race.id);
+  const answers = store.getAnswers(race.id);
+  // "Done" means every required question is answered, not just one. A partial
+  // answer set is "in progress", never done and never on the ballot.
+  const done = isComplete(race, answers);
+  const started = !done && Object.keys(answers).length > 0;
   const liveCount = race.candidates.filter((c) => !c.hidden).length;
   const card = el("button", {
     class: "race-card race-card--go" + (done ? " race-card--done" : ""), type: "button",
-    "aria-label": `${race.title}. ${done ? "Review your answers." : "Start this race."}`
+    "aria-label": `${race.title}. ${done ? "Completed. Review your answers." : started ? "In progress. Continue." : "Start this race."}`
   },
+    done ? el("span", { class: "race-card__check", "aria-hidden": "true" }, icon("check")) : null,
     el("span", { class: "race-card__title", text: race.title }),
     el("span", { class: "race-card__seat", text: race.seat }),
     el("div", { class: "race-card__meta" },
@@ -168,9 +173,9 @@ function raceCard(race) {
       race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null,
       coverageChip(race),
       el("span", { class: "pill", text: `${liveCount} candidates` }),
-      done ? el("span", { class: "pill pill--done", text: "✓ answered" }) : null
+      done ? el("span", { class: "pill pill--done", text: "✓ Done" }) : started ? el("span", { class: "pill pill--progress", text: "In progress" }) : null
     ),
-    el("span", { class: "race-card__go" }, done ? "Review" : "Start", " ", icon("arrowRight", "btn__arrow"))
+    el("span", { class: "race-card__go" }, done ? "Review" : started ? "Continue" : "Start", " ", icon("arrowRight", "btn__arrow"))
   );
   card.addEventListener("click", () => navigate("race/" + race.id));
   return card;
@@ -696,7 +701,7 @@ function minusBlock(title, items) {
 
 export function renderSummary() {
   const view = el("div", { class: "view container" });
-  const done = RACES.filter((r) => store.hasAnswers(r.id));
+  const done = RACES.filter((r) => isComplete(r, store.getAnswers(r.id)));
   view.append(el("section", { class: "section", style: { paddingBottom: "0.5rem" } },
     el("p", { class: "eyebrow", text: "Your ballot plan" }),
     el("h1", { text: "Your ballot, ready to fill out" }),

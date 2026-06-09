@@ -47,6 +47,16 @@ export function tallyScores(race, answers) {
   return totals;
 }
 
+/** True only when every non-optional question has an answer (race is finished).
+ *  Used for the "done" state, a partial answer set is NOT complete. */
+export function isComplete(race, answers = {}) {
+  return race.questions.every((q) => {
+    if (q.optional) return true;
+    const a = answers[q.id];
+    return Array.isArray(a) ? a.length > 0 : a != null;
+  });
+}
+
 /** How many non-optional questions the user has answered. */
 function answeredCount(race, answers) {
   let n = 0;
