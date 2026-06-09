@@ -724,8 +724,8 @@ export function renderAbout() {
   p.append(
     el("p", { class: "eyebrow", text: "About" }),
     el("h1", { text: "Why I made this" }),
-    el("p", { class: "lead" }, "Hi, I'm Kai. This isn't a company, a campaign, or an official anything. It's just a guy, his dog, and Claude. I built it to help my wife make sense of a long ballot when she didn't have the time to research every race. It helped her, so I cleaned it up and shared it, figuring other busy DC voters could use it too."),
-    el("p", {}, "Everything here is sourced. I'm not trying to tell you who to vote for, I'm trying to show you where the candidates stand, with the evidence next to it, so you can check the work and make up your own mind. If something looks wrong, it probably is worth a second look, and corrections are genuinely welcome."),
+    el("p", { class: "lead" }, "Hi, I'm Kai. This isn't a company, a campaign, or an official anything. It's really just me, my dog, and a little help from Claude. I made it for my wife: this year's ballot is long and genuinely confusing, she's busy, and she wanted to vote feeling informed instead of rushed. It helped her, so I cleaned it up and shared it, because if it took some stress off her plate, maybe it can do the same for you."),
+    el("p", {}, "I'm not here to tell you who to vote for. Everything is sourced, so I can show you where the candidates actually stand, put the evidence right next to it, and let you make up your own mind. You know your life and your priorities better than any quiz does; this is just here to make the homework a little lighter. If something looks off, it's worth a second look, and corrections are genuinely welcome."),
 
     el("h2", { text: "How to use it" }),
     el("p", {}, "Pick the races you're voting on, answer a few questions, and you'll get a ranked shortlist with the reasons behind it. DC mails a ballot to every registered voter, so you can fill yours out at home with your results next to you, or print them (or save the PDF) and bring them to a vote center. Either way, it's a starting point, not a substitute for reading the candidates' own materials."),
@@ -736,6 +736,8 @@ export function renderAbout() {
       el("li", {}, el("strong", { text: "Private: " }), "no account, no analytics, no tracking. Your answers stay in your own browser and are never sent anywhere."),
       el("li", {}, el("strong", { text: "Open and checkable: " }), "the code is open source and every claim links to its source. See the ", el("a", { href: "#/methodology" }, "methodology and sources"), " for exactly how the matching works.")
     ),
+    el("p", { style: { marginTop: "1.5rem" } }, "Thank you for being the kind of person who looks things up before voting. It genuinely matters, and I'm glad this is helping. Now go vote."),
+    el("p", { class: "lead", style: { marginTop: "0.75rem", fontFamily: "var(--font-serif)" }, text: "Yours, Kai (and the dog)" }),
     el("div", { class: "home__cta", style: { marginTop: "2rem" } },
       el("a", { class: "btn btn--primary", href: "#/choose" }, "Find your races ", icon("arrowRight", "btn__arrow"))
     )
