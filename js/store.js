@@ -8,7 +8,15 @@ const DEFAULT = { selectedRaceIds: [], answers: {}, excluded: {}, ward: null };
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY));
-    if (s && typeof s === "object") return { ...structuredClone(DEFAULT), ...s };
+    if (s && typeof s === "object" && !Array.isArray(s)) {
+      const merged = { ...structuredClone(DEFAULT), ...s };
+      // Coerce each field to its expected shape; tolerate hand-edited/corrupt storage.
+      const obj = (v) => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
+      merged.answers = obj(merged.answers);
+      merged.excluded = obj(merged.excluded);
+      if (!Array.isArray(merged.selectedRaceIds)) merged.selectedRaceIds = [];
+      return merged;
+    }
   } catch (e) { /* ignore corrupt/unavailable storage */ }
   return structuredClone(DEFAULT);
 }

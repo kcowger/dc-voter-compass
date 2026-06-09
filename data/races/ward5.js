@@ -151,9 +151,11 @@ export const ward5 = {
       id: "ideology",
       text: "What kind of councilmember do you want for Ward 5?",
       type: "single",
+      // Options intentionally lead with the moderate choice here (and progressive-first
+      // elsewhere) so the quiz doesn't always present "progressive" as the default first pick.
       options: [
-        { id: "A", label: "A progressive", scores: { parker: 3, carmichael: 2, french: 1 } },
         { id: "B", label: "A pragmatic moderate", scores: { parker: 1, carmichael: 2, french: 2 } },
+        { id: "A", label: "A progressive", scores: { parker: 3, carmichael: 2, french: 1 } },
         { id: "C", label: "Whoever is most competent, regardless of label", scores: { parker: 2, carmichael: 2, french: 2 } }
       ]
     },

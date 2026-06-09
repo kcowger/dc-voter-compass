@@ -28,7 +28,7 @@ export const ward6 = {
   stakes:
     "Allen chaired the Council's public-safety committee for years and was the target of a 2024 recall over crime. The race is a referendum on his record at a moment when DC's official crime statistics are themselves in dispute.",
   map: {
-    x: { label: "Orientation", left: "Progressive", right: "Reform" },
+    x: { label: "Stance on the incumbent's record", left: "Defend the record", right: "Change course" },
     y: { label: "Profile", low: "Outsider", high: "Incumbent" },
     note: "Leans are inferred from records and platforms and flagged as inferred. Open a candidate for the evidence."
   },
@@ -54,7 +54,7 @@ export const ward6 = {
         "Housing: \"Build First\" (new units before demolition to avoid displacement); authored the RENTAL Act to cut development red tape; supports gentle density with affordability requirements",
         "Public safety: led comprehensive policing reform, banned ghost guns, created DC's red-flag gun law; also supported the 2024 \"Secure DC\" package with curfew zones and expanded pre-trial detention",
         "Signature laws: Books from Birth, DC Fair Elections public financing, the STEER Act, the Healthy Homes Act, an e-bike rebate",
-        "Campaigns on a reported 29% drop in violent crime in 2025 (a figure now contested, see race context)"
+        "Campaigns on the city's reported steep drop in violent crime in 2025 (a figure now contested, see race context)"
       ],
       endorsements: [
         "Greater Greater Washington (which noted his opponents didn't return its questionnaire)",
@@ -160,8 +160,8 @@ export const ward6 = {
       text: "What kind of councilmember do you want for Ward 6?",
       type: "single",
       options: [
-        { id: "A", label: "A progressive with a long legislative record", scores: { allen: 3, murphy: 1, nauden: 2 } },
-        { id: "B", label: "A reformer focused on accountability and change", scores: { allen: 1, murphy: 3, nauden: 2 } },
+        { id: "A", label: "An experienced progressive with a long legislative record", scores: { allen: 3, murphy: 1, nauden: 2 } },
+        { id: "B", label: "An accountability-focused challenger (oversight, crime-data integrity)", scores: { allen: 1, murphy: 3, nauden: 2 } },
         { id: "C", label: "A pragmatic problem-solver focused on delivery", scores: { allen: 2, murphy: 2, nauden: 3 } }
       ]
     },
@@ -208,7 +208,7 @@ export const ward6 = {
   raceContext: {
     title: "Context: the disputed crime numbers",
     text:
-      "Allen runs on a roughly 29% drop in violent crime in 2025. In December 2025, a House Oversight report and a DOJ draft alleged MPD leadership deliberately downgraded crime classifications, making some reported declines \"likely unreliable,\" and the police chief resigned. This isn't an allegation against Allen, but it complicates the figure he runs on, and it substantially echoes challenger Murphy's signature issue. Mayor Bowser has defended the decline as real.",
+      "Allen runs on the city's reported drop in violent crime in 2025 (about 26% year-over-year by MPD and U.S. Attorney data). In December 2025, a House Oversight report and a DOJ draft alleged MPD leadership deliberately downgraded crime classifications, making some reported declines \"likely unreliable,\" and the police chief resigned. This isn't an allegation against Allen, but it complicates the figure he runs on, and it substantially echoes challenger Murphy's signature issue. Mayor Bowser has defended the decline as real.",
     sources: [
       { label: "House Oversight, report on MPD crime-data manipulation", url: "https://oversight.house.gov/release/oversight-committee-releases-bombshell-report-revealing-d-c-s-police-chief-deliberately-manipulated-crime-data/" },
       { label: "WUSA9, DOJ draft and chief's resignation", url: "https://www.wusa9.com/article/news/local/dc/doj-draft-accuses-dc-police-of-manipulating-crime-data-amid-chief-smiths-sudden-resignation-crime/65-b9462d84-62aa-4414-86a0-19613b39152e" }

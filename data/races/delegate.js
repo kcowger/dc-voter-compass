@@ -84,9 +84,9 @@ export const delegate = {
       flags: [
         {
           id: "whcd",
-          label: "Posted, then deleted, a social-media joke about a shooting",
+          label: "Posted, then deleted, an insensitive tweet after the Correspondents' Dinner shooting",
           detail:
-            "Posted a social media joke about the shooting at the White House Correspondents' Dinner; later deleted it and apologized, calling it \"inappropriate and insensitive.\""
+            "After the shooting at the White House Correspondents' Dinner, he tweeted \"Looks like we need a curfew on the Correspondents Dinner. It's clear we need to hold the parents responsible\" (a jab at DC's youth-curfew debate). He deleted it and apologized: \"It was inappropriate and insensitive. I should not have tried to make a point by referring to an incident of gun violence.\""
         }
       ],
       sources: [SITE.white, CPC_PAC, SOURCE]
@@ -136,7 +136,7 @@ export const delegate = {
       neighborhood: "Logan Circle (Ward 2)",
       role: "Ward 2 Councilmember (since 2020)",
       background:
-        "Connecticut native. Top fundraiser in the field, having raised over $1.2 million. Her Council focus has been public safety.",
+        "Connecticut native. Top fundraiser in the field, having raised more than $1.5 million. Her Council focus has been public safety.",
       pos: [-0.05, -0.7],
       tagline: "Mixed style · local-wins focus",
       inferredLean:
@@ -156,7 +156,7 @@ export const delegate = {
         "U.S. Senators Angela Alsobrooks (MD) and Richard Blumenthal (CT)",
         "Former Mayor Tony Williams; Councilmembers/former CMs Anita Bonds, Mary Cheh, Charlene Drew Jarvis, Bill Lightfoot",
         "DC Firefighters IAFF Local 36, DC YIMBYs, Opportunity DC, DMV New Liberals",
-        "Top fundraiser in the field (raised over $1.2 million)"
+        "Top fundraiser in the field (raised more than $1.5 million as of June 2026)"
       ],
       strengths: [
         "Active legislative record on the Council",

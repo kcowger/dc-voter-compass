@@ -29,7 +29,7 @@ export const atlargeSpecial = {
   overview:
     "A special election to serve out McDuffie's At-Large term. Unlike the primaries, every registered DC voter can vote in this race regardless of party. A separate November 2026 race decides the next full four-year term.",
   stakes:
-    "This race is easy to miss. It sits separately on the ballot, on the back of page two of mail-in ballots. Two of the three candidates have formed a ranked-choice alliance against the third, which makes how you rank genuinely matter.",
+    "This race is easy to miss. It sits in a separate section of the ballot, apart from the party primaries. Two of the three candidates have formed a ranked-choice alliance against the third, which makes how you rank genuinely matter.",
   map: {
     x: { label: "Ideological lean (inferred)", left: "Progressive", right: "Moderate" },
     y: { label: "Experience profile", low: "Newer", high: "Experienced" },
@@ -172,7 +172,7 @@ export const atlargeSpecial = {
   questions: [
     {
       id: "ideology",
-      text: "Where do you want this seat to land ideologically?",
+      text: "Where do you want this seat to sit ideologically?",
       type: "single",
       options: [
         // Crawford gets 1 (not 0): she declines a label, but her DCFPI roots and affordability-first housing platform are documented progressive signals, even as her coalition reads moderate.

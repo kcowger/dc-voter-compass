@@ -26,7 +26,7 @@ export const ag = {
   stakes:
     "The contest turns on one real disagreement: how broadly to define the office, and how aggressively to prosecute, especially juveniles. That sits on top of a contested debate about whether DC's crime is at historic lows or in crisis.",
   map: {
-    x: { label: "Enforcement posture", left: "Discretion", right: "Tough on crime" },
+    x: { label: "Enforcement posture", left: "Prosecutorial discretion", right: "Maximum enforcement" },
     y: { label: "Scope of the office", low: "Crime focus", high: "Broad mandate" },
     note: "Positions are drawn from each candidate's documented statements. Open a candidate for the evidence."
   },
@@ -103,7 +103,7 @@ export const ag = {
         "Offers voters a sharp contrast to the incumbent's approach"
       ],
       weaknesses: [
-        "Very thinly resourced (reported ~$5,000 raised vs. Schwalb's $1.3M+) and lightly documented",
+        "Running a low-budget campaign, far outraised by the incumbent's publicly-financed war chest, and lightly documented",
         "No documented endorsements",
         "\"Prosecute every case\" would be a major shift in prosecutorial discretion"
       ],

@@ -186,8 +186,8 @@ export const atlargeDem = {
       ],
       endorsements: ["Working Families Party", "Sierra Club", "Ward One Democrats", "Multiple labor unions and progressive groups"],
       strengths: [
-        "Most reliably progressive voice in the field",
-        "A real activist record, not just rhetoric",
+        "The most consistently progressive record in the field",
+        "A documented activist record (ICE-HQ protests, statehood advocacy)",
         "Has actually won a citywide DC position before (shadow rep)"
       ],
       weaknesses: [
@@ -377,7 +377,7 @@ export const atlargeDem = {
   questions: [
     {
       id: "ideology",
-      text: "Bonds was the moderate swing vote. Where do you want this seat to land ideologically?",
+      text: "Bonds was the moderate swing vote. Where do you want this seat to sit ideologically?",
       type: "single",
       options: [
         { id: "A", label: "Shift it progressive", scores: { chavous: 0, davis: 1, forester: 3, hill: -1, jackson: 1, jenkins: 2, nelson: 3, owolewa: 3, raymond: 1 } },

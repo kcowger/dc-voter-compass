@@ -98,9 +98,9 @@ export const mayor = {
       flags: [
         {
           id: "ethics",
-          label: "Active campaign-finance investigation and a disclosure complaint",
+          label: "An open campaign-finance inquiry and a disclosure complaint (both contested)",
           detail:
-            "An active DC Office of Campaign Finance investigation into alleged improper coordination with organized labor; and a May 2026 Campaign for Accountability complaint to BEGA alleging she failed to properly disclose her family's financial assets over multiple years."
+            "An open DC Office of Campaign Finance inquiry into alleged improper coordination with organized labor; and a May 2026 Campaign for Accountability complaint to BEGA alleging she failed to properly disclose her family's financial assets. Her campaign calls both baseless and politically motivated. Neither is a finding of wrongdoing."
         },
         {
           id: "trayon",
@@ -161,7 +161,7 @@ export const mayor = {
           id: "donors",
           label: "Business and real-estate donor base",
           detail:
-            "His coalition is heavily real-estate and business; voters concerned about developer influence may weigh this. (No active ethics investigation is documented.)"
+            "His coalition is heavily real-estate and business; voters concerned about developer influence may weigh this."
         },
         {
           id: "enforcement",
@@ -395,9 +395,9 @@ export const mayor = {
       type: "single",
       options: [
         // Lewis George (end the curfew) and Johnson (opposes permanent curfew, prevention) are prevention-first.
-        { id: "A", label: "Prevention-first: youth, mental health, and jobs; skeptical of curfews and aggressive enforcement", scores: { lewisgeorge: 3, mcduffie: 0, orange: 0, goodweather: 1, johnson: 3, sampath: 1, solomon: 1 } },
+        { id: "A", label: "Prevention-first: youth programs, mental health, and jobs, with limited use of curfews", scores: { lewisgeorge: 3, mcduffie: 0, orange: 0, goodweather: 1, johnson: 3, sampath: 1, solomon: 1 } },
         // McDuffie (1,000 officers, curfew) and Orange (4,100 officers, curfew); Goodweather fully staffs MPD.
-        { id: "B", label: "More police and tougher enforcement, including youth curfews", scores: { lewisgeorge: 0, mcduffie: 3, orange: 3, goodweather: 2, johnson: 0, sampath: 0, solomon: 1 } },
+        { id: "B", label: "Enforcement-first: a larger, well-staffed police force and youth curfews", scores: { lewisgeorge: 0, mcduffie: 3, orange: 3, goodweather: 2, johnson: 0, sampath: 0, solomon: 1 } },
         // Sampath: staff 911, faster response, Vision Zero street design. Goodweather: fix 911.
         { id: "C", label: "Fix the basics of safety: staff 911, faster response, safer street design", scores: { lewisgeorge: 1, mcduffie: 1, orange: 1, goodweather: 2, johnson: 1, sampath: 3, solomon: 2 } }
       ]

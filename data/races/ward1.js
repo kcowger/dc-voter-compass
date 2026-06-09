@@ -195,9 +195,9 @@ export const ward1 = {
       flags: [
         {
           id: "photos",
-          label: "2018: altered photos removed protesters (as a mayoral official)",
+          label: "Altered photos removed protesters (as a mayoral official)",
           detail:
-            "In October 2018, as the Mayor's Director of Latino Affairs, she posted altered Fiesta DC parade photos to Facebook with activist protesters digitally removed. The images were deleted; the Mayor's office said they were not official photos."
+            "As the Mayor's Director of Latino Affairs, she posted altered Fiesta DC parade photos to Facebook with activist protesters digitally removed. The images were on a personal account and were deleted; the Mayor's office said they were not official photos."
         }
       ],
       source: SRC_REYES
@@ -242,11 +242,13 @@ export const ward1 = {
   questions: [
     {
       id: "ideology",
-      text: "Where do you want this seat to land?",
+      text: "Where do you want this seat to sit?",
       type: "single",
+      // Lead with the moderate option here (progressive-first in other races) so
+      // "progressive" isn't always the default first choice across the guide.
       options: [
-        { id: "A", label: "Progressive / movement left", scores: { raj: 3, brown: 2, deramo: 2, reyesyanes: 0, lynch: 1 } },
         { id: "B", label: "Pragmatic / moderate", scores: { raj: 0, brown: 1, deramo: 1, reyesyanes: 3, lynch: 2 } },
+        { id: "A", label: "Progressive / movement left", scores: { raj: 3, brown: 2, deramo: 2, reyesyanes: 0, lynch: 1 } },
         { id: "C", label: "Ideology matters less than competence", scores: { raj: 1, brown: 1, deramo: 1, reyesyanes: 1, lynch: 1 } }
       ]
     },

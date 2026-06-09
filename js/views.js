@@ -456,11 +456,20 @@ export function renderResult(raceId) {
   const top = result.suggestedRanking[0];
   const confidence = confidenceCopy(race, result);
 
+  // Tie-awareness: the ranking sort breaks ties alphabetically, so don't present
+  // tied candidates as if one beat another. Detect how many share the top score.
+  const sr = result.suggestedRanking;
+  const topScore = sr[0]?.score ?? 0;
+  const tiedAtTop = sr.filter((r) => r.score === topScore).length;
+  const allTied = sr.length > 1 && tiedAtTop === sr.length;
+
   view.append(el("section", { class: "result__hero" },
     el("p", { class: "eyebrow result__eyebrow", text: `Your result · ${race.title}` }),
-    top
-      ? el("p", { class: "result__pick", text: top.candidate.name })
-      : el("p", { class: "result__pick", text: "No clear match" }),
+    !top
+      ? el("p", { class: "result__pick", text: "No clear match" })
+      : tiedAtTop > 1
+        ? el("p", { class: "result__pick", text: "A tie at the top" })
+        : el("p", { class: "result__pick", text: top.candidate.name }),
     el("p", { class: "result__confidence", text: confidence })
   ));
 
@@ -470,12 +479,15 @@ export function renderResult(raceId) {
     const multi = result.suggestedRanking.length > 1;
     const ballot = el("section", { class: "ballot" });
     ballot.append(el("h2", { class: "ballot__title" },
-      multi ? "Your top choices are close" : "Your match",
-      (race.rcv && multi) ? el("span", { class: "pill pill--rcv", text: "Rank in this order" }) : null));
+      multi ? (allTied ? "Your top choices are tied" : "Your top choices are close") : "Your match",
+      (race.rcv && multi) ? el("span", { class: "pill pill--rcv", text: allTied ? "Rank in any order" : "Rank in this order" }) : null));
     const list = el("div", { class: "ballot__list" });
     result.suggestedRanking.forEach((r, i) => {
+      // Competition ranking: tied candidates share a number (1,1,1,4...), so we
+      // never imply an order the scores don't support.
+      const rank = 1 + sr.filter((x) => x.score > r.score).length;
       list.append(el("div", { class: "ballot-card", style: { "--cand-color": colorOf[r.id] } },
-        el("div", { class: "ballot-card__rank", text: multi ? String(i + 1) : "✓" }),
+        el("div", { class: "ballot-card__rank", text: multi ? String(rank) : "✓" }),
         el("div", {},
           el("div", { class: "ballot-card__name", text: r.candidate.name }),
           el("div", { class: "ballot-card__role", text: r.candidate.role }),
@@ -570,6 +582,11 @@ function confidenceCopy(race, result) {
   if (!n) return "Your answers don't point to any candidate in this race. That's a real result; it may be worth reading the profiles directly before you decide.";
   const top = result.suggestedRanking[0];
   if (n === 1) return `${top.candidate.name} is a clear match for what you said you want.`;
+  // Don't fake a #1 when the top scores are tied (the sort tiebreak is just
+  // alphabetical). Tell the truth: a tie, rank them in any order.
+  const tiedAtTop = result.suggestedRanking.filter((r) => r.score === top.score).length;
+  if (tiedAtTop === n) return `It's a tie at the top: these ${n} fit your answers equally well. In a ranked-choice race you can rank them in any order you like.`;
+  if (tiedAtTop >= 2) return `It's a tie at the very top, ${tiedAtTop} candidates fit equally well (rank them in any order), with ${n - tiedAtTop} more close behind.`;
   return `It's close at the top. ${top.candidate.name} edges ahead, but ${n - 1} other${n > 2 ? "s" : ""} fit your answers almost as well. Here's a suggested order.`;
 }
 
@@ -698,7 +715,8 @@ export function renderSummary() {
     card.append(el("h2", {}, race.title, race.rcv ? el("span", { class: "pill pill--rcv", text: "Ranked" }) : null, race.allVoters ? el("span", { class: "pill pill--all", text: "All voters" }) : null));
     if (result.suggestedRanking.length) {
       const ranks = el("div", { class: "summary__ranks" });
-      result.suggestedRanking.forEach((r, i) => ranks.append(el("span", { class: "summary__rank", style: { "--cand-color": colorOf[r.id] } }, el("b", { text: `${i + 1}` }), r.candidate.name)));
+      const sr = result.suggestedRanking;
+      sr.forEach((r) => { const rank = 1 + sr.filter((x) => x.score > r.score).length; ranks.append(el("span", { class: "summary__rank", style: { "--cand-color": colorOf[r.id] } }, el("b", { text: `${rank}` }), r.candidate.name)); });
       card.append(ranks);
     } else {
       card.append(el("p", { class: "summary__empty", text: "No clear match, worth reading the profiles before deciding." }));
