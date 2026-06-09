@@ -726,16 +726,7 @@ export function renderAbout() {
     el("h1", { text: "Why I made this" }),
     el("p", { class: "lead" }, "Hi, I'm Kai. This isn't a company, a campaign, or an official anything. It's really just me, my dog, and a little help from Claude. I made it for my wife: this year's ballot is long and genuinely confusing, she's busy, and she wanted to vote feeling informed instead of rushed. It helped her, so I cleaned it up and shared it, because if it took some stress off her plate, maybe it can do the same for you."),
     el("p", {}, "I'm not here to tell you who to vote for. Everything is sourced, so I can show you where the candidates actually stand, put the evidence right next to it, and let you make up your own mind. You know your life and your priorities better than any quiz does; this is just here to make the homework a little lighter. If something looks off, it's worth a second look, and corrections are genuinely welcome."),
-
-    el("h2", { text: "How to use it" }),
-    el("p", {}, "Pick the races you're voting on, answer a few questions, and you'll get a ranked shortlist with the reasons behind it. DC mails a ballot to every registered voter, so you can fill yours out at home with your results next to you, or print them (or save the PDF) and bring them to a vote center. Either way, it's a starting point, not a substitute for reading the candidates' own materials."),
-
-    el("h2", { text: "The fine print" }),
-    el("ul", {},
-      el("li", {}, el("strong", { text: "Independent: " }), "not affiliated with, authorized by, or funded by any candidate, campaign, party, or government body."),
-      el("li", {}, el("strong", { text: "Private: " }), "no account, no analytics, no tracking. Your answers stay in your own browser and are never sent anywhere."),
-      el("li", {}, el("strong", { text: "Open and checkable: " }), "the code is open source and every claim links to its source. See the ", el("a", { href: "#/methodology" }, "methodology and sources"), " for exactly how the matching works.")
-    ),
+    el("p", {}, "If you want the nuts and bolts, how to use it, how the matching works, and the privacy and independence details, that's all on the ", el("a", { href: "#/methodology" }, "How it works"), " page."),
     el("p", { style: { marginTop: "1.5rem" } }, "Thank you for being the kind of person who looks things up before voting. It genuinely matters, and I'm glad this is helping. Now go vote."),
     el("p", { class: "lead", style: { marginTop: "0.75rem", fontFamily: "var(--font-serif)" }, text: "Yours, Kai" }),
     el("div", { class: "home__cta", style: { marginTop: "2rem" } },
@@ -756,6 +747,9 @@ export function renderMethodology() {
     el("h1", { text: "How this guide works" }),
     el("p", { class: "lead" }, "A quick personal note: I'm Kai, and I built this with Claude to help my wife make sense of the ballot, then shared it for other DC voters. The ", el("a", { href: "#/about" }, "About page"), " has that story. This page is the nuts and bolts, so you can trust the results, or check them yourself."),
     el("p", { text: DISCLAIMER.purpose }),
+
+    el("h2", { text: "How to use it" }),
+    el("p", {}, "Pick the races you're voting on, answer a few questions for each, and you'll get a ranked shortlist with the reasons behind it. Open any candidate for their full sourced profile. DC mails a ballot to every registered voter, so you can fill yours out at home with your results next to you, or print them (or save the PDF) and bring them to a vote center. Either way, it's a starting point, not a substitute for reading the candidates' own materials."),
 
     el("h2", { text: "How the matching works" }),
     el("p", {}, "Each race asks a few questions about your priorities. Every answer carries points for the candidates it fits, drawn from their records and stated positions. We add up the points and rank candidates by total, nothing is hidden, and you can open any candidate to see why they sit where they do."),
