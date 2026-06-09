@@ -724,7 +724,7 @@ export function renderAbout() {
   p.append(
     el("p", { class: "eyebrow", text: "About" }),
     el("h1", { text: "Why I made this" }),
-    el("p", { class: "lead" }, "This isn't a company, a campaign, or an official anything. I'm a DC voter who built this with Claude to help my wife make sense of a long ballot when she didn't have the time to research every race. It helped her, so I cleaned it up and shared it, figuring other busy DC voters could use it too."),
+    el("p", { class: "lead" }, "Hi, I'm Kai. This isn't a company, a campaign, or an official anything. It's just a guy, his dog, and Claude. I built it to help my wife make sense of a long ballot when she didn't have the time to research every race. It helped her, so I cleaned it up and shared it, figuring other busy DC voters could use it too."),
     el("p", {}, "Everything here is sourced. I'm not trying to tell you who to vote for, I'm trying to show you where the candidates stand, with the evidence next to it, so you can check the work and make up your own mind. If something looks wrong, it probably is worth a second look, and corrections are genuinely welcome."),
 
     el("h2", { text: "How to use it" }),
@@ -752,7 +752,7 @@ export function renderMethodology() {
   p.append(
     el("p", { class: "eyebrow", text: "Methodology & sources" }),
     el("h1", { text: "How this guide works" }),
-    el("p", { class: "lead" }, "A quick personal note: I built this with Claude to help my wife make sense of the ballot, then shared it for other DC voters. The ", el("a", { href: "#/about" }, "About page"), " has that story. This page is the nuts and bolts, so you can trust the results, or check them yourself."),
+    el("p", { class: "lead" }, "A quick personal note: I'm Kai, and I built this with Claude to help my wife make sense of the ballot, then shared it for other DC voters. The ", el("a", { href: "#/about" }, "About page"), " has that story. This page is the nuts and bolts, so you can trust the results, or check them yourself."),
     el("p", { text: DISCLAIMER.purpose }),
 
     el("h2", { text: "How the matching works" }),
