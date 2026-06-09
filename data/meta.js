@@ -11,6 +11,10 @@ export const ELECTION = {
   rcvMax: 5,
   facts: [
     {
+      text: "DC mails a ballot to every registered voter. You can fill it out at home and mail it back (postmark by June 16, must arrive by June 26), drop it at a ballot box by 8 p.m. on June 16, or vote in person during early voting (June 8 to 14) or on June 16.",
+      source: { label: "ACLU of DC, How to Vote in the June 2026 DC Primary", url: "https://www.acludc.org/how-to-vote-in-the-june-2026-dc-primary-election/" }
+    },
+    {
       text: "This is the first DC election to use ranked-choice voting (RCV). For each office, you can rank up to five candidates in order of preference.",
       source: { label: "Washingtonian, “Your Guide to Ranked Choice Voting in the DC Primaries”", url: "https://washingtonian.com/2026/05/29/your-guide-to-ranked-choice-voting-in-the-dc-primaries/" }
     },

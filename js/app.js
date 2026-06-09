@@ -5,7 +5,7 @@ import { store } from "./store.js";
 import { RACE_MAP } from "../data/races/index.js";
 import {
   renderLanding, renderChooser, renderRace, renderResult,
-  renderMethodology, renderSummary
+  renderMethodology, renderSummary, renderAbout
 } from "./views.js";
 
 const BASE_TITLE = "DC Voter Compass · June 16, 2026";
@@ -13,7 +13,7 @@ const BASE_TITLE = "DC Voter Compass · June 16, 2026";
 function titleFor(seg) {
   if (seg[0] === "race" && RACE_MAP[seg[1]]) return `${RACE_MAP[seg[1]].title} · DC Voter Compass`;
   if (seg[0] === "result" && RACE_MAP[seg[1]]) return `Your result: ${RACE_MAP[seg[1]].title} · DC Voter Compass`;
-  const names = { choose: "Choose your races", methodology: "Methodology & sources", summary: "Your ballot plan" };
+  const names = { choose: "Choose your races", methodology: "Methodology & sources", summary: "Your ballot plan", about: "About" };
   return names[seg[0]] ? `${names[seg[0]]} · DC Voter Compass` : BASE_TITLE;
 }
 
@@ -21,6 +21,7 @@ function viewFor(seg) {
   switch (seg[0]) {
     case undefined: case "": return renderLanding();
     case "choose": return renderChooser();
+    case "about": return renderAbout();
     case "methodology": return renderMethodology();
     case "summary": return renderSummary();
     case "race": return renderRace(seg[1]);

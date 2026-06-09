@@ -1,7 +1,7 @@
 // Screen renderers. Each returns a DOM node mounted by app.js. The race screen
 // is a small live controller: answering a question re-evaluates and animates the
 // map + ranking in place rather than re-rendering.
-import { el, svgEl, icon, clear, mount, candColor, initials, navigate, announce, prefersReducedMotion } from "./util.js";
+import { el, svgEl, icon, clear, mount, candColor, initials, navigate, announce } from "./util.js";
 import { evaluate, topReason } from "./engine.js";
 import { createMap } from "./map.js";
 import { store } from "./store.js";
@@ -269,11 +269,8 @@ export function renderRace(raceId) {
     progress.append(el("span", { class: "progress__label", text: `Question ${current + 1} of ${race.questions.length}` }));
   }
 
-  let advanceTimer = null;
-
   function renderQuestion(focusQ = false) {
     renderProgress();
-    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
     clear(qhost);
     const q = race.questions[current];
     const card = el("div", { class: "qcard" });
@@ -390,13 +387,10 @@ export function renderRace(raceId) {
     }
     function onAnswer(optId) {
       if (q.type === "single") {
+        // No auto-advance: picking an answer never moves the page on its own.
+        // The reader always clicks Next (or Back) to move between questions.
         store.setAnswer(race.id, q.id, optId);
         refresh(); announceTop(); renderCallouts(); updateNav();
-        if (current < race.questions.length - 1) {
-          const from = current;
-          const delay = prefersReducedMotion() ? 0 : 600;
-          advanceTimer = setTimeout(() => { advanceTimer = null; if (current === from) advance(); }, delay);
-        }
       } else {
         const set = new Set(store.getAnswers(race.id)[q.id] || []);
         set.has(optId) ? set.delete(optId) : set.add(optId);
@@ -538,7 +532,7 @@ export function renderResult(raceId) {
       el("span", { class: "race-card__seat", text: r.candidate.tagline }),
       el("div", { class: "race-card__meta" },
         el("span", { class: "pill pill--match", text: r.score > 0 ? `Match ${Math.round(r.normalized * 100)}%` : "Low match" }),
-        r.candidate.flags && r.candidate.flags.length ? el("span", { class: "pill pill--warn", text: "Flag to weigh" }) : null
+        r.candidate.flags && r.candidate.flags.length ? el("span", { class: "pill pill--warn", text: "Possible red flags" }) : null
       )
     ));
   });
@@ -636,7 +630,7 @@ export function openProfile(race, candId, colorOf, onChange) {
   );
 
   if (c.flags && c.flags.length) {
-    const fb = el("div", { class: "profile__block" }, el("h4", {}, "Flags to weigh"));
+    const fb = el("div", { class: "profile__block" }, el("h4", {}, "Possible red flags"));
     c.flags.forEach((f) => fb.append(el("div", { class: "flagbox" }, el("h5", { text: f.label }), el("p", { text: f.detail }))));
     body.append(fb);
   }
@@ -688,8 +682,8 @@ export function renderSummary() {
   const done = RACES.filter((r) => store.hasAnswers(r.id));
   view.append(el("section", { class: "section", style: { paddingBottom: "0.5rem" } },
     el("p", { class: "eyebrow", text: "Your ballot plan" }),
-    el("h1", { text: "Take this to the polls" }),
-    el("p", { class: "lead", style: { marginTop: "0.5rem" }, text: `Election day is ${ELECTION.dateLabel}. Polls open ${ELECTION.pollHours} This plan is stored only on your device.` })
+    el("h1", { text: "Your ballot, ready to fill out" }),
+    el("p", { class: "lead", style: { marginTop: "0.5rem" } }, `Every registered DC voter gets a ballot in the mail. Fill yours out at home with this plan next to you, or print it (or save the PDF) and bring it to a vote center. Election day is ${ELECTION.dateLabel}; mailed ballots must be postmarked by then. This plan is stored only on your device.`)
   ));
 
   if (!done.length) {
@@ -714,11 +708,39 @@ export function renderSummary() {
   });
 
   view.append(el("div", { class: "hero__cta no-print", style: { marginTop: "2rem" } },
-    el("button", { class: "btn btn--ink", onClick: () => window.print() }, icon("print"), " Print / save as PDF"),
+    el("button", { class: "btn btn--ink", onClick: () => window.print() }, icon("print"), " Print or save as PDF to take with you"),
     el("a", { class: "btn btn--ghost", href: "#/choose" }, "Pick more races")
   ));
   view.append(el("p", { class: "muted no-print", style: { marginTop: "1.5rem", fontSize: "var(--step--2)" }, text: "Reminder: the special election (At-Large) is open to all voters but sits separately on the ballot, don't miss it." }));
   view.append(disclaimerStrip());
+  return view;
+}
+
+/* ---------------- About ---------------- */
+
+export function renderAbout() {
+  const view = el("div", { class: "view container" });
+  const p = el("div", { class: "prose section" });
+  p.append(
+    el("p", { class: "eyebrow", text: "About" }),
+    el("h1", { text: "Why I made this" }),
+    el("p", { class: "lead" }, "This isn't a company, a campaign, or an official anything. I'm a DC voter who built this with Claude to help my wife make sense of a long ballot when she didn't have the time to research every race. It helped her, so I cleaned it up and shared it, figuring other busy DC voters could use it too."),
+    el("p", {}, "Everything here is sourced. I'm not trying to tell you who to vote for, I'm trying to show you where the candidates stand, with the evidence next to it, so you can check the work and make up your own mind. If something looks wrong, it probably is worth a second look, and corrections are genuinely welcome."),
+
+    el("h2", { text: "How to use it" }),
+    el("p", {}, "Pick the races you're voting on, answer a few questions, and you'll get a ranked shortlist with the reasons behind it. DC mails a ballot to every registered voter, so you can fill yours out at home with your results next to you, or print them (or save the PDF) and bring them to a vote center. Either way, it's a starting point, not a substitute for reading the candidates' own materials."),
+
+    el("h2", { text: "The fine print" }),
+    el("ul", {},
+      el("li", {}, el("strong", { text: "Independent: " }), "not affiliated with, authorized by, or funded by any candidate, campaign, party, or government body."),
+      el("li", {}, el("strong", { text: "Private: " }), "no account, no analytics, no tracking. Your answers stay in your own browser and are never sent anywhere."),
+      el("li", {}, el("strong", { text: "Open and checkable: " }), "the code is open source and every claim links to its source. See the ", el("a", { href: "#/methodology" }, "methodology and sources"), " for exactly how the matching works.")
+    ),
+    el("div", { class: "home__cta", style: { marginTop: "2rem" } },
+      el("a", { class: "btn btn--primary", href: "#/choose" }, "Find your races ", icon("arrowRight", "btn__arrow"))
+    )
+  );
+  view.append(p);
   return view;
 }
 
@@ -730,6 +752,7 @@ export function renderMethodology() {
   p.append(
     el("p", { class: "eyebrow", text: "Methodology & sources" }),
     el("h1", { text: "How this guide works" }),
+    el("p", { class: "lead" }, "A quick personal note: I built this with Claude to help my wife make sense of the ballot, then shared it for other DC voters. The ", el("a", { href: "#/about" }, "About page"), " has that story. This page is the nuts and bolts, so you can trust the results, or check them yourself."),
     el("p", { text: DISCLAIMER.purpose }),
 
     el("h2", { text: "How the matching works" }),
