@@ -278,7 +278,7 @@ export const atlargeDem = {
       pos: [-0.35, -0.55],
       tagline: "Progressive-leaning · community-rooted",
       inferredLean:
-        "Progressive-leaning, based on her equity framing and environmental-justice focus, but without strong ideological tells in the source. (Inferred.)",
+        "Progressive-leaning, based on her equity framing and environmental-justice focus, but without strong ideological tells in available reporting. (Inferred.)",
       priorities: [
         "Equity, education, and environmental justice (\"the three E's\")",
         "Senior-services modernization",
@@ -298,7 +298,7 @@ export const atlargeDem = {
       weaknesses: [
         "Limited insider profile relative to other candidates",
         "Lost in 2021 (didn't make the ballot); no established winning track record",
-        "Policy positions are less developed in the source than for others"
+        "Policy positions are less developed publicly than for others"
       ],
       flags: [],
       sources: [SITE.jenkins, HILLRAG_SPLIT, SOURCE]
@@ -314,7 +314,7 @@ export const atlargeDem = {
       pos: [0.05, -0.4],
       tagline: "Moderate-pragmatic · educator",
       inferredLean:
-        "Moderate-pragmatic. No clear ideological tells in the source material. (Inferred.)",
+        "Moderate-pragmatic. No clear ideological tells in available reporting. (Inferred.)",
       priorities: ["Public education", "Affordability and workforce housing", "Government-agency oversight"],
       positions: [
         "Frames education as foundational to crime, food access, and other downstream issues",

@@ -1,7 +1,7 @@
 // Scoring engine, pure functions, no DOM, no side effects.
 //
-// The scoring rule is the one documented in the source guide: each selected
-// answer option contributes per-candidate points; totals are summed and ranked.
+// The scoring rule: each selected answer option contributes per-candidate
+// points; totals are summed and ranked.
 // Nothing here is hidden, every number a user sees traces to a race's matrix.
 
 /**

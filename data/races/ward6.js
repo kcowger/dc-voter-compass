@@ -1,5 +1,5 @@
 // DC Council Ward 6, Democratic primary.
-// NOT in the source guide. Researched from WTOP candidate Q&As, HillRag, The
+// Researched from WTOP candidate Q&As, HillRag, The
 // 51st, Greater Greater Washington, campaign sites, and reporting on the 2024
 // recall and the 2025 MPD crime-data findings. Every claim is sourced.
 // Questions and scoring were constructed by this guide from documented
@@ -21,7 +21,7 @@ export const ward6 = {
   rcv: true,
   coverage: "researched",
   coverageNote:
-    "Not in the source guide; researched from local reporting and the candidates' materials, with every claim sourced. The questions and scoring here were built by this guide from documented positions.",
+    "This race was researched from local reporting and the candidates' own materials, with every claim sourced and the questions built from their documented positions.",
   seat: "Incumbent Charles Allen, in office since 2015, seeks a fourth term against Michael Murphy and Gloria Nauden.",
   overview:
     "Ward 6 covers Capitol Hill, Navy Yard, NoMa, the Wharf, and surrounding neighborhoods. The race is shaped by Allen's long record chairing public safety and a 2024 recall attempt he survived.",

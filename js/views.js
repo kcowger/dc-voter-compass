@@ -13,7 +13,7 @@ import { ELECTION, EVIDENCE_HIERARCHY, NEVER_INCLUDED, SOURCES, DISCLAIMER } fro
 
 function coverageChip(race) {
   if (race.coverage === "partial") return el("span", { class: "pill pill--warn", text: "Partial coverage" });
-  if (race.coverage === "researched") return el("span", { class: "pill", title: "Questions and scoring built by this guide from sourced positions", text: "Independently researched" });
+  if (race.coverage === "researched") return el("span", { class: "pill", title: "Questions and scoring researched from the candidates' sourced positions", text: "Independently researched" });
   return null;
 }
 function racePills(race) {
@@ -737,10 +737,11 @@ export function renderMethodology() {
     el("p", {}, "Some questions let you rank the options in order of importance instead of just picking one. When you rank, your top choice counts most and each lower choice counts a little less, on a sliding weight. That lets a nuanced topic reflect your real priorities rather than forcing a single answer."),
     el("p", {}, "The map is a picture of that math. Candidates are placed by documented dimensions (for example, progressive to moderate). Your marker sits at the score-weighted center of the candidates you match, so it drifts toward a clear favorite or settles between close ones."),
 
-    el("h2", { text: "Two levels of coverage" }),
+    el("h2", { text: "Where each race's questions come from" }),
     el("ul", {},
-      el("li", {}, el("strong", { text: "From the source guide: " }), "Delegate and both At-Large races draw their core questions and scoring from a curated guide built on The 51st's DCision2026 candidate profiles. We've added further questions for these races, built from the same candidates' documented, sourced positions, to give a fuller read."),
-      el("li", {}, el("strong", { text: "Independently researched: " }), "Mayor, Attorney General, and the Ward 1, 5, and 6 races were researched from local reporting and the candidates' own campaign materials, with the questions and scoring built from those documented positions. The mayoral race scores every candidate on the printed ballot; where a candidate's platform is thin, they're scored only on what they have actually stated. Every claim links to its source.")
+      el("li", {}, el("strong", { text: "Delegate and the two At-Large races: " }), "the questions and scoring draw on The 51st's published candidate profiles (The 51st is a DC newsroom), plus extra questions built from the candidates' own campaign materials."),
+      el("li", {}, el("strong", { text: "Mayor, Attorney General, and the Ward 1, 5, and 6 races: " }), "marked “Independently researched.” These were researched directly from local reporting and the candidates' own campaign materials, with the questions and scoring built from those documented positions. The mayoral race scores every candidate on the printed ballot; where a candidate's platform is thin, they're scored only on what they have actually stated."),
+      el("li", {}, "Either way, every claim on a candidate's profile links to its source.")
     ),
 
     el("h2", { text: "What counts as evidence" }),

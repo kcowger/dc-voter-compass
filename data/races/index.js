@@ -1,11 +1,10 @@
 // Aggregates every race module and defines ballot grouping and ordering.
 //
-// Coverage levels (shown to users and explained on the methodology page):
-//   "full"      , questions and scoring come directly from the source guide
-//                  (The 51st DCision2026 series): Mayor, Delegate, both At-Large races.
-//   "partial"   , limited to the well-documented front-runners (Mayor).
-//   "researched", questions and scoring were constructed by this guide from
-//                  sourced candidate positions (AG, Ward 1, Ward 5, Ward 6).
+// Coverage levels (drive the "Independently researched" pill + methodology page):
+//   "full"      , questions/scoring derive from The 51st's DCision2026 candidate
+//                  guides: Delegate and both At-Large races.
+//   "researched", questions/scoring built from documented candidate positions and
+//                  local reporting: Mayor, AG, Ward 1, Ward 5, Ward 6.
 //
 // RACE DATA SCHEMA (per race object):
 //   id, group, title, shortTitle, ballot, allVoters(bool), rcv(bool),

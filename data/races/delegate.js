@@ -37,7 +37,7 @@ export const delegate = {
   map: {
     x: { label: "Advocacy style", left: "Inside game", right: "Outside game" },
     y: { label: "Primary focus", low: "Economy & local", high: "Statehood" },
-    note: "Positions reflect the style and focus dimensions documented in the guide. Open any candidate to see the evidence."
+    note: "Positions reflect each candidate's documented advocacy style and primary focus. Open any candidate to see the evidence."
   },
   candidates: [
     {
@@ -240,7 +240,7 @@ export const delegate = {
         "Argues this would draw corporations to DC and increase pressure for statehood",
         "Notes the Heritage Foundation has at times supported ending federal taxation for DC residents"
       ],
-      endorsements: ["Not specifically documented in the source."],
+      endorsements: ["Not documented in available coverage."],
       strengths: [
         "Genuinely novel strategic framing in a field of mostly continuity candidates",
         "Strong federal executive-branch experience",

@@ -1,5 +1,5 @@
 // DC Council Ward 1, Democratic primary.
-// NOT in the source guide. Researched from The 51st's Ward 1 profile, WTOP
+// Researched from The 51st's Ward 1 profile, WTOP
 // candidate Q&As, Greater Greater Washington, DC YIMBYs, Jacobin, campaign
 // sites, and reporting. Every claim is sourced. Questions/scoring constructed
 // by this guide from documented positions (see methodology). Five candidates
@@ -22,7 +22,7 @@ export const ward1 = {
   rcv: true,
   coverage: "researched",
   coverageNote:
-    "Not in the source guide; researched from The 51st, WTOP, Greater Greater Washington, DC YIMBYs, and the candidates' materials, with every claim sourced. Questions and scoring were built by this guide from documented positions.",
+    "This race was researched from local reporting (The 51st, WTOP, Greater Greater Washington, DC YIMBYs) and the candidates' own materials, with every claim sourced and the questions built from their documented positions.",
   seat: "Open seat, incumbent Brianne Nadeau is not running, the first open Ward 1 seat in 43 years. Five Democrats are competing.",
   overview:
     "Ward 1 covers Columbia Heights, Mount Pleasant, U Street, Adams Morgan, and Shaw, dense, diverse, and a focal point for housing and immigration debates.",

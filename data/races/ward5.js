@@ -1,5 +1,5 @@
 // DC Council Ward 5, Democratic primary.
-// NOT in the source guide. Researched from WTOP candidate Q&As, The 51st,
+// Researched from WTOP candidate Q&As, The 51st,
 // Greater Greater Washington, Opportunity DC, campaign sites, and reporting.
 // Every claim is sourced. Questions/scoring constructed by this guide from
 // documented positions (see methodology). Candidate Bridget French is thinly
@@ -20,7 +20,7 @@ export const ward5 = {
   rcv: true,
   coverage: "researched",
   coverageNote:
-    "Not in the source guide; researched from local reporting and the candidates' materials, with every claim sourced. Questions and scoring were built by this guide from documented positions. Note: Bridget French has the thinnest public record of the three, so we score her only where her positions are documented.",
+    "This race was researched from local reporting and the candidates' own materials, with every claim sourced and the questions built from their documented positions. Note: Bridget French has the thinnest public record of the three, so she's scored only where her positions are documented.",
   seat: "Incumbent Zachary Parker, elected in 2022, seeks a second term against Bernita Carmichael and Bridget French.",
   overview:
     "Ward 5 spans Brookland, Eckington, Fort Totten, and the Rhode Island Avenue corridor. Parker chairs the Council's Committee on Youth Affairs and runs on a first-term legislative record.",

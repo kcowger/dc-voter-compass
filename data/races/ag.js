@@ -1,5 +1,5 @@
 // DC Attorney General, Democratic primary.
-// NOT in the source guide. Researched from authoritative reporting (WTOP
+// Researched from authoritative reporting (WTOP
 // candidate Q&As, HillRag, The 51st, campaign sites, OAG releases). Every
 // candidate claim is sourced. The questions and scoring below were constructed
 // by this guide from the candidates' documented positions, not from the source
@@ -19,7 +19,7 @@ export const ag = {
   rcv: true,
   coverage: "researched",
   coverageNote:
-    "This race isn't in the source guide; we researched it from local reporting and the candidates' own materials, and every claim links to its source. Coverage is uneven: incumbent Brian Schwalb has a long public record, while challenger J.P. Szymkowicz is more thinly documented. We score what's sourced and say where it's thin.",
+    "This race was researched from local reporting and the candidates' own materials, and every claim links to its source. Coverage is uneven: incumbent Brian Schwalb has a long public record, while challenger J.P. Szymkowicz is more thinly documented, so we score what's documented and say where it's thin.",
   seat: "Incumbent Brian Schwalb, elected in 2022, seeks a second term against challenger J.P. Szymkowicz.",
   overview:
     "The DC Attorney General is the city's independently elected top lawyer: consumer protection, antitrust, housing and wage enforcement, juvenile and lower-level prosecutions, and defending DC's autonomy in court. (Most adult criminal cases are handled by the federally appointed U.S. Attorney, not the AG.)",
