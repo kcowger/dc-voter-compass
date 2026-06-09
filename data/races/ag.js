@@ -24,7 +24,7 @@ export const ag = {
   overview:
     "The DC Attorney General is the city's independently elected top lawyer: consumer protection, antitrust, housing and wage enforcement, juvenile and lower-level prosecutions, and defending DC's autonomy in court. (Most adult criminal cases are handled by the federally appointed U.S. Attorney, not the AG.)",
   stakes:
-    "The contest turns on one real disagreement, how broadly to define the office, and how aggressively to prosecute, especially juveniles, layered over a contested debate about whether DC's crime is at historic lows or in crisis.",
+    "The contest turns on one real disagreement: how broadly to define the office, and how aggressively to prosecute, especially juveniles. That sits on top of a contested debate about whether DC's crime is at historic lows or in crisis.",
   map: {
     x: { label: "Enforcement posture", left: "Discretion", right: "Tough on crime" },
     y: { label: "Scope of the office", low: "Crime focus", high: "Broad mandate" },

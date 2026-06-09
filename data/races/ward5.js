@@ -25,7 +25,7 @@ export const ward5 = {
   overview:
     "Ward 5 spans Brookland, Eckington, Fort Totten, and the Rhode Island Avenue corridor. Parker chairs the Council's Committee on Youth Affairs and runs on a first-term legislative record.",
   stakes:
-    "An incumbent with a record (the Local Child Tax Credit, labor guarantees in the RFK stadium deal) against two challengers offering, respectively, a community-rooted alternative and an outsider cost-of-living pitch.",
+    "Incumbent Zachary Parker has a record to run on (the Local Child Tax Credit, labor guarantees in the RFK stadium deal). He faces two challengers: a community-rooted alternative and an outsider with a cost-of-living pitch.",
   map: {
     x: { label: "Ideological lean (inferred)", left: "Progressive", right: "Moderate" },
     y: { label: "Profile", low: "Outsider", high: "Incumbent" },

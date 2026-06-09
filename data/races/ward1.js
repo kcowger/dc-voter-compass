@@ -23,7 +23,7 @@ export const ward1 = {
   coverage: "researched",
   coverageNote:
     "This race was researched from local reporting (The 51st, WTOP, Greater Greater Washington, DC YIMBYs) and the candidates' own materials, with every claim sourced and the questions built from their documented positions.",
-  seat: "Open seat, incumbent Brianne Nadeau is not running, the first open Ward 1 seat in 43 years. Five Democrats are competing.",
+  seat: "It's an open seat. Incumbent Brianne Nadeau is not running, which makes this the first open Ward 1 seat in 43 years, and five Democrats are competing.",
   overview:
     "Ward 1 covers Columbia Heights, Mount Pleasant, U Street, Adams Morgan, and Shaw, dense, diverse, and a focal point for housing and immigration debates.",
   stakes:

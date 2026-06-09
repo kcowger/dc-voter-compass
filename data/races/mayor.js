@@ -38,7 +38,7 @@ export const mayor = {
   coverageNote:
     "All seven candidates on the printed Democratic ballot are scored here, each from their own campaign platform. Depth varies: Lewis George and McDuffie have the most detailed records, while some candidates publish only high-level platforms (Hope Solomon's, for example, is largely a list of grievances), so they are scored only on positions they have actually stated. Kathy Henderson and Stanley Lawson were disqualified and are not on the ballot.",
   seat:
-    "Open seat. Mayor Muriel Bowser is not seeking a fourth term, the first contested open mayoral primary in 20 years. Seven Democrats are on the ballot.",
+    "It's an open seat. Mayor Muriel Bowser is not seeking a fourth term, which makes this the first contested open mayoral primary in 20 years. Seven Democrats are on the ballot.",
   overview:
     "In heavily Democratic DC, the primary winner is widely expected to win in November. Seven Democrats are running. By fundraising and polling it has looked like a competitive top-tier race between Ward 4 Councilmember Janeese Lewis George (progressive) and former councilmember Kenyan McDuffie (moderate), with five other candidates offering distinct alternatives, from a veteran fiscal moderate to first-time outsiders.",
   stakes:
@@ -496,7 +496,7 @@ export const mayor = {
     }
   ],
   rcvNote:
-    "This race uses ranked-choice voting, and the field is large, you can rank up to five candidates. Rank everyone you'd genuinely be glad to see win, in your order of preference. By fundraising and polling it has looked like a close contest at the top between Lewis George and McDuffie, so if your first choice is one of the others, your second and third choices can still matter. Ranking a later choice never hurts your first.",
+    "This race uses ranked-choice voting and the field is large, so you can rank up to five candidates. Rank everyone you'd genuinely be glad to see win, in your order of preference. By fundraising and polling it has looked like a close contest at the top between Lewis George and McDuffie, so if your first choice is one of the others, your second and third choices can still matter. Ranking a later choice never hurts your first.",
   notCovered: {
     note:
       "Three more people qualified only as write-in candidates and will not appear on the printed ballot:",

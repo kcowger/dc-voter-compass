@@ -38,11 +38,11 @@ export const atlargeDem = {
   rcv: true,
   coverage: "full",
   seat:
-    "Open seat, Anita Bonds, an At-Large member for 13 years, is not running again. Nine Democrats are competing.",
+    "It's an open seat. Anita Bonds, an At-Large member for 13 years, is not running again, and nine Democrats are competing.",
   overview:
     "DC has four At-Large councilmembers who represent the whole city. Bonds was a moderate who often cast the deciding vote between the Council's progressive and centrist wings, usually siding with the center.",
   stakes:
-    "This is the highest-stakes ideological inflection point on the ballot. Replacing the moderate swing vote could nudge the Council in either direction. It's the first time ranked-choice voting applies here, previously Bonds won primaries with as little as 35% as challengers split the field.",
+    "This is the highest-stakes ideological inflection point on the ballot. Replacing the moderate swing vote could nudge the Council in either direction. It's also the first time ranked-choice voting applies here. Previously, Bonds won primaries with as little as 35% as challengers split the field.",
   map: {
     x: { label: "Ideological lean (inferred)", left: "Progressive", right: "Moderate" },
     y: { label: "Profile", low: "Community", high: "Insider" },

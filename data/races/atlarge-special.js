@@ -25,11 +25,11 @@ export const atlargeSpecial = {
   rcv: true,
   coverage: "full",
   seat:
-    "Fills the rest of Kenyan McDuffie's At-Large term, ending January 2027. McDuffie stepped down to run for mayor.",
+    "This seat fills the rest of Kenyan McDuffie's At-Large term, which ends in January 2027. McDuffie stepped down to run for mayor.",
   overview:
     "A special election to serve out McDuffie's At-Large term. Unlike the primaries, every registered DC voter can vote in this race regardless of party. A separate November 2026 race decides the next full four-year term.",
   stakes:
-    "This race is easy to miss, it sits separately on the ballot (on the back of page two of mail-in ballots). Two of the three candidates have formed a ranked-choice alliance against the third, which makes how you rank genuinely matter.",
+    "This race is easy to miss. It sits separately on the ballot, on the back of page two of mail-in ballots. Two of the three candidates have formed a ranked-choice alliance against the third, which makes how you rank genuinely matter.",
   map: {
     x: { label: "Ideological lean (inferred)", left: "Progressive", right: "Moderate" },
     y: { label: "Experience profile", low: "Newer", high: "Experienced" },

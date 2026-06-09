@@ -29,7 +29,7 @@ export const delegate = {
   allVoters: false,
   rcv: true,
   coverage: "full",
-  seat: "Open seat, Eleanor Holmes Norton, delegate since 1991, is not running again.",
+  seat: "It's an open seat. Eleanor Holmes Norton, the delegate since 1991, is not running again.",
   overview:
     "DC's delegate is a non-voting member of Congress. The job is pushing for statehood, defending home rule from federal interference, securing federal funding, and limiting Republican interference in local affairs.",
   stakes:
