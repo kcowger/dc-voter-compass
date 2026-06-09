@@ -737,7 +737,7 @@ export function renderAbout() {
       el("li", {}, el("strong", { text: "Open and checkable: " }), "the code is open source and every claim links to its source. See the ", el("a", { href: "#/methodology" }, "methodology and sources"), " for exactly how the matching works.")
     ),
     el("p", { style: { marginTop: "1.5rem" } }, "Thank you for being the kind of person who looks things up before voting. It genuinely matters, and I'm glad this is helping. Now go vote."),
-    el("p", { class: "lead", style: { marginTop: "0.75rem", fontFamily: "var(--font-serif)" }, text: "Yours, Kai (and the dog)" }),
+    el("p", { class: "lead", style: { marginTop: "0.75rem", fontFamily: "var(--font-serif)" }, text: "Yours, Kai" }),
     el("div", { class: "home__cta", style: { marginTop: "2rem" } },
       el("a", { class: "btn btn--primary", href: "#/choose" }, "Find your races ", icon("arrowRight", "btn__arrow"))
     )
