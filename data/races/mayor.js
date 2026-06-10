@@ -395,16 +395,19 @@ export const mayor = {
   ],
   questions: [
     {
+      // Merges the old "basic approach" and "how should DC pay" questions:
+      // their scores were nearly identical, so asking both double-counted
+      // one progressive-vs-moderate axis.
       id: "ambition",
-      text: "What should the next mayor's basic approach to government be?",
+      text: "What should the next mayor's basic approach be, and how should DC pay for it?",
       type: "single",
       options: [
-        // Lewis George: social housing + universal childcare. Goodweather: 50k homes + Fare-Free DC (ambitious, fee-funded). Others reject big new programs.
-        { id: "A", label: "Launch major new public programs (social housing, universal childcare, free transit)", scores: { lewisgeorge: 3, mcduffie: 0, orange: 0, goodweather: 2, johnson: 1, sampath: 0, solomon: 0 } },
-        // McDuffie + Orange: no big new programs, fiscal caution / no new taxes.
-        { id: "B", label: "Stay fiscally cautious; no big new programs given budget pressure", scores: { lewisgeorge: 0, mcduffie: 3, orange: 3, goodweather: 1, johnson: 1, sampath: 1, solomon: 2 } },
-        // Sampath ("fix the basics") and Solomon ("audit and fix") run explicitly on competence-before-ambition.
-        { id: "C", label: "Fix the basics and make government work before anything ambitious", scores: { lewisgeorge: 0, mcduffie: 1, orange: 1, goodweather: 1, johnson: 1, sampath: 3, solomon: 3 } }
+        // Lewis George: social housing + universal childcare, and the only candidate backing new progressive taxes (2021 income-tax hike, Business Activity Tax). Goodweather: 50k homes + Fare-Free DC (ambitious programs, but fee-funded, not new taxes).
+        { id: "A", label: "Launch major new public programs (social housing, universal childcare, free transit), paid for with progressive taxes on wealth and corporations", scores: { lewisgeorge: 3, mcduffie: 0, orange: 0, goodweather: 2, johnson: 1, sampath: 0, solomon: 0 } },
+        // McDuffie + Orange: no big new programs or taxes, grow the economy and the tax base. Johnson and Solomon also oppose new taxes (and run modest-program platforms); Goodweather opposes new taxes but is not program-cautious.
+        { id: "B", label: "Stay fiscally cautious: no big new programs or taxes; grow the economy and the tax base", scores: { lewisgeorge: 0, mcduffie: 3, orange: 3, goodweather: 1, johnson: 2, sampath: 1, solomon: 2 } },
+        // Sampath (fix the basics, cut fees, sunset reviews) and Solomon (audit and fix) run explicitly on competence-before-ambition; Orange's fiscal-discipline frame partly fits.
+        { id: "C", label: "Fix the basics and audit spending before anything ambitious", scores: { lewisgeorge: 0, mcduffie: 1, orange: 2, goodweather: 1, johnson: 1, sampath: 3, solomon: 3 } }
       ]
     },
     {
@@ -446,19 +449,6 @@ export const mayor = {
         { id: "B", label: "Build at a steady pace with ownership pathways and tenant protections", scores: { lewisgeorge: 1, mcduffie: 3, orange: 3, goodweather: 1, johnson: 1, sampath: 2, solomon: 1 } },
         // Johnson (audit developers) and Sampath (enforce against bad landlords, lease existing units) focus on accountability and existing stock.
         { id: "C", label: "Crack down on bad landlords and developers and get more from existing housing", scores: { lewisgeorge: 2, mcduffie: 1, orange: 1, goodweather: 1, johnson: 3, sampath: 3, solomon: 1 } }
-      ]
-    },
-    {
-      id: "taxes",
-      text: "How should DC pay for its priorities?",
-      type: "single",
-      options: [
-        // Only Lewis George supports new progressive taxes (2021 income-tax hike, Business Activity Tax). The rest oppose new taxes.
-        { id: "A", label: "Raise progressive revenue (taxes on the wealthy and corporations)", scores: { lewisgeorge: 3, mcduffie: 0, orange: 0, goodweather: 1, johnson: 0, sampath: 0, solomon: 0 } },
-        // McDuffie + Orange (no new taxes, grow the base); Johnson, Solomon, Goodweather also oppose new taxes.
-        { id: "B", label: "No new taxes; grow the economy and the tax base instead", scores: { lewisgeorge: 0, mcduffie: 3, orange: 3, goodweather: 2, johnson: 2, sampath: 1, solomon: 2 } },
-        // Sampath (cut fees, sunset reviews) and Solomon (audit spending) lead the cut-waste-first lane; Orange's fiscal-discipline frame fits too.
-        { id: "C", label: "Cut wasteful fees and audit spending before anything else", scores: { lewisgeorge: 0, mcduffie: 1, orange: 2, goodweather: 1, johnson: 1, sampath: 3, solomon: 3 } }
       ]
     },
     {

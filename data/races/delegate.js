@@ -308,6 +308,23 @@ export const delegate = {
         // Zalesne's pitch: a national messaging campaign, a "statehood summit," and a regional Capitol Caucus.
         { id: "D", label: "Run a national messaging and coalition campaign", scores: { holbrook: 1, jaczko: 1, pinto: 1, white: 1, zalesne: 3 } }
       ]
+    },
+    {
+      // Each option is a concrete plank documented in this file's profiles, so
+      // the question separates candidates on substance, not just style/resume.
+      id: "firstfight",
+      text: "Beyond statehood, which concrete fight should the delegate pick first?",
+      type: "single",
+      options: [
+        // Holbrook's plank: a local prosecutor's office accountable to DC residents, and DC appointing its own local judges.
+        { id: "A", label: "Local control of justice: a prosecutor accountable to DC and locally appointed judges", scores: { holbrook: 3, jaczko: 1, pinto: 1, white: 1, zalesne: 1 } },
+        // Pinto's signature federal housing lever: make rent up to $15,000 a year federally tax-deductible.
+        { id: "B", label: "Make rent federally tax-deductible for renters (up to $15,000 a year)", scores: { holbrook: 1, jaczko: 1, pinto: 3, white: 1, zalesne: 1 } },
+        // Jaczko's stated priority: push back on the administration's treatment of federal workers. White: coordinate regional federal payments to offset workforce cuts.
+        { id: "C", label: "Protect federal workers and the paychecks DC's economy depends on", scores: { holbrook: 1, jaczko: 3, pinto: 1, white: 2, zalesne: 1 } },
+        // Zalesne's Capital Caucus: a DC-Maryland-Virginia bloc to diversify the regional economy. White also runs on regional coordination.
+        { id: "D", label: "Build a DC-Maryland-Virginia bloc to diversify the regional economy", scores: { holbrook: 1, jaczko: 1, pinto: 1, white: 2, zalesne: 3 } }
+      ]
     }
   ],
   tradeoffs: [
