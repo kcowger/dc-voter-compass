@@ -1,6 +1,6 @@
 # DC Voter Compass
 
-**Live site: [kcowger.github.io/dc-voter-compass](https://kcowger.github.io/dc-voter-compass/)**
+**Live site: [kaicowger.com/dc-voter-compass](https://kaicowger.com/dc-voter-compass/)**
 
 An independent, evidence-based, and private voter guide for the **June 16, 2026 Washington, DC primary and special election**. Answer a few questions about your priorities and watch a map move you toward the candidates who fit, with the source shown for every claim.
 
