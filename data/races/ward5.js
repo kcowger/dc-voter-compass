@@ -39,7 +39,7 @@ export const ward5 = {
       neighborhood: "Ward 5 (Eckington/Truxton Circle area)",
       role: "Ward 5 Councilmember (incumbent, since 2023)",
       background:
-        "A former DCPS-supporting educator (Teach For America, then nearly a decade with Ward 5 schools) and former DC State Board of Education president. The Council's only openly gay member, and the first Black openly gay member in DC history. Chairs the Committee on Youth Affairs.",
+        "A former educator (Teach For America, then nearly a decade supporting DC school leaders) and former DC State Board of Education president. The Council's only openly gay member, and the first Black openly gay member in DC history. Chairs the Committee on Youth Affairs.",
       pos: [-0.5, 0.8],
       tagline: "Progressive incumbent · education + housing",
       inferredLean:
@@ -58,7 +58,10 @@ export const ward5 = {
       ],
       endorsements: [
         "Greater Greater Washington (with a qualified rationale that he isn't the most active member on their issues)",
-        "Opportunity DC"
+        { text: "DC YIMBYs", src: { label: "DC YIMBYs 2026 endorsements", url: "https://dcyimbys.org/blog/2026-june-election-endorsements/" } },
+        { text: "Sierra Club DC", src: { label: "Sierra Club DC endorsement release", url: "https://www.sierraclub.org/dc/sierra-club-endorses-councilmembers-matt-frumin-and-zachary-parker-and-attorney-general-brian" } },
+        { text: "Opportunity DC", src: { label: "Opportunity DC endorsement post", url: "https://www.opportunity-dc.org/post/opportunity-dc-announces-endorsements-in-dc-council-races" } },
+        "Working Families Party, Jews United for Justice, ATU Local 689, and DC Realtors (per the 2026 race's endorsement tracking)"
       ],
       strengths: [
         "The only candidate with a concrete legislative record",
@@ -126,7 +129,7 @@ export const ward5 = {
         "Supporting neighborhood small businesses"
       ],
       positions: [
-        "\"We don't need more programs, we need the ones we already fund to actually work together\"",
+        "Says too many things in DC cost too much and don't work the way they should",
         "Expanding access to energy-efficiency programs to cut household costs",
         "Reducing barriers to opening and operating small businesses",
         "Positions on housing, public safety, and education are not documented in available sources"

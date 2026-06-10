@@ -8,8 +8,19 @@
 
 const SOURCE = {
   label: "The 51st, “Meet the candidates for an At-Large seat on the D.C. Council” (May 14, 2026)",
-  url: "https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/"
+  url: "https://51st.news/at-large-candidates-dc-council-anita-bonds/"
 };
+// Additional primary sources used for specific verified claims below.
+const INFORMER_RCV = { label: "Washington Informer, candidates' ranked-choice picks", url: "https://www.washingtoninformer.com/dc-democratic-party-candidates/" };
+const INFORMER_JENKINS = { label: "Washington Informer, Jenkins profile", url: "https://www.washingtoninformer.com/leniqua-jenkins-advocacy-experience/" };
+const WIKI_2026 = { label: "Wikipedia, 2026 DC Council election (endorsement tables)", url: "https://en.wikipedia.org/wiki/2026_Council_of_the_District_of_Columbia_election" };
+const UFCW400 = { label: "UFCW Local 400 endorsement release (Feb 25, 2026)", url: "https://www.ufcw400.org/2026/02/25/ufcw-local-400-endorses-dyana-forester-for-dc-council-at-large/" };
+const W1DEMS = { label: "Ward One Democrats endorsements", url: "https://ward1democrats.org/endorsements" };
+const BRADY = { label: "Brady PAC endorsement release (April 29, 2026)", url: "https://bradypac.org/brady-pac-endorses-gun-violence-survivor-greg-jackson-in-the-democratic-for-at-large-member-of-the-dc-council/" };
+const DCLINE_ATLARGE = { label: "The DC Line, nine At-Large candidates (May 29, 2026)", url: "https://thedcline.org/2026/05/29/jonetta-rose-barras-nine-at-large-dc-council-democratic-primary-candidates-fight-to-win-a-political-lottery/" };
+const RAYMOND_END = { label: "Lisa Raymond campaign endorsements page", url: "https://lisaraymondfordc.com/endorsements/" };
+const CHAVOUS_END = { label: "Kevin Chavous campaign endorsements page", url: "https://www.chavousfordc.com/endorsements" };
+const JACKSON_END = { label: "Greg Jackson campaign endorsements page", url: "https://www.jacksonfordc.com/endorsements" };
 
 // Candidates' own campaign sites, read June 8, 2026. Positions sourced to these
 // take precedence over secondhand summaries; where a campaign site contradicts
@@ -42,7 +53,7 @@ export const atlargeDem = {
   overview:
     "DC has four At-Large councilmembers who represent the whole city. Bonds was a moderate who often cast the deciding vote between the Council's progressive and centrist wings, usually siding with the center.",
   stakes:
-    "This is the highest-stakes ideological inflection point on the ballot. Replacing the moderate swing vote could nudge the Council in either direction. It's also the first time ranked-choice voting applies here. Previously, Bonds won primaries with as little as 35% as challengers split the field.",
+    "This is the highest-stakes ideological inflection point on the ballot. Replacing the moderate swing vote could nudge the Council in either direction. It's also the first time ranked-choice voting applies here. Bonds won her last primary with just under 36% as challengers split the field.",
   map: {
     x: { label: "Ideological lean (inferred)", left: "Progressive", right: "Moderate" },
     y: { label: "Profile", low: "Community", high: "Insider" },
@@ -56,23 +67,23 @@ export const atlargeDem = {
       neighborhood: "Brightwood (Ward 4)",
       role: "Most recently chief of staff to Ward 4 Councilmember Janeese Lewis George",
       background:
-        "20 years across five DC government agencies under various mayors; led Attorney General Brian Schwalb's 2022 transition. The deepest insider profile in the field, with oversight as her signature issue.",
+        "Nearly 20 years across five DC government agencies; led Attorney General Brian Schwalb's 2022 transition. The deepest insider profile in the field, with oversight as her signature issue.",
       pos: [-0.55, 0.85],
       tagline: "Progressive · oversight · deep insider",
       inferredLean:
-        "Progressive. Chief of staff to one of the Council's most progressive members (Lewis George); note she's also worked under mayors of varying ideology over 20 years, so the recent JLG affiliation is the strongest signal. (Inferred.)",
+        "Progressive. Chief of staff to one of the Council's most progressive members (Lewis George); her nearly 20-year, five-agency career cuts across administrations, so the recent JLG affiliation is the strongest signal. (Inferred.)",
       priorities: [
         "Council oversight of executive agencies",
         "Housing affordability and tenant protections",
         "Worker rights and fair wages"
       ],
       positions: [
-        "Argues current Council oversight is \"performative\" and that not all members show up to hearings",
-        "Housing: expand rent stabilization, strengthen TOPA, fully fund the Housing Production Trust Fund and First Right to Purchase, and fund vouchers, emergency rental assistance, and permanent supportive housing",
-        "Proposes a standalone DC Department of Labor and a \"Workers' Bill of Rights\"; would repeal anti-union laws",
+        { text: "Argues current Council oversight is \"performative\" and that not all members show up to hearings", src: SOURCE },
+        { text: "Housing: expand rent stabilization, strengthen TOPA, fully fund the Housing Production Trust Fund and First Right to Purchase, and fund vouchers, emergency rental assistance, and permanent supportive housing", src: SITE.nelson },
+        { text: "Proposes a standalone DC Department of Labor and a \"Workers' Bill of Rights\"; would repeal anti-union laws", src: SITE.nelson },
         "Wants a standalone Education Committee, a \"civic tech\" platform so residents can track and comment on bills, and the Council's own federal-affairs office"
       ],
-      endorsements: ["Cross-endorsed by fellow at-large candidates Greg Jackson, Oye Owolewa, and Lisa Raymond"],
+      endorsements: [{ text: "Named as a ranking choice by rival candidates Greg Jackson and Oye Owolewa", src: INFORMER_RCV }],
       strengths: [
         "Deepest insider profile in the field by a clear margin",
         "Oversight is her core competency, not a talking point",
@@ -91,7 +102,7 @@ export const atlargeDem = {
       name: "Lisa Raymond",
       age: 56,
       neighborhood: "Capitol Hill",
-      role: "Most recently chief of staff to AG Karl Racine (2018–2020)",
+      role: "Former chief of staff to AG Karl Racine (2018–2020); now a development officer at a homeless-youth nonprofit serving Wards 7 and 8",
       background:
         "Got hooked on DC education at Cesar Chavez Public Charter School, rose to COO, served a term on the State Board of Education, then was senior education advisor to the Council's Committee of the Whole. The clearest pro-housing-supply candidate in the field.",
       pos: [0.4, 0.6],
@@ -101,15 +112,15 @@ export const atlargeDem = {
       priorities: ["Education", "Housing supply and affordability", "Childcare"],
       positions: [
         "Housing: streamline permitting and zoning to speed construction, while cautioning it isn't \"an invitation to developers to do whatever they want\"; pairs more supply with defending rent stabilization",
-        "Backs workforce and middle-income housing for teachers, nurses, and first responders, funding the Housing Production Trust Fund with strong oversight",
-        "Childcare: notes DC has tools (the Pay Equity Fund) but needs to revisit childcare seat capacity"
+        { text: "Backs workforce and middle-income housing for teachers, nurses, and first responders, funding the Housing Production Trust Fund with strong oversight", src: SITE.raymond },
+        { text: "Childcare: notes DC has tools (the Pay Equity Fund) but needs to revisit childcare seat capacity", src: SOURCE }
       ],
       endorsements: [
-        "Greater Greater Washington (their top At-Large pick)",
-        "DC YIMBYs",
-        "DC Association of Realtors / GCAAR",
-        "IAFF Local 36 (firefighters), Opportunity DC, DC Charter School Action",
-        "Ward 6 CM Charles Allen and former Ward 3 CM Mary Cheh"
+        { text: "Greater Greater Washington (their At-Large endorsee)", src: RAYMOND_END },
+        { text: "DC YIMBYs", src: RAYMOND_END },
+        { text: "DC Association of Realtors / GCAAR", src: RAYMOND_END },
+        { text: "IAFF Local 36 (firefighters), Opportunity DC, DC Charter School Action", src: RAYMOND_END },
+        { text: "Ward 6 CM Charles Allen and former Ward 3 CM Mary Cheh", src: RAYMOND_END }
       ],
       strengths: [
         "Clearest pro-housing-supply candidate, with the endorsements to back it",
@@ -142,12 +153,15 @@ export const atlargeDem = {
         "Worker protections and labor"
       ],
       positions: [
-        "Worked on successful DC minimum-wage and paid-family-leave legislation through UFCW",
-        "Housing: strengthen TOPA and expand deeply affordable housing; cites the 142-unit, fully affordable Park Morton building she fought for, and resists deals that prioritize market-rate units",
-        "Backs legislation limiting DC's cooperation with ICE, sanctuary protections, and funding for immigration legal defense",
-        "Pushed back on \"build faster\" as the first housing priority, questioning whether speed alone creates family-affordable housing"
+        { text: "Worked on successful DC minimum-wage and paid-family-leave legislation through UFCW", src: SOURCE },
+        { text: "Housing: strengthen TOPA and expand deeply affordable housing; cites the 142-unit, fully affordable Park Morton building she fought for, and resists deals that prioritize market-rate units", src: SITE.forester },
+        { text: "Backs legislation limiting DC's cooperation with ICE, sanctuary protections, and funding for immigration legal defense", src: SITE.forester },
+        { text: "Pushed back on \"build faster\" as the first housing priority, questioning whether speed alone creates family-affordable housing", src: SOURCE }
       ],
-      endorsements: ["UFCW Local 400", "AFGE District 14, Plumbers & Gasfitters Local 5, and other building-trades unions"],
+      endorsements: [
+        { text: "UFCW Local 400", src: UFCW400 },
+        { text: "AFGE District 14, Plumbers & Gasfitters Local 5, and other building-trades unions", src: WIKI_2026 }
+      ],
       strengths: [
         "Strongest working-class lived experience in the field",
         "Real legislative track record on minimum wage and paid family leave",
@@ -156,7 +170,7 @@ export const atlargeDem = {
       weaknesses: [
         "Housing-supply skeptic: her quote questioning \"build faster\" is a flag for supply-focused voters",
         "Currently works in Maryland government, not DC",
-        "Single-term plan may limit her ability to build seniority"
+        "Says her goal isn't to be a councilmember forever, which may limit seniority-building"
       ],
       flags: [],
       sources: [SITE.forester, SOURCE]
@@ -179,12 +193,17 @@ export const atlargeDem = {
         "Tuition-free UDC and progressive tax reform"
       ],
       positions: [
-        "Tax program built on progressive revenue: a millionaire's tax on income above $500,000, a higher capital-gains tax, a stronger mansion tax, and a land-value tax near Metro stations to fund transit",
-        "Housing \"preservation first\": dedicate a large share of the Housing Production Trust Fund to preservation and TOPA purchases, cap rent increases at inflation, and expand social housing and community land trusts",
-        "Community-first public safety: remove armed officers from schools (counselors and nurses instead), shift traffic enforcement to a civilian agency, and oppose youth curfews",
+        { text: "Tax program built on progressive revenue: a millionaire's tax on income above $500,000, a higher capital-gains tax, a stronger mansion tax, and a land-value tax near Metro stations to fund transit", src: SITE.owolewa },
+        { text: "Housing \"preservation first\": dedicate a large share of the Housing Production Trust Fund to preservation and TOPA purchases, cap rent increases at inflation, and expand social housing and community land trusts", src: SITE.owolewa },
+        { text: "Community-first public safety: remove armed officers from schools (counselors and nurses instead), shift traffic enforcement to a civilian agency, and oppose youth curfews without programming investment", src: SITE.owolewa },
         "Make UDC tuition-free; led protests against ICE headquarters construction on the St. Elizabeth's campus and faults the Council for not resisting federal interference harder"
       ],
-      endorsements: ["Working Families Party", "Sierra Club", "Ward One Democrats", "Multiple labor unions and progressive groups"],
+      endorsements: [
+        { text: "Working Families Party", src: WIKI_2026 },
+        { text: "Sierra Club", src: WIKI_2026 },
+        { text: "Ward One Democrats", src: W1DEMS },
+        { text: "Multiple labor unions and progressive groups", src: WIKI_2026 }
+      ],
       strengths: [
         "The most consistently progressive record in the field",
         "A documented activist record (ICE-HQ protests, statehood advocacy)",
@@ -212,12 +231,16 @@ export const atlargeDem = {
         "Moderate. The Bonds endorsement is the strongest possible signal, he worked directly for her and she chose him as the continuation candidate. (Inferred.)",
       priorities: ["Education and youth services", "Housing supply and tenant protections", "Seniors and aging in place"],
       positions: [
-        "Wants a counselor and nurse in every school regardless of enrollment, plus out-of-school-time programming",
+        { text: "Wants a counselor and nurse in every school regardless of enrollment, plus out-of-school-time programming", src: SOURCE },
         "Housing on his own platform is supply via \"zoning updates, ADUs, and adaptive reuse\" plus tenant protections; The 51st reported he also favors raising inclusionary zoning toward 15%, a figure not stated on his campaign site",
-        "Dedicated seniors plank: expand property-tax relief and housing supports so seniors can age in place",
-        "Views the at-large role as \"listening and being a conduit from the community to the legislation\""
+        { text: "Dedicated seniors plank: expand property-tax relief and housing supports so seniors can age in place", src: SITE.chavous },
+        { text: "Views the at-large role as \"listening and being a conduit from the community to the legislation\"", src: SOURCE }
       ],
-      endorsements: ["Anita Bonds (the retiring incumbent he would replace)", "Former U.S. Attorney General Eric Holder", "AFSCME District Council 20"],
+      endorsements: [
+        { text: "Anita Bonds (the retiring incumbent he would replace)", src: CHAVOUS_END },
+        { text: "Former U.S. Attorney General Eric Holder", src: CHAVOUS_END },
+        { text: "AFSCME District Council 20", src: CHAVOUS_END }
+      ],
       strengths: [
         "Runs a Council committee now; lowest learning curve",
         "Lifelong DC resident in an underrepresented part of the city",
@@ -250,10 +273,16 @@ export const atlargeDem = {
       ],
       positions: [
         "Public safety: targeted enforcement on serious violence paired with large-scale, evidence-based violence intervention, modeled on Baltimore and Miami",
-        "Argues he's the only candidate who has \"battled in the congressional arena\"",
-        "Expressed positive views of Davis, Raymond, and Nelson as possible second-choice ranks"
+        { text: "Argues he's the only candidate who has \"battled in the congressional arena\"", src: SOURCE },
+        { text: "Expressed positive views of Davis, Raymond, and Nelson as possible second-choice ranks", src: SOURCE }
       ],
-      endorsements: ["Brady PAC", "Opportunity DC", "U.S. Reps. Maxwell Frost (FL) and Gabe Amo (RI)", "Baltimore Mayor Brandon Scott", "Gun-violence-prevention leaders including David Hogg and Moms Demand Action"],
+      endorsements: [
+        { text: "Brady PAC", src: BRADY },
+        { text: "Opportunity DC (co-endorsement with Raymond)", src: WIKI_2026 },
+        { text: "U.S. Reps. Maxwell Frost (FL) and Gabe Amo (RI)", src: JACKSON_END },
+        { text: "Baltimore Mayor Brandon Scott", src: JACKSON_END },
+        { text: "Gun-violence-prevention leaders including David Hogg and Moms Demand Action's executive director", src: JACKSON_END }
+      ],
       strengths: [
         "Strongest public-safety credentials in the field",
         "Personal experience of gun violence gives moral authority to his policy",
@@ -286,8 +315,8 @@ export const atlargeDem = {
       ],
       positions: [
         "Public safety through \"stability, fairness, and investment in people\": mental-health support and stronger community-police relationships; opposed citywide curfews",
-        "Signature \"Bottle Bill\": a beverage-container deposit-return system framed around environmental justice and green jobs",
-        "Build a unified dashboard for senior services; argues her career across small business, ANC, Council staff, and nonprofits gives multi-issue depth"
+        { text: "Champions the pending Bottle Bill, a beverage-container deposit-return measure before the Council, framing it around environmental justice and green jobs", src: INFORMER_JENKINS },
+        { text: "Build a unified dashboard for senior services; argues her career across small business, ANC, Council staff, and nonprofits gives multi-issue depth", src: SOURCE }
       ],
       endorsements: ["Not documented on her campaign site or in available coverage."],
       strengths: [
@@ -297,7 +326,7 @@ export const atlargeDem = {
       ],
       weaknesses: [
         "Limited insider profile relative to other candidates",
-        "Lost in 2021 (didn't make the ballot); no established winning track record",
+        "Sought this seat in a prior cycle but didn't make the ballot; no established winning track record",
         "Policy positions are less developed publicly than for others"
       ],
       flags: [],
@@ -317,12 +346,15 @@ export const atlargeDem = {
         "Moderate-pragmatic. No clear ideological tells in available reporting. (Inferred.)",
       priorities: ["Public education", "Affordability and workforce housing", "Government-agency oversight"],
       positions: [
-        "Frames education as foundational to crime, food access, and other downstream issues",
-        "Workforce housing for teachers, firefighters, nurses, and police, built near transit and jobs",
-        "Full statehood and Home Rule plank: defend budget autonomy, the independent AG, and voting representation, and \"build national coalitions for DC statehood\"",
-        "Argues his former-principal background equips him for agency oversight (\"there is a skill to providing feedback\")"
+        { text: "Frames education as foundational to crime, food access, and other downstream issues", src: SOURCE },
+        { text: "Workforce housing for teachers, firefighters, nurses, and police, built near transit and jobs", src: SOURCE },
+        { text: "Full statehood and Home Rule plank: defend budget autonomy, the independent AG, and voting representation, and \"build national coalitions for DC statehood\"", src: SITE.davis },
+        { text: "Argues his former-principal background equips him for agency oversight (\"there is a skill to providing feedback\")", src: SOURCE }
       ],
-      endorsements: ["Not documented on his campaign site or in available coverage."],
+      endorsements: [
+        { text: "Martin Luther King III (video endorsement featured on his campaign site)", src: DCLINE_ATLARGE },
+        { text: "Named as a ranking choice by rival Greg Jackson", src: INFORMER_RCV }
+      ],
       strengths: [
         "Deep DCPS experience as both teacher and administrator",
         "Native Washingtonian with old-school DC roots",
@@ -354,12 +386,12 @@ export const atlargeDem = {
         "A strategic rather than activist approach to federal interference"
       ],
       positions: [
-        "Fast-track any affordable-housing project that gets city financing so it isn't delayed in bureaucracy",
-        "Public safety \"not through rhetoric or extremes, but through collaboration, accountability, and prevention,\" working with community leaders, nonprofits, mental-health professionals, and law enforcement",
+        { text: "Fast-track any affordable-housing project that gets city financing so it isn't delayed in bureaucracy", src: SOURCE },
+        { text: "Public safety \"not through rhetoric or extremes, but through collaboration, accountability, and prevention,\" working with community leaders, nonprofits, mental-health professionals, and law enforcement", src: SITE.hill },
         "Grow the tax base via small-business support and CBE-program reform; argues the Council needs at least one businessperson",
-        "Describes a \"work the system\" rather than activist approach; reported to support Kenyan McDuffie for mayor"
+        { text: "Describes a \"work the system\" rather than activist approach; reported to support Kenyan McDuffie for mayor", src: SOURCE }
       ],
-      endorsements: ["Not documented on his campaign site or in available coverage."],
+      endorsements: [{ text: "No organizational endorsements documented; named as a ranking choice by rival Oye Owolewa", src: INFORMER_RCV }],
       strengths: [
         "Deepest zoning expertise in the field (10 years on the BZA)",
         "A genuine business-operator perspective underrepresented on the Council",

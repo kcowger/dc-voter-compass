@@ -56,7 +56,7 @@ export const ward1 = {
         "First bill would \"fully restore\" TOPA; would end exclusionary zoning to legalize multifamily citywide and fully fund the Housing Production Trust Fund",
         "Greater Greater Washington noted she \"writes most convincingly\" about the need for more market-rate housing",
         "Opposes youth curfews; backs violence interruption and community responders for mental-health crises",
-        "Signature issue: ending MPD–ICE cooperation and strengthening the Sanctuary Values Act"
+        "Signature issue: ending MPD collaboration with ICE and strengthening sanctuary protections"
       ],
       endorsements: [
         "Broadest labor coalition in the race (30+ groups, 17 unions)",
@@ -69,7 +69,7 @@ export const ward1 = {
         "Clear, consistent movement-progressive platform"
       ],
       weaknesses: [
-        "DC YIMBYs flagged her \"limited governing experience\"",
+        "DC YIMBYs flagged her \"lack of prior governing experience\"",
         "No prior elected office"
       ],
       flags: [],
@@ -96,7 +96,7 @@ export const ward1 = {
       positions: [
         "More family-sized apartments and higher density; backs the Housing Production Omnibus Act and a social-housing model; would strengthen TOPA and DOPA",
         "DC YIMBYs praised his by-right-development support, parking reform, and gentle-density resolution through ANC 1B",
-        "Opposes permanent youth curfews as a \"band-aid\"; backs civilian oversight of MPD",
+        "Does not support \"a permanent curfew or repeated extensions as the only fix\"; backs civilian oversight of MPD",
         "Signature issue: transit, dedicated bus lanes on every key corridor and a connected protected-bike-lane network"
       ],
       endorsements: [
@@ -121,7 +121,7 @@ export const ward1 = {
       id: "brown",
       name: "Rashida Brown",
       age: 47,
-      neighborhood: "Lower Georgia Avenue",
+      neighborhood: "Park View (lower Georgia Avenue)",
       role: "ANC commissioner (~10 years); early-childhood policy consultant",
       background:
         "A Howard-trained social worker, former OSSE policy director, and founder of Georgia Avenue Thrive, with 20+ years in early-childhood and public service. Endorsed by the outgoing incumbent.",
@@ -222,7 +222,7 @@ export const ward1 = {
       positions: [
         "Signature \"use it or lose it\" housing idea: the city buys vacant/blighted properties at market value and redevelops them (he estimates ~5,000 Ward 1 units); also close rent-control loopholes",
         "The only candidate who clearly supports youth curfews, paired with expanded afterschool arts/athletics",
-        "Foot patrols, streetlight fixes, and closing active drug markets",
+        "Foot patrols over car patrols, and closing active drug markets",
         "Prefers hands-on oversight via hearings and agency reviews over new legislation"
       ],
       endorsements: ["Not documented in available sources."],

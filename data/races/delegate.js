@@ -1,16 +1,19 @@
 // DC Delegate to Congress, Democratic primary.
 // Base profiles from The 51st's DCision2026 delegate profile ("Meet the
 // candidates running to be D.C.'s delegate to Congress," May 11, 2026),
-// deepened June 8, 2026 from candidates' own sites and endorsement releases.
-// Notable correction: Robert White's caucus backing is via the Congressional
-// Black Caucus PAC and Congressional Progressive Caucus PAC (not the caucuses
-// as institutions). Jaczko's site (gojaczko4dc.com) is JS-rendered and did not
-// return text, so his positions stay sourced to The 51st and are flagged.
+// deepened from candidates' own sites and endorsement releases, and verified
+// claim-by-claim June 9, 2026. Sourcing note on Robert White's congressional
+// backing: the CPC PAC endorsement is confirmed by the PAC's own release; the
+// CBC-side entity is reported by NOTUS as "Congressional Black Caucus" while
+// his site says "The Congressional Black PAC," so it's phrased as reported.
+// Jaczko's site (gojaczko4dc.com) is JS-rendered and did not return text, so
+// his positions stay sourced to The 51st and are flagged.
 
 const SOURCE = {
   label: "The 51st, “Meet the candidates running to be D.C.'s delegate to Congress” (May 11, 2026)",
-  url: "https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/"
+  url: "https://51st.news/dc-delegate-race-white-pinto-zalesne-holbrook-jaczko/"
 };
+const NOTUS = { label: "NOTUS, “The DC Delegate Race Is Already the Most Expensive on Record” (June 5, 2026)", url: "https://www.notus.org/2026-election/dc-delegate-race-spending" };
 // Candidates' own materials and primary endorsement releases, read June 8, 2026.
 const SITE = {
   white: { label: "Robert White endorsements (joinrobertwhite.com/endorsements)", url: "https://www.joinrobertwhite.com/endorsements" },
@@ -58,23 +61,23 @@ export const delegate = {
         "Pursue a seat on the House Appropriations Committee specifically"
       ],
       positions: [
-        "Wants an Appropriations seat to direct federal funds to DC and head off Republican budget riders",
-        "Transfer federal lands around L'Enfant Plaza to local control",
-        "Coordinate with regional partners on federal payments to offset workforce cuts",
-        "Puerto Rico-style tax model: businesses moving to DC don't pay federal taxes on income earned in DC"
+        { text: "Wants a seat on the powerful House Appropriations Committee to direct federal funds to DC", src: SOURCE },
+        { text: "Transfer federal lands around L'Enfant Plaza to local control", src: SOURCE },
+        { text: "Coordinate with regional partners on federal payments to offset workforce cuts", src: SOURCE },
+        { text: "Puerto Rico-style tax model: businesses moving to DC don't pay federal taxes on income earned in DC", src: SOURCE }
       ],
       endorsements: [
-        "Congressional Progressive Caucus PAC (co-chairs Pramila Jayapal, Greg Casar, Maxwell Frost)",
-        "Congressional Black Caucus PAC, plus Reps. Jim Clyburn and Maxwell Frost",
-        "Senator Elizabeth Warren",
-        "Working Families Party, Free DC, Greater Greater Washington, Our Revolution DC, Jews United for Justice",
-        "Unions including Metro Washington AFL-CIO, ATU Local 689, AFSCME DC 20, and the Carpenters",
-        "Councilmembers Charles Allen (Ward 6) and Janeese Lewis George (Ward 4)"
+        { text: "Congressional Progressive Caucus PAC (co-chairs Pramila Jayapal, Greg Casar, Maxwell Frost)", src: CPC_PAC },
+        { text: "Congressional Black Caucus backing (as reported by NOTUS), plus Reps. Jim Clyburn and Maxwell Frost", src: NOTUS },
+        { text: "Senator Elizabeth Warren", src: SITE.white },
+        { text: "Working Families Party, Free DC, Greater Greater Washington, Our Revolution DC, Jews United for Justice", src: SITE.white },
+        { text: "Unions including Metro Washington AFL-CIO, ATU Local 689, AFSCME DC 20, and the Carpenters", src: SITE.white },
+        { text: "Councilmembers Charles Allen (Ward 6) and Janeese Lewis George (Ward 4)", src: SITE.white }
       ],
       strengths: [
         "Only candidate with both substantial Council experience (10 yrs) and Hill experience (5 yrs on Norton's staff)",
         "Appropriations is the highest-leverage committee for a non-voting delegate seeking to move federal money",
-        "Strongest published endorsement list in the field; the CBC and CPC PACs plus Warren is unusual breadth",
+        "Strongest published endorsement list in the field; congressional backing plus Warren is unusual breadth",
         "Native Washingtonian; the only Black candidate in the race"
       ],
       weaknesses: [
@@ -148,15 +151,15 @@ export const delegate = {
         "Public safety (her area of focus on the Council)"
       ],
       positions: [
-        "Make rent up to $15,000 a year federally tax-deductible, reframing the federal housing subsidy that today favors homeowners",
-        "Speed transfer of GSA-administered federal buildings and land to local control for affordable housing; supports repealing the Height Act",
-        "Declare more federal enterprise and opportunity zones in DC, especially east of the river",
-        "Cites her Council work on gun-crime penalties, expanded pre-trial detention, and teen curfew zones"
+        { text: "Make rent up to $15,000 a year federally tax-deductible, reframing the federal housing subsidy that today favors homeowners", src: { label: "Brooke Pinto housing platform", url: "https://brookepintoforcongress.com/housing/" } },
+        { text: "Speed transfer of GSA-administered federal buildings and land to local control for affordable housing; supports repealing the Height Act", src: { label: "Brooke Pinto housing platform", url: "https://brookepintoforcongress.com/housing/" } },
+        { text: "Declare more federal enterprise and opportunity zones in DC", src: SOURCE },
+        { text: "Cites her Council work on gun-crime penalties, expanded pre-trial detention, and teen curfew zones", src: SOURCE }
       ],
       endorsements: [
-        "U.S. Senators Angela Alsobrooks (MD) and Richard Blumenthal (CT)",
-        "Former Mayor Tony Williams; Councilmembers/former CMs Anita Bonds, Mary Cheh, Charlene Drew Jarvis, Bill Lightfoot",
-        "DC Firefighters IAFF Local 36, DC YIMBYs, Opportunity DC, DMV New Liberals",
+        { text: "U.S. Senators Angela Alsobrooks (MD) and Richard Blumenthal (CT)", src: SITE.pinto },
+        { text: "Former Mayor Tony Williams; Councilmembers/former CMs Anita Bonds, Mary Cheh, Charlene Drew Jarvis, Bill Lightfoot", src: SITE.pinto },
+        { text: "DC Firefighters IAFF Local 36, DC YIMBYs, Opportunity DC, DMV New Liberals", src: SITE.pinto },
         { text: "Top fundraiser in the field (raised more than $1.5 million as of June 2026)", src: { label: "NOTUS, June 2026", url: "https://www.notus.org/2026-election/dc-delegate-race-spending" } }
       ],
       strengths: [
@@ -165,8 +168,8 @@ export const delegate = {
         "Specific, concrete policy proposals tied to federal mechanisms"
       ],
       weaknesses: [
-        "Connecticut native; has faced repeated criticism that she doesn't know DC well enough",
-        "Her public-safety record is contested by criminal-justice reform advocates",
+        "Connecticut native, with shorter DC roots than the native-Washingtonian candidates",
+        "Her enforcement-forward safety record (curfew zones, expanded pre-trial detention) may concern criminal-justice-reform-minded voters",
         "Limited Hill experience"
       ],
       flags: [
@@ -174,7 +177,8 @@ export const delegate = {
           id: "oppo",
           label: "Published unredacted opposition research on an opponent and his family",
           detail:
-            "Pinto's campaign published unredacted opposition research on Robert White and his family. She apologized but refused to drop out when he asked. The source flags this as a real concern for a job that runs on relationships and trust."
+            "Pinto's campaign published unredacted opposition research on Robert White and his family. She apologized but refused to drop out when he asked. The source flags this as a real concern for a job that runs on relationships and trust.",
+          src: SOURCE
         }
       ],
       sources: [SITE.pinto, SOURCE]
@@ -198,12 +202,12 @@ export const delegate = {
       positions: [
         "Call a \"statehood summit\" after the June 16 primary to refine messaging and strategy",
         "Launch a national ad campaign targeting DC visitors (possible tagline: \"Welcome to D.C., we're the last colony\")",
-        "Create a Capitol Caucus of representatives from surrounding states to diversify the regional economy",
+        { text: "Create a \"Capital Caucus\" of representatives from DC, Maryland, and Virginia to diversify the regional economy", src: SITE.zalesne },
         "Argues the role's power comes from the person, not the position, and her national networks are uniquely suited"
       ],
       endorsements: [
         "Three sitting members of the US House (names not in source)",
-        "Raised over $660,000"
+        { text: "Raised nearly $796,000 as of late May 2026", src: NOTUS }
       ],
       strengths: [
         "Strongest national political network in the field",

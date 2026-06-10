@@ -23,7 +23,23 @@ const S = {
   solomon: { label: "Hope Solomon campaign site (hopefordc.com/about)", url: "https://hopefordc.com/about" },
   solomonAxios: { label: "Axios DC, “A DOGE'd federal worker is running for mayor”", url: "https://www.axios.com/local/washington-dc/2026/02/13/doged-federal-worker-running-for-mayor-dc" },
   the51st: { label: "The 51st, DCision2026 mayoral coverage", url: "https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/" },
-  dmvnl: { label: "DMV New Liberals endorsements", url: "https://dmvnewliberals.org/endorsements" }
+  dmvnl: { label: "DMV New Liberals endorsements", url: "https://dmvnewliberals.org/endorsements" },
+  the51stTimers: { label: "The 51st, “Meet the first-time candidates running for mayor”", url: "https://51st.news/dc-mayoral-race-goodweather-solomon-sampath-2026/" },
+  the51stFact: { label: "The 51st, mayoral-race attacks fact-check", url: "https://51st.news/dc-mayoral-race-attacks-fact-check-2/" },
+  jlgWtop: { label: "WTOP, “Get to know mayoral candidate Janeese Lewis George”", url: "https://wtop.com/dc-election/2026/06/get-to-know-dc-mayoral-candidate-janeese-lewis-george/" },
+  jlgPlatformHomes: { label: "Lewis George platform, Homes for All", url: "https://janeesefordc.com/platform/homes-for-all/" },
+  jlgPlatformSafety: { label: "Lewis George platform, Safe Communities for All", url: "https://janeesefordc.com/platform/safe-communities-for-all/" },
+  jlgPlatformChildcare: { label: "Lewis George platform, Childcare for All", url: "https://janeesefordc.com/platform/childcare-for-all/" },
+  jlgPlatformFederal: { label: "Lewis George platform, Stand Up for All DC", url: "https://janeesefordc.com/platform/stand-up-for-all-dc/" },
+  mcdWtop: { label: "WTOP, “Get to know mayoral candidate Kenyan McDuffie”", url: "https://wtop.com/dc-election/2026/06/get-to-know-dc-mayoral-candidate-kenyan-mcduffie/" },
+  wjlaRental: { label: "WJLA, Council passes the RENTAL Act 10-3", url: "https://wjla.com/features/i-team/dc-council-votes-yes-rental-act-reform-rental-housing-laws-dc-landlords-eviction-mayor-bowser-approve-small-multifamily-owners-association-tenant-opportunity-to-purchase-act-topa" },
+  dclineOcf: { label: "The DC Line, OCF inquiry into the Lewis George campaign (May 1, 2026)", url: "https://thedcline.org/2026/05/01/jonetta-rose-barras-has-janeese-lewis-georges-mayoral-campaign-violated-dc-election-finance-laws/" },
+  jewishInsider: { label: "Jewish Insider on the Trayon White remarks (May 2026)", url: "https://jewishinsider.com/2026/05/janeese-lewis-george-campaign-trayon-white-antisemitic-history/" },
+  wikiMayor: { label: "Wikipedia, 2026 DC mayoral election", url: "https://en.wikipedia.org/wiki/2026_Washington,_D.C.,_mayoral_election" },
+  orangeWtop: { label: "WTOP, “Get to know mayoral candidate Vincent Orange”", url: "https://wtop.com/dc-election/2026/06/get-to-know-dc-mayoral-candidate-vincent-orange/" },
+  sampathWtop: { label: "WTOP, “Get to know mayoral candidate Rini Sampath”", url: "https://wtop.com/dc-election/2026/06/get-to-know-dc-mayoral-candidate-rini-sampath/" },
+  ramw: { label: "Restaurant Association of Metropolitan Washington endorsements", url: "https://www.ramw.org/ramw-announces-endorsements-dc-primary-election-races" },
+  georgetowner: { label: "Georgetowner, 2026 mayoral candidate tracker", url: "https://georgetowner.com/articles/2026/05/12/dc-mayor-race-2026-candidate-tracker/" }
 };
 
 export const mayor = {
@@ -57,7 +73,7 @@ export const mayor = {
       neighborhood: "Ward 4 (third-generation Washingtonian)",
       role: "Ward 4 Councilmember since 2021",
       background:
-        "Former Assistant Attorney General under Karl Racine and former Assistant General Counsel at OSSE. A self-identified democratic socialist; the first Council member affiliated with the Metro DC DSA since 1998. Her platform centers on affordability, economic populism, and standing up to the Trump administration.",
+        "Former Assistant Attorney General under Karl Racine who also worked for the DC State Board of Education. A self-identified democratic socialist, the first on the Council since 1998. Her platform centers on affordability, economic populism, and standing up to the Trump administration.",
       pos: [-0.78, 0.45],
       tagline: "Progressive · prevention-first · ambitious scale",
       inferredLean:
@@ -68,22 +84,22 @@ export const mayor = {
         "A confrontational posture toward federal interference"
       ],
       positions: [
-        "Housing: target of 72,000 new units over five years (roughly six times McDuffie's pace), plus \"Dignified Homes DC\" social housing",
-        "Proposes financing affordable housing construction with billions from the city's pension funds (the Washington Post criticized this editorially)",
-        "Voted NO on the 2025 RENTAL Act (one of three no votes); tried to remove its violent-tenant eviction provision",
-        "Public safety: \"prevention, intervention, and enforcement,\" Community Hubs in all eight wards, no stated MPD hiring target",
-        "Voted against extending the youth curfew four times; says she would end the policy as mayor",
-        "Childcare: universal subsidy capping family cost at 7% of income, paid directly to providers",
-        "Co-authored a 2021 income-tax increase on high earners; supports a Business Activity Tax",
-        "Would end MPD cooperation with ICE on day one; \"no comply in advance\"",
+        { text: "Housing: target of 72,000 new units over five years (roughly six times McDuffie's pace), plus \"Dignified Homes DC\" social housing", src: S.jlgWtop },
+        "Proposes financing affordable housing construction with billions from the city's pension funds (a Washington Post opinion piece criticized this)",
+        { text: "Voted NO on the 2025 RENTAL Act (one of three no votes), seeking to soften its eviction provisions", src: S.wjlaRental },
+        { text: "Public safety: \"prevention, intervention, and enforcement,\" Community Hubs in all eight wards, no stated MPD hiring target", src: S.jlgPlatformSafety },
+        "Voted for the original July 2025 emergency youth curfew, then against extending it four times; says she would end the policy as mayor",
+        { text: "Childcare: universal subsidy capping family cost at 7% of income", src: S.jlgPlatformChildcare },
+        { text: "Backs progressive revenue, including a Business Activity Tax", src: S.the51stFact },
+        { text: "Would rescind the order letting MPD cooperate with ICE; \"I'm not complying in advance\"", src: S.jlgPlatformFederal },
         "Schools: reduce mayoral control, giving the State Board of Education authority over the Superintendent"
       ],
       endorsements: [
-        "Greater Greater Washington and Free DC",
-        "Working Families Party, Metro DC DSA, Our Revolution DC, Sierra Club DC, DC YIMBYs",
-        "Washington Teachers Union, Metro Washington AFL-CIO, SEIU 32BJ, UFCW Local 400, ATU Local 689, UNITE HERE 23 & 25",
-        "Jews United for Justice Campaign Fund",
-        "Councilmembers Robert White, Brianne Nadeau, Zachary Parker, and Charles Allen; former AG Karl Racine"
+        { text: "Greater Greater Washington and Free DC", src: S.jlg },
+        { text: "Working Families Party, Metro DC DSA, Our Revolution DC, Sierra Club DC, DC YIMBYs", src: S.jlg },
+        { text: "Washington Teachers Union, Metro Washington AFL-CIO, SEIU 32BJ, UFCW Local 400, ATU Local 689, UNITE HERE 23 & 25", src: S.jlg },
+        { text: "Jews United for Justice Campaign Fund", src: S.jlg },
+        { text: "Councilmembers Robert White, Brianne Nadeau, Zachary Parker, and Charles Allen; former AG Karl Racine", src: S.jlg }
       ],
       strengths: [
         "Most ambitious affordability agenda in the race (housing scale, universal childcare)",
@@ -92,7 +108,7 @@ export const mayor = {
       ],
       weaknesses: [
         "Social-housing mechanism is unproven at DC scale",
-        "Pension-fund housing financing is contested and drew editorial criticism",
+        "Pension-fund housing financing is contested and drew published criticism",
         "No stated MPD hiring target may concern voters focused on police staffing"
       ],
       flags: [
@@ -100,13 +116,15 @@ export const mayor = {
           id: "ethics",
           label: "An open campaign-finance inquiry and a disclosure complaint (both contested)",
           detail:
-            "An open DC Office of Campaign Finance inquiry into alleged improper coordination with organized labor; and a May 2026 Campaign for Accountability complaint to BEGA alleging she failed to properly disclose her family's financial assets. Her campaign calls both baseless and politically motivated. Neither is a finding of wrongdoing."
+            "An open DC Office of Campaign Finance inquiry into alleged improper coordination with organized labor; and a May 2026 Campaign for Accountability complaint to BEGA alleging she failed to properly disclose her family's financial assets. Her campaign calls both baseless and politically motivated. Neither is a finding of wrongdoing.",
+          src: S.dclineOcf
         },
         {
           id: "trayon",
-          label: "Called expelled Councilmember Trayon White a \"mentor\"",
+          label: "Called Councilmember Trayon White a \"mentor\"",
           detail:
-            "In May 2026 she referred to expelled Ward 8 Councilmember Trayon White (under federal bribery indictment) as a \"mentor,\" and had earlier agreed to administer his oath of office. She did vote with the Council supermajority to expel him."
+            "In May 2026 she referred to Ward 8 Councilmember Trayon White (under federal bribery indictment, expelled by the Council in 2025 and then re-elected in that July's special election) as a \"mentor.\" She administered his oath of office in January 2025, and voted with the Council supermajority to expel him.",
+          src: S.jewishInsider
         }
       ],
       sources: [S.jlg, S.jlgBase, S.the51st]
@@ -114,7 +132,7 @@ export const mayor = {
     {
       id: "mcduffie",
       name: "Kenyan McDuffie",
-      age: 51,
+      age: null,
       neighborhood: "DC",
       role: "Former At-Large Councilmember (stepped down to run for mayor)",
       background:
@@ -129,22 +147,22 @@ export const mayor = {
         "Strengthen public safety, including police staffing"
       ],
       positions: [
-        "Housing: 12,000 new units by 2030, preserve 20,000 affordable units, cut approval timelines by 50%",
-        "Voted YES on the 2025 RENTAL Act; expanded down-payment assistance and streamlined approvals",
-        "Public safety: hire 1,000 additional MPD officers; authored the NEAR Act and DC's body-worn-camera law",
-        "Voted for the youth curfew three times; calls it part of a broader strategy, \"not a standalone fix\"",
-        "Authored a 2024 amendment sunsetting expanded pre-trial detention after 225 days for study",
+        { text: "Housing: 12,000 new units by 2030, preserve 20,000 affordable units, cut approval timelines by 50%", src: S.mcdWtop },
+        { text: "Voted YES on the 2025 RENTAL Act; would expand down-payment assistance and streamline approvals", src: S.wjlaRental },
+        { text: "Public safety: hire 1,000 additional MPD officers; authored the NEAR Act and launched one of the nation's first large-scale police body-camera programs", src: S.mcdWtop },
+        "Backed the youth curfew repeatedly, calling it part of a broader strategy, \"not a standalone fix\"",
         "Childcare: expand the Local Child Tax Credit and employer incentives rather than a universal subsidy",
-        "No broad-based tax increases; helped secure the Capital One Arena and RFK stadium deals",
-        "Would end ICE raids and revoke MPD cooperation with ICE: \"The ICE raids have to end\"",
+        "No broad-based tax increases; as business committee chair, shepherded the Capital One Arena deal and worked on the RFK stadium agreement",
+        { text: "Would end ICE raids and revoke MPD cooperation with ICE on day one: \"The ICE raids have to end\"", src: S.mcdWtop },
         "Schools: continue mayoral control"
       ],
       endorsements: [
-        "Former Mayors Anthony \"Tony\" Williams and Sharon Pratt",
-        "Sen. Angela Alsobrooks (MD); Councilmembers Anita Bonds and Wendell Felder; former CMs Mary Cheh, Charlene Drew Jarvis, and Linda Cropp",
-        "Tom Perez, Jaime Harrison, and former AG Eric Holder",
-        "DMV New Liberals (their first choice), Restaurant Association of Metropolitan Washington, DC Association of Realtors, GCAAR",
-        "Washington Jewish Week"
+        { text: "Former Mayors Anthony \"Tony\" Williams and Sharon Pratt", src: S.wikiMayor },
+        { text: "Sen. Angela Alsobrooks (MD); Councilmembers Anita Bonds and Wendell Felder; former CMs Mary Cheh, Charlene Drew Jarvis, and Linda Cropp", src: S.wikiMayor },
+        { text: "Tom Perez and former AG Eric Holder", src: S.wikiMayor },
+        { text: "DMV New Liberals (their first choice)", src: S.dmvnl },
+        { text: "Restaurant Association of Metropolitan Washington, DC Association of Realtors, GCAAR", src: S.ramw },
+        { text: "Washington Jewish Week", src: S.wikiMayor }
       ],
       strengths: [
         "Concrete, costed public-safety plan and a long record on the issue (NEAR Act, body cameras)",
@@ -167,7 +185,7 @@ export const mayor = {
           id: "enforcement",
           label: "Curfew and detention votes",
           detail:
-            "His curfew and pre-trial detention votes are out of step with many criminal-justice reform advocates. He did author a 225-day sunset on the expanded detention provisions to study their effect."
+            "His support for the youth curfew and expanded pre-trial detention is out of step with many criminal-justice reform advocates. He frames the curfew as one tool in a broader strategy, not a standalone fix."
         }
       ],
       sources: [S.mcd, S.mcdBase, S.the51st]
@@ -190,12 +208,12 @@ export const mayor = {
         "Fiscal discipline and restoring DC's AAA credit rating"
       ],
       positions: [
-        "Public safety: restore roughly 4,100 sworn MPD officers and impose a youth curfew (under-18, Sunday–Thursday, 11 p.m.–6 a.m.)",
-        "Taxes/economy: \"economic growth without raising taxes\"; keep \"DC dollars\" circulating by expanding Certified Business Enterprise contracting (toward $2 billion)",
-        "Housing: expand attainable homeownership and rental for working families, seniors, and young professionals, including workforce housing and tiny homes for those earning $50,000 or less near transit and jobs",
-        "Education: students reading and doing basic arithmetic by 4th grade; four post-secondary paths (tuition-free UDC, four-year college via TAG, apprenticeship, or entrepreneurship)",
-        "Federal: \"work pragmatically with federal partners... we will not negotiate in fear, nor fear to negotiate\"; preserve Home Rule while pursuing statehood",
-        "Backs ranked-choice voting explicitly, framing it as rewarding consensus"
+        { text: "Public safety: restore roughly 4,100 sworn MPD officers and impose a youth curfew (under-18, Sunday–Thursday, 11 p.m.–6 a.m.)", src: S.orange },
+        { text: "Taxes/economy: \"economic growth without raising taxes\"; keep \"DC dollars\" circulating by expanding Certified Business Enterprise contracting (toward $2 billion)", src: S.orange },
+        { text: "Housing: expand attainable homeownership and rental for working families, seniors, and young professionals, including workforce housing and tiny homes for those earning $50,000 or less, with housing policy aligned to transit and jobs", src: S.orange },
+        { text: "Education: students reading and doing basic arithmetic by 4th grade; four post-secondary paths (tuition-free UDC, four-year college via TAG, apprenticeship, or entrepreneurship)", src: S.orange },
+        { text: "Federal: \"work pragmatically with federal partners... we will not negotiate in fear, nor fear to negotiate\"; preserve Home Rule while pursuing statehood", src: S.orange },
+        { text: "Backs ranked-choice voting explicitly, framing it as rewarding consensus", src: S.orange }
       ],
       endorsements: ["Not documented on his campaign site or in available coverage."],
       strengths: [
@@ -225,29 +243,29 @@ export const mayor = {
       neighborhood: "DC",
       role: "Real-estate manager and former U.S. Army captain",
       background:
-        "A first-time candidate: former Army captain with an MBA in finance from Johns Hopkins and a career in real-estate development. He was the first 2026 mayoral candidate certified for DC's Fair Elections public-financing program. Pitches himself as a bridge between the progressive and moderate wings, running on \"a city that works in real life.\"",
+        "A first-time candidate: former Army captain with an MBA in finance from Johns Hopkins and a career in real-estate development. He was the first 2026 mayoral candidate certified for DC's Fair Elections public-financing program, and runs on \"a city that works in real life.\"",
       pos: [0.0, -0.55],
       tagline: "Center · outsider executive · build more",
       inferredLean:
-        "Center / pragmatic. Described by The 51st as a bridge between progressive and moderate voters; pairs an ambitious build-more housing plan with a fully-staff-MPD-plus-prevention safety stance. (Inferred from his platform.)",
+        "Center / pragmatic. The 51st notes he can appeal to progressives and moderates alike; he pairs an ambitious build-more housing plan with a fully-staff-MPD-plus-prevention safety stance. (Inferred from his platform.)",
       priorities: [
         "Build much more housing people can actually afford",
         "Fully staff MPD and fix the 911 system",
         "Lower the cost of living, including free transit"
       ],
       positions: [
-        "Housing \"Affordable DC\": 50,000 new homes by 2032, including 36,000 \"truly affordable\"; cut permitting timelines, allow missing-middle housing (duplexes, small apartments), and end parking mandates near Metro",
-        "Public safety: fully staff MPD and fix the 911 system for faster response, paired with prevention (youth engagement, mental health, workforce pathways)",
-        "Signature idea, Fare-Free DC: free Metrobus and Metrorail for DC residents, funded through telecom partnerships, congestion pricing, and fees on delivery and ride-hail companies",
-        "Education: every child reading by third grade",
-        "Federal: protect Home Rule, fight for statehood, and \"strongly oppose any further attempt from the White House to seize control of local policing\"",
+        { text: "Housing \"Affordable DC\": 50,000 new homes by 2032, including 36,000 \"truly affordable\"; cut permitting timelines, allow missing-middle housing (duplexes, small apartments), and end parking mandates near Metro", src: S.goodweatherWtop },
+        { text: "Public safety: fully staff MPD and fix the 911 system for faster response, paired with prevention (youth engagement, mental health, workforce pathways)", src: S.goodweather },
+        { text: "Signature idea, Fare-Free DC: free Metrobus and Metrorail for DC residents, funded through telecom partnerships, congestion pricing, and fees on delivery and ride-hail companies", src: S.goodweatherWtop },
+        { text: "Education: every child reading by third grade", src: S.goodweatherWtop },
+        { text: "Federal: protect Home Rule, fight for statehood, and \"strongly oppose any further attempt from the White House to seize control of local policing\"", src: S.goodweatherWtop },
         "Other ideas: a \"Power DC\" plan to cut utility costs via solar and sewer-heat systems"
       ],
-      endorsements: ["DMV New Liberals (their second choice)"],
+      endorsements: [{ text: "DMV New Liberals (their second choice)", src: S.dmvnl }],
       strengths: [
         "Housing scale rivals Lewis George's, paired with concrete supply reforms (missing-middle, parking)",
         "Outsider executive and veteran profile with a marquee idea (free transit)",
-        "Only candidate certified earliest for public financing; ran a grassroots petition"
+        "First candidate certified for public financing, powered by small-dollar donations"
       ],
       weaknesses: [
         "No elected experience or governing record",
@@ -275,12 +293,12 @@ export const mayor = {
         "Education and youth opportunity"
       ],
       positions: [
-        "Housing: audit the last 36 months of residential development for compliance and hold developers accountable with penalties; partner with nonprofits, community land trusts, and minority contractors; leverage public assets like RFK",
-        "Public safety: accountable policing, better training, and prevention; explicitly opposes a broad permanent youth curfew, saying it \"cannot substitute for real investment in our young people\"",
-        "Signature idea: a Mayor's Beautification Task Force employing 3,000 DC youth",
-        "Stadium: would renegotiate the Commanders/RFK deal and pursue a 26% public ownership stake for DC taxpayers",
+        { text: "Housing: audit the last 36 months of residential development for compliance with affordability commitments; partner with nonprofits, community land trusts, and minority contractors; leverage public assets like RFK", src: S.johnsonWtop },
+        { text: "Public safety: accountable policing, better training, and prevention; explicitly opposes a broad permanent youth curfew, saying it \"cannot substitute for real investment in our young people\"", src: S.johnsonWtop },
+        { text: "Signature idea: a Mayor's Beautification Task Force employing 3,000 DC youth", src: S.johnsonWtop },
+        { text: "Stadium: would renegotiate the Commanders/RFK deal and pursue a 26% public ownership stake for DC taxpayers", src: S.johnsonWtop },
         "Taxes/economy: create jobs without raising taxes on working families",
-        "Education: proficiency in reading, writing, and arithmetic by 5th grade; workforce and vocational pipelines"
+        { text: "Education: proficiency in reading, writing, and arithmetic by 5th grade; workforce and vocational pipelines", src: S.johnsonWtop }
       ],
       endorsements: ["Not documented on his campaign site or in available coverage."],
       strengths: [
@@ -290,7 +308,7 @@ export const mayor = {
       ],
       weaknesses: [
         "Longshot with no elected experience; has run for mayor before without winning",
-        "Did not participate in the main mayoral debate",
+        "Was not included in the top-tier debates (organizers limited those to the leading candidates)",
         "Federal/statehood posture is thin beyond \"communication\" with Congress"
       ],
       flags: [],
@@ -300,28 +318,28 @@ export const mayor = {
       id: "sampath",
       name: "Rini Sampath",
       age: 31,
-      neighborhood: "U Street / Columbia Heights (Ward 1)",
+      neighborhood: "U Street corridor (Ward 1)",
       role: "Cybersecurity director and federal-program consultant",
       background:
         "A first-time candidate who immigrated from India at age 7 and has lived in DC for over a decade. A federal contractor who works on government programs and citizen services, and a former USC student-body president. She entered the race after the city's February 2026 snowstorm cleanup failed, running on competent execution: \"I'm not a politician.\"",
       pos: [0.15, -0.8],
       tagline: "Pragmatic outsider · fix the basics · technocrat",
       inferredLean:
-        "Pragmatic centrist. Defers big new spending until government \"handles the basics,\" opposes universal childcare expansion on budget grounds, and focuses on execution over ideology. (Inferred from her platform.)",
+        "Pragmatic centrist. Defers big new programs until government \"handles the basics\" and focuses on execution over ideology, while taking a firm line against federal interference. (Inferred from her platform.)",
       priorities: [
         "Fix the basics and make city services actually work",
         "Lower the cost of living by cutting fees, not raising taxes",
         "Protect renters while building more housing"
       ],
       positions: [
-        "Signature \"Fix the Basics\" campaign, with working demo tools her team built: a 311 app, a tax-spending dashboard, and a small-business concierge",
-        "Public safety framed through response and street design: fully staff 911 call centers (\"residents suffer and in some cases die while on hold\") and execute Vision Zero rather than \"brand\" it",
-        "Housing: a day-one enforcement push on high-complaint buildings (illegal fees, delayed repairs), plus streamlined permitting and faster construction near transit; prioritize leasing existing vacant units",
-        "Taxes/economy: inventory every city tax and fee, eliminate duplicative ones, add automatic sunset reviews, and \"broaden the tax base where appropriate rather than increasing rates\"",
-        "Childcare: expand subsidies via cost-based reimbursement; opposes a new universal-childcare program on budget grounds, favoring fixing basics first",
-        "Federal: no detailed Trump/federal plank beyond a general pledge to \"protect our autonomy\""
+        { text: "Signature \"Fix the Basics\" campaign, with working demo tools her team built: a 311 app, a tax-spending dashboard, and a small-business concierge", src: S.sampath },
+        { text: "Public safety framed through response and street design: fully staff 911 call centers (\"residents suffer and in some cases die while on hold\") and execute Vision Zero rather than \"brand\" it", src: S.sampath },
+        { text: "Housing: a day-one enforcement push on high-complaint buildings (illegal fees, delayed repairs), plus streamlined permitting and faster construction near transit", src: S.sampath },
+        { text: "Taxes/economy: inventory every city tax and fee, eliminate duplicative ones, add automatic sunset reviews, and \"broaden the tax base where appropriate rather than increasing rates\"", src: S.sampath },
+        { text: "Childcare: expand subsidies via cost-based reimbursement; holds off on proposing big new programs \"until we actually clean up our city\"", src: S.sampath },
+        { text: "Federal: says she will not cooperate with any federal takeover of MPD or with ICE, and calls Bowser \"too quick to appease the White House\"", src: S.sampathWtop }
       ],
-      endorsements: ["DMV New Liberals (their third choice)"],
+      endorsements: [{ text: "DMV New Liberals (their third choice)", src: S.dmvnl }],
       strengths: [
         "The most detailed execution-and-services platform among the outsiders, with actual prototypes",
         "A clear, disciplined message (fix the basics) backed by a government-services career",
@@ -329,7 +347,7 @@ export const mayor = {
       ],
       weaknesses: [
         "No elected experience or governing record",
-        "Little on K-12 schools and no documented federal/Trump position",
+        "Little on K-12 schools beyond childcare",
         "Deliberately avoids the big-program debate, which may read as thin to some voters"
       ],
       flags: [],
@@ -353,8 +371,8 @@ export const mayor = {
         "Reforming the public-schools lottery"
       ],
       positions: [
-        "Signature \"common-sense leadership\": audit city agencies to stem overspending and \"fix\" system failures rather than \"spin\" them",
-        "Taxes/economy: affordability through prioritization, not new taxes; opposes the burden of Initiative 82 on restaurants and bars; wants to cut small-business red tape",
+        { text: "Signature \"common-sense leadership\": audit city agencies to stem overspending and \"fix\" system failures rather than \"spin\" them", src: S.solomon },
+        { text: "Taxes/economy: affordability through prioritization, not new taxes; opposes the burden of Initiative 82 on restaurants and bars; wants to cut small-business red tape", src: S.the51stTimers },
         "Education: critiques the DCPS lottery (\"a guaranteed school doesn't mean a guaranteed education\") and wants to change it, though without a detailed reform",
         "Public safety: framed mainly through retail theft and its impact on small business, without a specific policing plan",
         "Housing: no stated position",
@@ -407,7 +425,7 @@ export const mayor = {
       text: "What should the mayor prioritize on schools and kids?",
       type: "single",
       options: [
-        // Lewis George: universal childcare subsidy. McDuffie: Local Child Tax Credit + employer incentives. Sampath: childcare subsidies via cost-based reimbursement (opposes a new universal program).
+        // Lewis George: universal childcare subsidy. McDuffie: Local Child Tax Credit + employer incentives. Sampath: childcare subsidies via cost-based reimbursement (defers big new programs until the basics work).
         { id: "A", label: "Expand early childhood and make childcare affordable", scores: { lewisgeorge: 3, mcduffie: 2, orange: 1, goodweather: 1, johnson: 1, sampath: 2, solomon: 1 } },
         // Lewis George would reduce mayoral control (empower the State Board); McDuffie would keep it (a documented opposite). Others have no stated governance position.
         { id: "B", label: "Give schools more independence from City Hall (rethink mayoral control)", scores: { lewisgeorge: 3, mcduffie: 0, orange: 1, goodweather: 1, johnson: 1, sampath: 1, solomon: 1 } },
@@ -480,8 +498,8 @@ export const mayor = {
       type: "single",
       optional: true,
       options: [
-        // Lewis George is the clearly confrontational candidate ("no comply in advance"). Sampath and Solomon have no documented federal plank (neutral 1).
-        { id: "A", label: "Confrontational: refuse to comply in advance and draw clear lines", scores: { lewisgeorge: 3, mcduffie: 1, orange: 0, goodweather: 1, johnson: 1, sampath: 1, solomon: 1 } },
+        // Lewis George ("I'm not complying in advance") and Sampath (won't cooperate with a federal MPD takeover or ICE; calls Bowser too quick to appease) have documented confrontational stances. Solomon has no documented federal plank (neutral 1).
+        { id: "A", label: "Confrontational: refuse to comply in advance and draw clear lines", scores: { lewisgeorge: 3, mcduffie: 1, orange: 0, goodweather: 1, johnson: 1, sampath: 2, solomon: 1 } },
         // Orange ("not negotiate in fear, nor fear to negotiate") and McDuffie (strategic) favor pragmatic defense of home rule; Goodweather opposes federal seizure of policing.
         { id: "B", label: "Pragmatic: protect home rule and pursue statehood through negotiation", scores: { lewisgeorge: 1, mcduffie: 3, orange: 3, goodweather: 2, johnson: 1, sampath: 1, solomon: 1 } }
       ]

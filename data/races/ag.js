@@ -50,7 +50,7 @@ export const ag = {
       ],
       positions: [
         "Juvenile justice: \"careful balancing of accountability, rehabilitation, fairness, and public safety\"; prosecuting every juvenile case \"is not what the law requires, [n]or what we want\"",
-        "Says his office prosecuted 85% of cases police brought",
+        { text: "His office prosecuted more than 84% of violent juvenile offenses police brought in 2024 (and 76% of all juvenile arrests presented)", src: { label: "DC Office of the Attorney General, prosecution figures", url: "https://oag.dc.gov/public-safety/prosecution" } },
         "Took on Amazon, TikTok, Meta, Google, Live Nation, and StubHub; reached a $9.9M Live Nation settlement over deceptive ticket pricing",
         "Sued the Trump administration in 2025 to stop a federal takeover of MPD and to end the National Guard deployment",
         "Investigating conservative activist Leonard Leo's donor network (House Republicans opened a counter-inquiry)"
@@ -91,10 +91,10 @@ export const ag = {
       ],
       positions: [
         "Would \"prosecute EVERY case where the facts and law reveal that the defendant committed a criminal offense\"",
-        "Would charge parents with \"contributing to the delinquency of a minor\" and relax juvenile-record privacy for victims",
+        "Would charge parents with \"contributing to the delinquency of a minor\" when appropriate, and allow more public disclosure of juvenile records (with names redacted)",
         "Wants to amend the Home Rule Act to expand the AG's prosecution authority beyond juvenile and misdemeanor cases",
         "Ties crime to MPD staffing shortages; wants more resources to hire and support officers",
-        "Entered partly over pedestrian/cyclist deaths; would pull vehicles with unpaid violations off the streets"
+        "Entered partly over a fatal pedestrian crash in his ANC area; would pull vehicles with unpaid violations off the streets"
       ],
       endorsements: ["Not documented in available sources."],
       strengths: [
@@ -103,7 +103,7 @@ export const ag = {
         "Offers voters a sharp contrast to the incumbent's approach"
       ],
       weaknesses: [
-        "Running a low-budget campaign, far outraised by the incumbent's publicly-financed war chest, and lightly documented",
+        "Running a low-budget campaign and lightly documented compared with the incumbent",
         "No documented endorsements",
         "\"Prosecute every case\" would be a major shift in prosecutorial discretion"
       ],

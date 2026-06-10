@@ -4,7 +4,7 @@
 // recall and the 2025 MPD crime-data findings. Every claim is sourced.
 // Questions and scoring were constructed by this guide from documented
 // positions (see methodology). Three candidates verified against the DCBOE
-// ballot list (a fourth OCF registrant did not qualify).
+// ballot list (three Democrats).
 
 const SRC_ALLEN = { label: "WTOP candidate Q&A; charlesallen2026.com; The 51st; reporting on the 2024 recall", url: "https://wtop.com/dc-election/2026/06/get-to-know-ward-6-dc-council-candidate-charles-allen/" };
 const SRC_MURPHY = { label: "WTOP candidate Q&A; murphyforward6.com; The Hill op-ed", url: "https://wtop.com/dc-election/2026/06/get-to-know-ward-6-dc-council-candidate-michael-murphy/" };
@@ -24,7 +24,7 @@ export const ward6 = {
     "This race was researched from local reporting and the candidates' own materials, with every claim sourced and the questions built from their documented positions.",
   seat: "Incumbent Charles Allen, in office since 2015, seeks a fourth term against Michael Murphy and Gloria Nauden.",
   overview:
-    "Ward 6 covers Capitol Hill, Navy Yard, NoMa, the Wharf, and surrounding neighborhoods. The race is shaped by Allen's long record chairing public safety and a 2024 recall attempt he survived.",
+    "Ward 6 covers Capitol Hill, NoMa, Southwest including the Wharf, and surrounding neighborhoods. The race is shaped by Allen's long record chairing public safety and a 2024 recall attempt he survived.",
   stakes:
     "Allen chaired the Council's public-safety committee for years and was the target of a 2024 recall over crime. The race is a referendum on his record at a moment when DC's official crime statistics are themselves in dispute.",
   map: {
@@ -52,7 +52,7 @@ export const ward6 = {
       ],
       positions: [
         "Housing: \"Build First\" (new units before demolition to avoid displacement); authored the RENTAL Act to cut development red tape; supports gentle density with affordability requirements",
-        "Public safety: led comprehensive policing reform, banned ghost guns, created DC's red-flag gun law; also supported the 2024 \"Secure DC\" package with curfew zones and expanded pre-trial detention",
+        { text: "Public safety: led comprehensive policing reform, banned ghost guns, created DC's red-flag gun law; also supported the 2024 \"Secure DC\" package with drug-free zones and expanded pre-trial detention", src: { label: "DC Council member bio; Secure DC coverage", url: "https://dccouncil.gov/council/councilmember-allen/" } },
         "Signature laws: Books from Birth, DC Fair Elections public financing, the STEER Act, the Healthy Homes Act, an e-bike rebate",
         "Campaigns on the city's reported steep drop in violent crime in 2025 (a figure now contested, see race context)"
       ],
@@ -124,7 +124,7 @@ export const ward6 = {
       neighborhood: "Capitol Hill (H Street NE area)",
       role: "Interim CEO of Philanthropy DMV; former ANC commissioner",
       background:
-        "A 30-plus-year Ward 6 resident with a career in economic development, the arts, and community-development finance (including VP roles at a CDFI). Credits helping more than 1,000 DC small businesses. A stability-and-delivery candidate.",
+        "A 30-plus-year Ward 6 resident with a career in economic development, the arts, and community-development finance (including a VP role at a CDFI). Credits helping nearly 1,000 DC small businesses. A stability-and-delivery candidate.",
       pos: [0.15, -0.3],
       tagline: "Pragmatic · small business · anti-displacement",
       inferredLean:

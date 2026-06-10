@@ -55,7 +55,7 @@ export const atlargeSpecial = {
         "Truancy: address ~40% student absenteeism, which she calls a \"house-on-fire issue\""
       ],
       positions: [
-        "Lead sponsor on passing DC's paid family leave law, over Mayor Bowser's opposition with a veto-proof majority",
+        { text: "Co-authored DC's paid family and medical leave law, passed 9-4 over Mayor Bowser's opposition (she let it become law unsigned)", src: { label: "National Law Review on the paid-leave law; Silverman campaign", url: "https://natlawreview.com/article/dc-mayor-declines-to-veto-dc-s-paid-family-leave-bill" } },
         "Strongest federal-resilience stance in the race: pledges to \"stop collaboration with ICE\" and run a \"Trump analysis\" before the city acts",
         "Helped create a maintenance and repair fund for public housing",
         "Entered the race because residents said the Council wasn't holding agencies accountable; oversight is her signature lane"
@@ -68,7 +68,7 @@ export const atlargeSpecial = {
       ],
       strengths: [
         "Most Council experience of any candidate in this race (8 years)",
-        "Track record of real legislative wins, including paid family leave over a mayoral veto",
+        "Track record of real legislative wins, including paid family leave passed over the mayor's opposition",
         "Oversight is her core competency, not a talking point",
         "Greater Greater Washington endorsement signals pro-housing-supply"
       ],
@@ -82,7 +82,8 @@ export const atlargeSpecial = {
           id: "ocf",
           label: "2023 campaign-finance complaints (later all dismissed)",
           detail:
-            "After 2022, she spent months fighting Office of Campaign Finance complaints; one was initially ruled a misuse of public funds, but by April 2023 all complaints were dismissed. She called it a \"smear campaign.\" The episode remains in the public record even though she was cleared."
+            "After 2022, she spent months fighting Office of Campaign Finance complaints; one was initially ruled a misuse of public funds, a ruling that was overturned, and by spring 2023 all complaints were dismissed. She called it a \"smear campaign.\" The episode remains in the public record even though she was cleared.",
+          src: { label: "DCist, Silverman cleared of campaign-finance violations (March 2023)", url: "https://dcist.com/story/23/03/27/elissa-silverman-cleared-campaign-finance-violations/" }
         }
       ],
       sources: [SITE.silverman, SOURCE]
@@ -140,12 +141,12 @@ export const atlargeSpecial = {
         "Hard to label. She declines one (\"a very independent thinker\"), and her coalition (Realtors, Restaurant Association, Opportunity DC) reads moderate while her DC Fiscal Policy Institute roots and an affordability-first housing platform read more redistributive. (Inferred.)",
       priorities: [
         "Youth investment (out-of-school programming, behavioral-health clinicians in schools, extended rec-center hours)",
-        "Housing: strengthen the Housing Production Trust Fund for the lowest-income families, fix inclusionary zoning, and add gentle density",
+        "Housing: add gentle density, fix inclusionary zoning, and strengthen the Housing Production Trust Fund for the lowest-income families",
         "Public safety paired with preventing MPD from being used for federal immigration enforcement"
       ],
       positions: [
-        "Housing plan leads with strengthening the Housing Production Trust Fund for the lowest-income families, fixing inclusionary zoning, and adding gentle density (duplexes, small apartment buildings) plus office-to-residential conversions",
-        "Backs \"preventing the police department from being used as a tool of federal immigration enforcement\"",
+        { text: "Housing plan pairs gentle density (duplexes, small apartment buildings) and office-to-residential conversions with fixing inclusionary zoning and strengthening the Housing Production Trust Fund for the lowest-income families", src: { label: "Doni Crawford housing platform", url: "https://www.donicrawford.com/issues/housing-that-works-for-everyone" } },
+        { text: "Backs ensuring MPD is \"never used as a tool of federal immigration enforcement\"", src: { label: "Doni Crawford public-safety platform", url: "https://www.donicrawford.com/issues/safe-communities-for-every-ward" } },
         "Proposed amendments to the teen-curfew bill (timing of police approach, programming requirements, sunset of zones by end of 2028)",
         "Self-describes as a consensus builder willing to find middle ground on stuck issues"
       ],
@@ -214,7 +215,7 @@ export const atlargeSpecial = {
         { id: "A", label: "A big funding increase (a $250M-a-year housing trust fund)", scores: { crawford: 1, patterson: 3, silverman: 2 } },
         // Silverman wants DC's housing tools (vouchers, HPTF, DCHA, private partnerships) coordinated under one "north star."
         { id: "B", label: "Coordinate DC's existing housing tools under one clear plan", scores: { crawford: 2, patterson: 1, silverman: 3 } },
-        // Relabeled: Crawford's own housing page is affordability-first (strengthen HPTF for the lowest-income, fix IZ, gentle density), not market-rate-first. Her distinct lane is a both/and neighborhood approach.
+        // Relabeled: Crawford's own housing page pairs gentle density and office conversions with IZ fixes and HPTF strengthening; her distinct lane is a both/and neighborhood approach, not market-rate-first.
         { id: "C", label: "Add gentle neighborhood density and strengthen affordability programs together", scores: { crawford: 3, patterson: 2, silverman: 1 } }
       ]
     },
