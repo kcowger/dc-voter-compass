@@ -86,7 +86,8 @@ export const delegate = {
           id: "whcd",
           label: "Posted, then deleted, an insensitive tweet after the Correspondents' Dinner shooting",
           detail:
-            "After the shooting at the White House Correspondents' Dinner, he tweeted \"Looks like we need a curfew on the Correspondents Dinner. It's clear we need to hold the parents responsible\" (a jab at DC's youth-curfew debate). He deleted it and apologized: \"It was inappropriate and insensitive. I should not have tried to make a point by referring to an incident of gun violence.\""
+            "After the shooting at the White House Correspondents' Dinner, he tweeted \"Looks like we need a curfew on the Correspondents Dinner. It's clear we need to hold the parents responsible\" (a jab at DC's youth-curfew debate). He deleted it and apologized: \"It was inappropriate and insensitive. I should not have tried to make a point by referring to an incident of gun violence.\"",
+          src: { label: "WTOP, April 2026", url: "https://wtop.com/dc/2026/04/dc-del-candidate-robert-white-apologizes-after-comment-on-white-house-correspondents-dinner-incident/" }
         }
       ],
       sources: [SITE.white, CPC_PAC, SOURCE]
@@ -156,7 +157,7 @@ export const delegate = {
         "U.S. Senators Angela Alsobrooks (MD) and Richard Blumenthal (CT)",
         "Former Mayor Tony Williams; Councilmembers/former CMs Anita Bonds, Mary Cheh, Charlene Drew Jarvis, Bill Lightfoot",
         "DC Firefighters IAFF Local 36, DC YIMBYs, Opportunity DC, DMV New Liberals",
-        "Top fundraiser in the field (raised more than $1.5 million as of June 2026)"
+        { text: "Top fundraiser in the field (raised more than $1.5 million as of June 2026)", src: { label: "NOTUS, June 2026", url: "https://www.notus.org/2026-election/dc-delegate-race-spending" } }
       ],
       strengths: [
         "Active legislative record on the Council",
