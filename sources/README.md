@@ -1,5 +1,12 @@
 # DC 2026 Election Voter Guide Tool
 
+> **Historical snapshot.** These are the original planning notes this project
+> started from, kept for provenance. They are NOT kept up to date and differ
+> from the live product in places (for example, the mayoral race now scores all
+> seven candidates on the printed ballot, not two front-runners). The current
+> source of truth for all candidate data and scoring is `data/races/*.js`, and
+> every claim's citation is visible in the app itself.
+
 An interactive tool that asks users about their priorities and gradually narrows toward candidate recommendations for the DC June 16, 2026 primary and special election.
 
 ## Concept

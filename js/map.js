@@ -95,7 +95,9 @@ export function createMap(race, { onNodeClick } = {}) {
   });
   declutter(boxes);
   for (const b of boxes) {
-    const leader = svgEl("line", { class: "map__leader", x1: b.dotx, y1: b.doty, x2: b.cx, y2: b.cy });
+    // Leader lines carry the candidate's color so a pushed-away chip is
+    // visibly tied to its dot even in a crowded corner.
+    const leader = svgEl("line", { class: "map__leader", style: { "--cand-color": colorOf[b.c.id] }, x1: b.dotx, y1: b.doty, x2: b.cx, y2: b.cy });
     const grp = svgEl("g", { class: "chip", style: { "--cand-color": colorOf[b.c.id] } });
     grp.append(
       svgEl("rect", { class: "chip__bg", x: b.cx - b.w / 2, y: b.cy - b.h / 2, width: b.w, height: b.h, rx: b.h / 2 }),

@@ -7,7 +7,7 @@ import { createMap } from "./map.js";
 import { store } from "./store.js";
 import { RACES, RACE_MAP, GROUPS, UNCONTESTED } from "../data/races/index.js";
 import { locateWard } from "./geo.js";
-import { ELECTION, EVIDENCE_HIERARCHY, NEVER_INCLUDED, SOURCES, DISCLAIMER } from "../data/meta.js";
+import { ELECTION, EVIDENCE_HIERARCHY, NEVER_INCLUDED, SOURCES, DISCLAIMER, REPO_URL, DATA_VERIFIED } from "../data/meta.js";
 
 /* ---------------- shared bits ---------------- */
 
@@ -25,7 +25,9 @@ function racePills(race) {
 }
 
 function sourceLink(source) {
-  return el("a", { href: source.url, target: "_blank", rel: "noopener noreferrer" }, source.label, " ", icon("external"));
+  // A non-breaking space keeps the external-link glyph attached to the
+  // label's last word instead of wrapping orphaned onto its own line.
+  return el("a", { href: source.url, target: "_blank", rel: "noopener noreferrer" }, source.label, " ", icon("external"));
 }
 
 function colorMapFor(race) {
@@ -46,6 +48,7 @@ export function renderLanding() {
     el("div", { class: "home__inner" },
       el("p", { class: "home__eyebrow", text: "DC primary & special election · June 16, 2026" }),
       el("h1", { class: "home__headline" }, "See where you ", el("em", {}, "actually"), " stand on the ballot."),
+      el("p", { class: "home__sub", text: "Answer a few questions per race and get a sourced shortlist of the candidates who match you. Independent, free, and nothing you answer leaves your browser." }),
       el("div", { class: "home__cta" },
         el("button", { class: "btn btn--primary btn--lg", onClick: () => navigate("choose") }, "Begin ", icon("arrowRight", "btn__arrow"))
       )
@@ -199,7 +202,12 @@ export function renderRace(raceId) {
     )
   );
   if (race.coverageNote) {
-    view.append(el("div", { class: "callout", style: { marginTop: "1rem" } }, el("span", { class: "callout__icon", text: "ℹ️" }), el("p", { text: race.coverageNote })));
+    // Collapsed by default on phones (it's long and sits above the questions);
+    // open on wider screens where there's room.
+    const wide = window.matchMedia && window.matchMedia("(min-width: 881px)").matches;
+    view.append(el("details", { class: "callout callout--details", style: { marginTop: "1rem" }, open: wide || null },
+      el("summary", {}, el("span", { class: "callout__icon", text: "ℹ️" }), " How this race is covered"),
+      el("p", { text: race.coverageNote })));
   }
 
   // map + ranking pane
@@ -487,6 +495,10 @@ export function renderResult(raceId) {
       multi ? (allTied ? "Your top choices are tied" : "Your top choices are close") : "Your match",
       (race.rcv && multi) ? el("span", { class: "pill pill--rcv", text: allTied ? "Rank in any order" : "Rank in this order" }) : null));
     const list = el("div", { class: "ballot__list" });
+    // Tied cards can share the same "Matches your priority" line; show each
+    // candidate's own tagline instead of repeating the identical reason.
+    const seenWhy = new Set();
+    const nextReason = (reason, r) => { if (!seenWhy.has(reason)) { seenWhy.add(reason); return reason; } return r.candidate.tagline; };
     result.suggestedRanking.forEach((r, i) => {
       // Competition ranking: tied candidates share a number (1,1,1,4...), so we
       // never imply an order the scores don't support.
@@ -496,7 +508,7 @@ export function renderResult(raceId) {
         el("div", {},
           el("div", { class: "ballot-card__name", text: r.candidate.name }),
           el("div", { class: "ballot-card__role", text: r.candidate.role }),
-          el("div", { class: "ballot-card__why", text: whyRanked(race, r, answers) })
+          el("div", { class: "ballot-card__why", text: nextReason(whyRanked(race, r, answers), r) })
         ),
         el("button", { class: "btn btn--ghost ballot-card__link", onClick: () => openProfile(race, r.id, colorOf) }, "Profile")
       ));
@@ -598,7 +610,7 @@ function confidenceCopy(race, result) {
 function whyRanked(race, ranked, answers) {
   const best = topReason(race, ranked.id, answers);
   if (best && best.score >= 2) return "Matches your priority: " + shortLabel(best.option.label, 9);
-  if (ranked.candidate.strengths && ranked.candidate.strengths.length) return ranked.candidate.strengths[0];
+  if (ranked.candidate.strengths && ranked.candidate.strengths.length) return claimText(ranked.candidate.strengths[0]);
   return ranked.candidate.tagline;
 }
 
@@ -653,7 +665,14 @@ export function openProfile(race, candId, colorOf, onChange) {
 
   if (c.flags && c.flags.length) {
     const fb = el("div", { class: "profile__block" }, el("h4", {}, "Possible red flags"));
-    c.flags.forEach((f) => fb.append(el("div", { class: "flagbox" }, el("h5", { text: f.label }), el("p", { text: f.detail }))));
+    c.flags.forEach((f) => {
+      const p = el("p", {}, f.detail);
+      if (f.src && f.src.url) p.append(" ", el("a", {
+        class: "claim-src", href: f.src.url, target: "_blank", rel: "noopener noreferrer",
+        "aria-label": `Source: ${f.src.label || f.src.url}`, title: `Source: ${f.src.label || f.src.url}`
+      }, icon("external")));
+      fb.append(el("div", { class: "flagbox" }, el("h5", { text: f.label }), p));
+    });
     body.append(fb);
   }
 
@@ -684,17 +703,34 @@ export function openProfile(race, candId, colorOf, onChange) {
   sheet.querySelector(".sheet__close").focus();
 }
 
+// Profile list items are either plain strings (covered by the profile-level
+// "Sources" line) or { text, src: {label, url} } for claims verified against a
+// specific source. Sourced claims get a tiny link icon straight to the source.
+// src is only ever attached after a claim was checked against that URL; a
+// missing icon means "see the profile sources," never "trust me."
+export function claimText(item) { return typeof item === "string" ? item : item.text; }
+function claimLi(item) {
+  if (typeof item === "string") return el("li", { text: item });
+  const li = el("li", {}, item.text);
+  if (item.src && item.src.url) {
+    li.append(" ", el("a", {
+      class: "claim-src", href: item.src.url, target: "_blank", rel: "noopener noreferrer",
+      "aria-label": `Source: ${item.src.label || item.src.url}`, title: `Source: ${item.src.label || item.src.url}`
+    }, icon("external")));
+  }
+  return li;
+}
 function block(title, items, color) {
   if (!items || !items.length) return null;
   return el("div", { class: "profile__block" },
     el("h4", { text: title }),
-    el("ul", { class: "profile__list" }, items.map((t) => el("li", { text: t }))));
+    el("ul", { class: "profile__list" }, items.map(claimLi)));
 }
 function minusBlock(title, items) {
   if (!items || !items.length) return null;
   return el("div", { class: "profile__block" },
     el("h4", { text: title }),
-    el("ul", { class: "profile__list profile__list--minus" }, items.map((t) => el("li", { text: t }))));
+    el("ul", { class: "profile__list profile__list--minus" }, items.map(claimLi)));
 }
 
 /* ---------------- Summary ---------------- */
@@ -748,7 +784,7 @@ export function renderAbout() {
     el("p", { class: "eyebrow", text: "About" }),
     el("h1", { text: "Why I made this" }),
     el("p", { class: "lead" }, "Hi, I'm Kai. This isn't a company, a campaign, or an official anything. It's really just me, my dog, and a little help from Claude. I made it for my wife: this year's ballot is long and genuinely confusing, she's busy, and she wanted to vote feeling informed instead of rushed. It helped her, so I cleaned it up and shared it, because if it took some stress off her plate, maybe it can do the same for you."),
-    el("p", {}, "I'm not here to tell you who to vote for. Everything is sourced, so I can show you where the candidates actually stand, put the evidence right next to it, and let you make up your own mind. You know your life and your priorities better than any quiz does; this is just here to make the homework a little lighter. If something looks off, it's worth a second look, and corrections are genuinely welcome."),
+    el("p", {}, "I'm not here to tell you who to vote for. Everything is sourced, so I can show you where the candidates actually stand, put the evidence right next to it, and let you make up your own mind. You know your life and your priorities better than any quiz does; this is just here to make the homework a little lighter. If something looks off, it's worth a second look, and corrections are genuinely welcome ", el("a", { href: REPO_URL, target: "_blank", rel: "noopener noreferrer" }, "on GitHub ", icon("external")), "."),
     el("p", {}, "If you want the nuts and bolts, how to use it, how the matching works, and the privacy and independence details, that's all on the ", el("a", { href: "#/methodology" }, "How it works"), " page."),
     el("p", { style: { marginTop: "1.5rem" } }, "Thank you for being the kind of person who looks things up before voting. It genuinely matters, and I'm glad this is helping. Now go vote."),
     el("p", { class: "lead", style: { marginTop: "0.75rem", fontFamily: "var(--font-serif)" }, text: "Yours, Kai" }),
@@ -791,6 +827,7 @@ export function renderMethodology() {
     el("ol", {}, EVIDENCE_HIERARCHY.map((e) => el("li", { text: e }))),
     el("h3", { text: "What never appears" }),
     el("ul", {}, NEVER_INCLUDED.map((e) => el("li", { text: e }))),
+    el("p", {}, "On candidate profiles, a small ", icon("external"), " icon after a claim links straight to the source that claim was checked against. Claims without their own icon are drawn from the sources listed at the bottom of that candidate's profile. Candidate data was last reviewed against sources on ", el("strong", { text: DATA_VERIFIED }), "."),
 
     el("h2", { text: "Voting logistics" }),
     el("ul", {}, ELECTION.facts.map((f) => el("li", {}, f.text, " ", sourceLink(f.source)))),
@@ -806,7 +843,7 @@ export function renderMethodology() {
     el("h2", { text: "Independence & corrections" }),
     el("p", { text: DISCLAIMER.independence }),
     el("p", { text: DISCLAIMER.accuracy }),
-    el("p", { text: DISCLAIMER.contact })
+    el("p", {}, "Found an error? The whole project, code and candidate data, is public. ", el("a", { href: REPO_URL, target: "_blank", rel: "noopener noreferrer" }, "Open an issue or pull request on GitHub ", icon("external")), " with the correction and a source, and I'll fix it.")
   );
   view.append(p);
   return view;
@@ -816,7 +853,7 @@ export function renderMethodology() {
 
 function disclaimerStrip() {
   return el("p", { class: "muted", style: { marginTop: "2.5rem", fontSize: "var(--step--2)", maxWidth: "70ch" } },
-    "Independent and open source, not affiliated with any candidate, campaign, or party. Verify anything important against the candidate's own materials and the ",
+    "Independent and ", el("a", { href: REPO_URL, target: "_blank", rel: "noopener noreferrer" }, "open source"), ", not affiliated with any candidate, campaign, or party. Verify anything important against the candidate's own materials and the ",
     el("a", { href: "https://www.dcboe.org/", target: "_blank", rel: "noopener noreferrer" }, "DC Board of Elections"),
     " before you vote. ",
     el("a", { href: "#/methodology" }, "Methodology & sources."));

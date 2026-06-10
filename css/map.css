@@ -21,7 +21,7 @@
 .map__lead-line { stroke: var(--brand); stroke-width: 0.4; stroke-dasharray: 0.8 1; opacity: 0.5; transition: all var(--dur-marker) var(--ease); }
 
 /* leader line: dot -> its name chip */
-.map__leader { stroke: var(--line-strong); stroke-width: 0.3; opacity: 0.55; }
+.map__leader { stroke: var(--cand-color, var(--line-strong)); stroke-width: 0.45; opacity: 0.75; }
 
 /* candidate dots */
 .node { cursor: pointer; }

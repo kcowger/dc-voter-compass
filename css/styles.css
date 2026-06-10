@@ -70,7 +70,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: inline-flex; align-items: center; gap: 0.55rem;
   font-family: var(--font-display); font-weight: 700; font-size: var(--step-1);
   letter-spacing: -0.03em; color: var(--ink); text-decoration: none;
+  white-space: nowrap;
 }
+/* The hidden attribute must win over component display rules (e.g. the
+   header Reset is inline-flex but starts hidden until there's state). */
+[hidden] { display: none !important; }
 .wordmark__dot {
   width: 1.05rem; height: 1.05rem; border-radius: 50%;
   background: radial-gradient(circle at 32% 30%, #fff, var(--brand) 62%);
@@ -80,6 +84,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
   color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; }
 .site-header__spacer { flex: 1; }
 .site-header nav { display: flex; gap: var(--sp-1); align-items: center; }
+.site-nav { position: relative; }
+.site-nav__links { display: flex; gap: var(--sp-1); align-items: center; }
+.nav-toggle {
+  display: none; width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid var(--line-strong); background: var(--surface);
+  place-items: center; color: var(--ink);
+}
+.nav-toggle svg { width: 1.15rem; height: 1.15rem; }
+.nav-toggle[aria-expanded="true"] { background: var(--brand-soft); border-color: var(--brand); color: var(--brand-ink); }
 .navlink {
   padding: 0.4rem 0.7rem; border-radius: var(--r-pill); text-decoration: none;
   color: var(--ink-soft); font-weight: 600; font-size: var(--step--1); white-space: nowrap;
@@ -168,6 +181,7 @@ main { display: block; min-height: calc(100vh - var(--header-h) - 200px); }
 }
 .home__headline { font-size: var(--step-5); max-width: 15ch; letter-spacing: -0.035em; line-height: 1.02; }
 .home__headline em { font-family: var(--font-serif); font-style: italic; font-weight: 500; color: var(--brand-ink); letter-spacing: -0.01em; }
+.home__sub { color: var(--ink-soft); font-size: var(--step-0); line-height: 1.55; max-width: 44ch; }
 .home__cta { margin-top: var(--sp-1); }
 
 /* shared action row, reused on result/summary screens */
@@ -255,5 +269,21 @@ main { display: block; min-height: calc(100vh - var(--header-h) - 200px); }
 
 @media (max-width: 760px) {
   .site-footer__inner { grid-template-columns: 1fr; gap: var(--sp-5); }
-  .site-header nav .navlink:not(.navlink--cta) { display: none; }
+  /* Nav links collapse behind the menu button into a dropdown panel. */
+  .nav-toggle { display: grid; }
+  .site-nav__links {
+    display: none; position: absolute; top: calc(100% + 10px); right: 0; z-index: 60;
+    flex-direction: column; align-items: stretch; gap: 0.15rem; min-width: 200px;
+    background: var(--surface); border: 1.5px solid var(--line-strong);
+    border-radius: var(--r); box-shadow: var(--shadow-3); padding: var(--sp-2);
+  }
+  .site-nav__links.is-open { display: flex; }
+  .site-nav__links .navlink { display: block; padding: 0.65rem 0.8rem; }
+  .wordmark { font-size: var(--step-0); }
+}
+
+/* Post-election notice (only rendered after June 16, 2026). */
+.stale-banner {
+  background: var(--gold); color: #211a05; font-weight: 600;
+  font-size: var(--step--1); text-align: center; padding: 0.6rem var(--sp-4);
 }

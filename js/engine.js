@@ -36,9 +36,15 @@ export function tallyScores(race, answers) {
       continue;
     }
     const chosen = Array.isArray(a) ? a : [a];
+    // Enforce the question's own cap here too (the UI already does): if a data
+    // edit ever lowers `max`, stale saved answers can't silently over-count.
+    const limit = q.type === "multi" && q.max ? q.max : Infinity;
+    let used = 0;
     for (const optId of chosen) {
+      if (used >= limit) break;
       const opt = q.options.find((o) => o.id === optId);
       if (!opt) continue;
+      used++;
       for (const candId of Object.keys(opt.scores)) {
         if (candId in totals) totals[candId] += opt.scores[candId];
       }

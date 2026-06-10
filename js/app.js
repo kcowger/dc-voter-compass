@@ -38,6 +38,15 @@ function updateNav(seg) {
   });
 }
 
+// The header Reset only appears once there is something to reset.
+function syncResetVisibility() {
+  const btn = document.querySelector('[data-action="reset"]');
+  if (!btn) return;
+  const s = store.state;
+  const hasState = Object.keys(s.answers).length > 0 || Object.keys(s.excluded).length > 0 || s.ward != null;
+  btn.hidden = !hasState;
+}
+
 function route(seg) {
   const main = document.getElementById("app");
   let node;
@@ -56,6 +65,7 @@ function route(seg) {
   main.append(node);
   document.title = titleFor(seg);
   updateNav(seg);
+  syncResetVisibility();
   window.scrollTo(0, 0);
   focusHeading(main);
 }
@@ -63,7 +73,7 @@ function route(seg) {
 onRoute(route);
 startRouter();
 
-// Always-visible "Reset my choices" control in the header.
+// "Reset my choices" control in the header (hidden until there's state).
 const resetBtn = document.querySelector('[data-action="reset"]');
 if (resetBtn) {
   resetBtn.addEventListener("click", () => {
@@ -73,4 +83,33 @@ if (resetBtn) {
       announce("Your choices were cleared.");
     }
   });
+}
+
+// Mobile nav: an accessible disclosure menu. The links collapse behind a menu
+// button on small screens; the button toggles them, and the panel closes on
+// navigation, Escape, or a click anywhere else.
+const navToggle = document.querySelector(".nav-toggle");
+const navLinks = document.getElementById("site-nav-links");
+if (navToggle && navLinks) {
+  const closeMenu = () => { navToggle.setAttribute("aria-expanded", "false"); navLinks.classList.remove("is-open"); };
+  navToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", String(!open));
+    navLinks.classList.toggle("is-open", !open);
+  });
+  navLinks.addEventListener("click", (e) => { if (e.target.closest("a")) closeMenu(); });
+  window.addEventListener("hashchange", closeMenu);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".site-nav")) closeMenu(); });
+}
+
+// After election day the guide is historical; say so instead of pretending.
+// (June 17, 2026 04:00 UTC = just after midnight Eastern on election night.)
+if (Date.now() > Date.parse("2026-06-17T04:00:00Z")) {
+  const b = document.createElement("div");
+  b.className = "stale-banner";
+  b.setAttribute("role", "note");
+  b.textContent = "This guide was built for the June 16, 2026 DC primary and special election, which has now passed. For results, see the DC Board of Elections at dcboe.org.";
+  document.body.insertBefore(b, document.querySelector("main"));
 }

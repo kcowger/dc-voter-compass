@@ -121,6 +121,17 @@
 .callout p { font-size: var(--step--1); color: var(--ink-soft); }
 .callout strong { color: var(--ink); }
 .callout--info { background: var(--brand-soft); border-color: transparent; }
+/* Collapsible callout (coverage note): a <details> styled like the callout,
+   with the summary as the whole clickable header row. */
+.callout--details { display: block; }
+.callout--details summary {
+  display: flex; gap: var(--sp-3); align-items: center; cursor: pointer; list-style: none;
+  font-family: var(--font-display); font-weight: 700; font-size: var(--step--1); color: var(--ink);
+}
+.callout--details summary::-webkit-details-marker { display: none; }
+.callout--details summary::after { content: "+"; margin-left: auto; font-size: 1.1rem; color: var(--ink-faint); }
+.callout--details[open] summary::after { content: "−"; }
+.callout--details > p { margin-top: var(--sp-3); }
 
 /* ============================================================
    Result screen
@@ -205,6 +216,19 @@
 .flagbox p { font-size: var(--step--2); color: var(--ink-soft); margin-top: 0.2rem; }
 .profile__source { margin-top: var(--sp-5); font-size: var(--step--2); color: var(--ink-faint); border-top: 1px solid var(--line); padding-top: var(--sp-3); }
 .profile__source a { word-break: break-word; }
+/* keep the external-link glyph glued to the last word so it never wraps alone */
+.profile__source a .icon { white-space: nowrap; }
+
+/* Tiny per-claim source link: a small external-link glyph right after a claim
+   that was verified against that URL. Padding gives it a finger-sized target
+   without growing the glyph. */
+.claim-src {
+  display: inline-block; padding: 0.2rem 0.3rem; margin: -0.2rem 0;
+  color: var(--ink-faint); font-size: 0.78em; line-height: 1; vertical-align: baseline;
+  border-radius: 6px;
+}
+.claim-src:hover, .claim-src:focus-visible { color: var(--brand-ink); background: var(--brand-soft); }
+.claim-src .icon { display: inline-flex; }
 
 /* exclude toggle */
 .exclude-row { display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-5); padding: var(--sp-3) var(--sp-4); border: 1px dashed var(--line-strong); border-radius: var(--r); }
@@ -231,6 +255,11 @@
   .site-header, .site-footer, .qnav, .btn, .crumb, .mappane, .chooser__bar, .no-print { display: none !important; }
   body { background: #fff; }
   .summary__race, .card { box-shadow: none; border-color: #ccc; }
+  /* Printing a RESULT page collapses to the part worth carrying: your match /
+     ranking. The full per-candidate grid, callouts, and question card stay
+     on screen only. */
+  .result__section, .callout, .qcard, .progress, .options { display: none !important; }
+  .ballot-card { break-inside: avoid; border: 1px solid #ccc; }
 }
 
 /* ============================================================
@@ -250,6 +279,8 @@
    ============================================================ */
 @media (max-width: 880px) {
   .race__layout { grid-template-columns: 1fr; gap: var(--sp-4); }
-  .mappane { position: static; order: -1; }
-  .qpane { min-height: auto; }
+  /* Phones: questions come FIRST (that's what people came to do); the map and
+     live ranking follow below, updating as they answer. */
+  .mappane { position: static; order: 2; }
+  .qpane { min-height: auto; order: 1; }
 }

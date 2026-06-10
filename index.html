@@ -49,16 +49,21 @@
         <span>DC Voter Compass</span>
       </a>
       <span class="site-header__spacer"></span>
-      <nav aria-label="Primary">
-        <a class="navlink" href="#/about" data-nav="about">About</a>
-        <a class="navlink" href="#/choose" data-nav="choose">Races</a>
-        <a class="navlink" href="#/methodology" data-nav="methodology">How it works</a>
-        <a class="navlink" href="#/summary" data-nav="summary">My ballot</a>
-        <button class="header-reset" data-action="reset" type="button" aria-label="Reset my choices">
+      <nav aria-label="Primary" class="site-nav">
+        <div class="site-nav__links" id="site-nav-links">
+          <a class="navlink" href="#/about" data-nav="about">About</a>
+          <a class="navlink" href="#/choose" data-nav="choose">Races</a>
+          <a class="navlink" href="#/methodology" data-nav="methodology">How it works</a>
+          <a class="navlink" href="#/summary" data-nav="summary">My ballot</a>
+        </div>
+        <button class="header-reset" data-action="reset" type="button" aria-label="Reset my choices" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
           <span class="header-reset__txt">Reset</span>
         </button>
         <a class="navlink navlink--cta" href="#/choose" data-nav="choose">Start</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-links" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
       </nav>
     </div>
   </header>
@@ -86,11 +91,13 @@
         <a href="https://www.dcboe.org/" target="_blank" rel="noopener noreferrer">DC Board of Elections</a>
         <a href="https://51st.news/washington-dc-2026-primary-election-june-16-mayor-council/" target="_blank" rel="noopener noreferrer">The 51st voter guide</a>
         <a href="https://www.acludc.org/2026-d-c-primary-election-voter-hub/" target="_blank" rel="noopener noreferrer">ACLU of DC voter hub</a>
+        <a href="https://github.com/kcowger/dc-voter-compass" target="_blank" rel="noopener noreferrer">Source code on GitHub</a>
       </div>
       <p class="site-footer__legal">
         Not affiliated with, authorized by, or funded by any candidate, campaign, party, or government body.
         Candidate positions change; verify anything important against the candidate's own materials and the DC Board of Elections before you vote.
-        Typefaces: Space Grotesk, Public Sans, and Fraunces (SIL Open Font License). Open source, corrections welcome.
+        Typefaces: Space Grotesk, Public Sans, and Fraunces (SIL Open Font License).
+        Open source on <a href="https://github.com/kcowger/dc-voter-compass" target="_blank" rel="noopener noreferrer">GitHub</a>; corrections welcome.
       </p>
     </div>
   </footer>

@@ -64,6 +64,11 @@ export const SOURCES = [
   { label: "Washington Post, WAMU/DCist, Axios DC, WJLA, WTOP, race reporting", url: "https://www.washingtonpost.com/dc-md-va/" }
 ];
 
+// The public repository (linked in the footer and methodology) and the date
+// candidate data was last reviewed claim-by-claim against sources.
+export const REPO_URL = "https://github.com/kcowger/dc-voter-compass";
+export const DATA_VERIFIED = "June 9, 2026";
+
 export const DISCLAIMER = {
   independence: "This is an independent, open-source tool. It is not affiliated with, authorized by, or funded by any candidate, campaign, party, or government body.",
   purpose: "It helps you see which candidates align with your stated priorities, with the evidence shown for every claim. It is a starting point, not a substitute for reading candidates' own materials.",
