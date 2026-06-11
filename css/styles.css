@@ -75,10 +75,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* The hidden attribute must win over component display rules (e.g. the
    header Reset is inline-flex but starts hidden until there's state). */
 [hidden] { display: none !important; }
-.wordmark__dot {
-  width: 1.05rem; height: 1.05rem; border-radius: 50%;
-  background: radial-gradient(circle at 32% 30%, #fff, var(--brand) 62%);
-  box-shadow: var(--shadow-brand); flex: none;
+/* The DC border silhouette (same shape as the favicon), flat brand color. */
+.wordmark__mark {
+  height: 1.2em; width: auto; flex: none;
+  color: var(--brand);
 }
 .wordmark__tag { font-family: var(--font-body); font-weight: 600; font-size: var(--step--2);
   color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; }
