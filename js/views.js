@@ -804,8 +804,6 @@ export function renderMethodology() {
   p.append(
     el("p", { class: "eyebrow", text: "Methodology & sources" }),
     el("h1", { text: "How this guide works" }),
-    el("p", { class: "lead" }, "A quick personal note: I'm Kai, and I built this with Claude to help my wife make sense of the ballot, then shared it for other DC voters. The ", el("a", { href: "#/about" }, "About page"), " has that story. This page is the nuts and bolts, so you can trust the results, or check them yourself."),
-    el("p", { text: DISCLAIMER.purpose }),
 
     el("h2", { text: "How to use it" }),
     el("p", {}, "Pick the races you're voting on, answer a few questions for each, and you'll get a ranked shortlist with the reasons behind it. Open any candidate for their full sourced profile. DC mails a ballot to every registered voter, so you can fill yours out at home with your results next to you, or print them (or save the PDF) and bring them to a vote center. Either way, it's a starting point, not a substitute for reading the candidates' own materials."),
